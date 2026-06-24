@@ -6,280 +6,398 @@
 <title>ClutterScope — UI Mockup</title>
 <style>
   :root{
-    --bg:#f3f4f7;
+    --bg:#eef1f6;
     --panel:#ffffff;
-    --accent:#2563eb;
-    --accent-dark:#1d4ed8;
+    --sidebar:#0f172a;
+    --sidebar-2:#1e293b;
+    --accent:#3b82f6;
+    --accent-2:#6366f1;
+    --accent-dark:#2563eb;
     --ok:#16a34a;
     --warn:#f59e0b;
-    --bad:#dc2626;
-    --ink:#1f2430;
-    --muted:#6b7280;
-    --line:#e5e7eb;
-    --soft:#f8fafc;
-    --radius:12px;
-    --shadow:0 10px 30px rgba(20,30,60,.12);
+    --bad:#ef4444;
+    --ink:#0f172a;
+    --ink-2:#334155;
+    --muted:#64748b;
+    --line:#e7eaf0;
+    --soft:#f7f9fc;
+    --radius:14px;
+    --radius-sm:10px;
+    --shadow-win:0 24px 60px rgba(15,23,42,.22);
+    --shadow-card:0 1px 2px rgba(15,23,42,.04),0 4px 14px rgba(15,23,42,.06);
   }
-  *{box-sizing:border-box;font-family:"Segoe UI",system-ui,Arial,sans-serif}
-  body{margin:0;background:linear-gradient(135deg,#dfe5f0,#eef1f7);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px;color:var(--ink)}
+  *{box-sizing:border-box;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+  html,body{margin:0}
+  body{background:radial-gradient(1200px 600px at 70% -10%,#dde6f7,transparent),linear-gradient(135deg,#e6ebf5,#f1f3f9);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:34px;color:var(--ink)}
 
-  /* ---- Desktop window chrome ---- */
-  .window{width:940px;background:var(--panel);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid #d7dbe6}
-  .titlebar{height:42px;background:#fbfcfe;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:10px}
-  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px}
-  .logo{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:800}
-  .winbtns{margin-left:auto;display:flex;gap:9px}
+  /* ---------- Window chrome ---------- */
+  .window{width:1000px;height:660px;background:var(--panel);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-win);border:1px solid #d4dae8;display:flex;flex-direction:column}
+  .titlebar{height:40px;background:#fbfcfe;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:13px;color:var(--ink-2)}
+  .brand .wm{color:#9aa3b2;font-weight:400}
+  .winbtns{margin-left:auto;display:flex;gap:8px}
   .winbtns span{width:12px;height:12px;border-radius:50%}
   .c1{background:#febc2e}.c2{background:#28c840}.c3{background:#ff5f57}
 
-  /* ---- Tab bar (simulates screen navigation) ---- */
-  .tabs{display:flex;gap:4px;padding:8px 14px;background:#fbfcfe;border-bottom:1px solid var(--line)}
-  .tab{font-size:12.5px;padding:7px 14px;border-radius:8px;color:var(--muted);cursor:pointer;border:1px solid transparent;user-select:none}
-  .tab:hover{background:#eef2ff}
-  .tab.active{background:#e8efff;color:var(--accent-dark);font-weight:600;border-color:#cdddff}
-  .tab .num{display:inline-block;width:17px;height:17px;line-height:17px;text-align:center;border-radius:50%;background:#dbe6ff;color:var(--accent-dark);font-size:10px;margin-right:6px;font-weight:700}
+  .body{flex:1;display:flex;min-height:0}
 
-  .stage{padding:26px 30px 30px;min-height:470px}
-  .screen{display:none;animation:fade .25s ease}
-  .screen.active{display:block}
-  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  /* ---------- Sidebar ---------- */
+  .sidebar{width:230px;background:linear-gradient(180deg,var(--sidebar),#111a30);color:#cbd5e1;display:flex;flex-direction:column;flex-shrink:0;padding:22px 16px}
+  .logo-row{display:flex;align-items:center;gap:11px;padding:0 6px 22px}
+  .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800;box-shadow:0 6px 16px rgba(59,130,246,.45)}
+  .logo-row b{font-size:15px;color:#fff;letter-spacing:.2px}
+  .logo-row small{display:block;font-size:10.5px;color:#7c8aa5;font-weight:400;margin-top:1px}
 
-  h2.screen-title{margin:0 0 4px;font-size:19px}
-  p.sub{margin:0 0 20px;color:var(--muted);font-size:13px}
+  .nav-label{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:#5b6781;padding:6px 10px;margin-top:6px}
+  .nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:11px;font-size:13.5px;color:#aeb9d0;cursor:pointer;margin-bottom:3px;transition:.15s;position:relative}
+  .nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+  .nav-item.active{background:linear-gradient(135deg,rgba(59,130,246,.9),rgba(99,102,241,.9));color:#fff;box-shadow:0 6px 18px rgba(59,130,246,.35)}
+  .nav-item .nico{width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .nav-item .step{margin-left:auto;font-size:10px;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-weight:700}
+  .nav-item.active .step{background:rgba(255,255,255,.25)}
+  .nav-item.done .nico{color:#34d399}
 
-  /* ---- Buttons ---- */
-  .btn{border:none;border-radius:9px;padding:11px 20px;font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s}
-  .btn.primary{background:var(--accent);color:#fff}
-  .btn.primary:hover{background:var(--accent-dark)}
-  .btn.ghost{background:#eef2f7;color:var(--ink)}
-  .btn.ghost:hover{background:#e2e8f0}
+  .side-foot{margin-top:auto;padding:14px 10px 4px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:#64748b;display:flex;align-items:center;gap:8px}
+  .dot-ok{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399}
 
-  /* ---- HOME ---- */
-  .picker{border:1.5px dashed #c3cde0;border-radius:var(--radius);padding:26px;background:var(--soft);display:flex;flex-direction:column;gap:14px}
-  .folder-row{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;font-size:13px}
-  .folder-row .ic{font-size:18px}
-  .folder-row .path{flex:1;font-family:"Consolas",monospace;color:#374151}
-  .folder-row .x{color:var(--muted);cursor:pointer;font-weight:700}
-  .addrow{display:flex;gap:10px;align-items:center;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;padding:4px}
-  .opts{display:flex;gap:18px;margin:22px 0;flex-wrap:wrap}
-  .opt{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#374151;background:#fff;border:1px solid var(--line);padding:8px 13px;border-radius:20px}
-  .opt input{accent-color:var(--accent)}
-  .home-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:8px}
+  /* ---------- Main content ---------- */
+  .main{flex:1;background:var(--bg);display:flex;flex-direction:column;min-width:0}
+  .toolbar{height:62px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 26px;gap:14px;flex-shrink:0}
+  .toolbar h1{font-size:16px;margin:0;font-weight:650}
+  .toolbar .crumb{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .toolbar .right{margin-left:auto;display:flex;gap:9px;align-items:center}
 
-  /* ---- SCANNING ---- */
-  .scan-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 0;gap:18px}
-  .spinner{width:74px;height:74px;border-radius:50%;border:7px solid #e6ecf7;border-top-color:var(--accent);animation:spin 1s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .progress{width:80%;max-width:560px}
-  .bar{height:10px;background:#e6ecf7;border-radius:6px;overflow:hidden}
-  .bar > i{display:block;height:100%;width:64%;background:linear-gradient(90deg,var(--accent),#7c3aed);border-radius:6px;animation:grow 2.5s ease-in-out infinite alternate}
-  @keyframes grow{from{width:30%}to{width:88%}}
-  .scan-stats{display:flex;gap:34px;margin-top:8px;font-size:13px;color:var(--muted)}
-  .scan-stats b{display:block;font-size:22px;color:var(--ink)}
-  .scan-file{font-family:Consolas,monospace;font-size:12px;color:var(--muted);max-width:560px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .scroll{flex:1;overflow:auto;padding:26px}
+  .scroll::-webkit-scrollbar{width:9px}
+  .scroll::-webkit-scrollbar-thumb{background:#cdd5e3;border-radius:6px}
 
-  /* ---- RESULTS DASHBOARD ---- */
-  .dash{display:grid;grid-template-columns:300px 1fr;gap:26px}
-  .gauge-card{background:var(--soft);border:1px solid var(--line);border-radius:var(--radius);padding:24px;text-align:center}
-  .gauge{position:relative;width:200px;height:200px;margin:6px auto 14px}
+  .screen{display:none}
+  .screen.active{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* ---------- Buttons ---------- */
+  .btn{border:none;border-radius:10px;padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 18px rgba(59,130,246,.28)}
+  .btn.primary:hover{filter:brightness(1.05);transform:translateY(-1px)}
+  .btn.ghost{background:#fff;color:var(--ink-2);border:1px solid var(--line)}
+  .btn.ghost:hover{background:var(--soft);border-color:#d4dae8}
+  .btn.sm{padding:8px 13px;font-size:12px}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-card)}
+
+  /* ---------- HOME ---------- */
+  .lead{font-size:13.5px;color:var(--muted);max-width:620px;line-height:1.55;margin:0 0 20px}
+  .picker{padding:8px}
+  .folder-row{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:11px;font-size:13px;transition:.12s}
+  .folder-row+.folder-row{border-top:1px solid var(--line)}
+  .folder-row:hover{background:var(--soft)}
+  .folder-row .ic{width:34px;height:34px;border-radius:9px;background:#eef4ff;display:flex;align-items:center;justify-content:center;font-size:17px}
+  .folder-row .path{flex:1;font-family:"Cascadia Code","Consolas",monospace;color:var(--ink-2);font-size:12.5px}
+  .folder-row .sz{font-size:11.5px;color:var(--muted)}
+  .folder-row .x{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer}
+  .folder-row .x:hover{background:#fde8e8;color:var(--bad)}
+  .add{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;padding:14px;border:1.5px dashed #c4d2ec;border-radius:11px;margin:10px 8px 8px;background:#fafcff}
+  .add:hover{background:#f1f6ff;border-color:var(--accent)}
+
+  .section-h{font-size:12px;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.6px;margin:24px 4px 12px;display:flex;align-items:center;gap:8px}
+  .ind-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .ind{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer;transition:.12s}
+  .ind:hover{border-color:#c9d6ee;box-shadow:var(--shadow-card)}
+  .ind .ib{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .ind h4{margin:0;font-size:13px}
+  .ind p{margin:2px 0 0;font-size:11px;color:var(--muted)}
+  .ind .sw{margin-left:auto;width:38px;height:22px;border-radius:12px;background:var(--accent);position:relative;flex-shrink:0}
+  .ind .sw::after{content:"";position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  .home-foot{display:flex;align-items:center;gap:14px;margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+  .home-foot .spacer{flex:1}
+
+  /* ---------- SCANNING ---------- */
+  .scan-card{padding:46px 40px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px;margin-top:6px}
+  .ring{position:relative;width:120px;height:120px}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800}
+  .scan-card h3{margin:0;font-size:18px}
+  .scan-card .muted{color:var(--muted);font-size:13px;margin:0}
+  .stat-row{display:flex;gap:14px;margin-top:6px}
+  .stat{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:14px 22px;min-width:120px}
+  .stat b{display:block;font-size:24px}
+  .stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .cur{font-family:"Cascadia Code",Consolas,monospace;font-size:11.5px;color:var(--muted);background:#f1f5fb;padding:8px 14px;border-radius:8px;max-width:560px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* ---------- RESULTS ---------- */
+  .dash{display:grid;grid-template-columns:310px 1fr;gap:18px}
+  .score-card{padding:26px 22px;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .gauge{position:relative;width:210px;height:210px;margin:4px 0 6px}
   .gauge svg{transform:rotate(-90deg)}
-  .gauge .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .gauge .val b{font-size:46px;line-height:1}
-  .gauge .val span{font-size:11px;color:var(--muted);letter-spacing:1px}
-  .band{display:inline-block;padding:6px 16px;border-radius:20px;font-size:12.5px;font-weight:700}
+  .gauge .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .gauge .center b{font-size:54px;line-height:1;font-weight:800}
+  .gauge .center .o100{font-size:11px;color:var(--muted);letter-spacing:1.5px;margin-top:2px}
+  .band{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:30px;font-size:13px;font-weight:700;margin-top:4px}
   .band.mod{background:#fef3c7;color:#92400e}
-  .recover{margin-top:18px;font-size:12.5px;color:var(--muted)}
-  .recover b{display:block;font-size:21px;color:var(--ok);margin-top:3px}
+  .recover-box{margin-top:20px;width:100%;background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1px solid #c6f0d8;border-radius:12px;padding:14px}
+  .recover-box span{font-size:11.5px;color:#15803d;font-weight:600}
+  .recover-box b{display:block;font-size:26px;color:#15803d;margin-top:2px}
 
   .issues{display:flex;flex-direction:column;gap:12px}
-  .issue{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
-  .issue .badge{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
-  .issue .meta{flex:1}
-  .issue .meta h4{margin:0;font-size:13.5px}
-  .issue .meta p{margin:2px 0 0;font-size:11.5px;color:var(--muted)}
-  .issue .count{font-size:24px;font-weight:800}
+  .issue{display:flex;align-items:center;gap:14px;padding:15px 17px}
+  .issue .badge{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+  .issue .meta{flex:1;min-width:0}
+  .issue .meta h4{margin:0;font-size:14px}
+  .issue .meta p{margin:3px 0 0;font-size:11.5px;color:var(--muted)}
+  .issue .count{font-size:26px;font-weight:800;line-height:1}
+  .issue .count small{display:block;font-size:10px;color:var(--muted);font-weight:600;text-align:right;letter-spacing:.4px}
+  .issue .spark{width:60px;height:34px}
   .b-dup{background:#fee2e2;color:#dc2626}
   .b-name{background:#ffedd5;color:#ea580c}
   .b-depth{background:#e0e7ff;color:#4f46e5}
   .b-unused{background:#dcfce7;color:#16a34a}
+  .results-cta{display:flex;justify-content:flex-end;margin-top:4px}
 
-  /* ---- RECOMMENDATIONS / REPORT ---- */
-  .rec{display:flex;gap:13px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;margin-bottom:12px}
-  .rec .ic{font-size:19px}
+  /* ---------- REPORT ---------- */
+  .rec{display:flex;gap:14px;padding:16px 18px;margin-bottom:12px;align-items:flex-start}
+  .rec .ric{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
   .rec h4{margin:0 0 3px;font-size:13.5px}
-  .rec p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.5}
-  .report-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:22px;border-top:1px solid var(--line);padding-top:18px}
-  .note{font-size:11.5px;color:var(--muted);background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:11px 14px;margin-top:18px;display:flex;gap:9px;align-items:flex-start}
+  .rec p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.55}
+  .rec .pill{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:#f1f5fb;color:var(--ink-2);white-space:nowrap;margin-left:auto;align-self:center}
+  .note{font-size:12px;color:var(--ink-2);background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #d7e3fb;border-radius:12px;padding:14px 16px;margin-top:8px;display:flex;gap:11px;align-items:flex-start;line-height:1.55}
+  .note .lock{font-size:18px}
+  .report-foot{display:flex;gap:11px;justify-content:flex-end;margin-top:20px}
 
-  .footer-hint{text-align:center;color:#6b7280;font-size:11.5px;margin-top:14px}
-  .kbd{background:#fff;border:1px solid #cbd5e1;border-bottom-width:2px;border-radius:5px;padding:1px 6px;font-size:11px;font-family:Consolas,monospace}
+  .pad{padding:18px}
 </style>
 </head>
 <body>
-<div>
   <div class="window">
-    <!-- Title bar -->
+    <!-- title bar -->
     <div class="titlebar">
-      <div class="brand"><span class="logo">C</span> ClutterScope <span style="color:#9aa3b2;font-weight:400;font-size:12px">— Digital Clutter Score Analyzer</span></div>
+      <div class="brand"><b>ClutterScope</b><span class="wm">— Digital Clutter Score Analyzer</span></div>
       <div class="winbtns"><span class="c1"></span><span class="c2"></span><span class="c3"></span></div>
     </div>
 
-    <!-- Navigation tabs = the four screens from Chapter 2 -->
-    <div class="tabs">
-      <div class="tab active" data-screen="home"><span class="num">1</span>Home</div>
-      <div class="tab" data-screen="scan"><span class="num">2</span>Scanning</div>
-      <div class="tab" data-screen="results"><span class="num">3</span>Results Dashboard</div>
-      <div class="tab" data-screen="report"><span class="num">4</span>Recommendations &amp; Report</div>
-    </div>
-
-    <div class="stage">
-
-      <!-- ============ SCREEN 1: HOME ============ -->
-      <section class="screen active" id="home">
-        <h2 class="screen-title">Select folders to analyze</h2>
-        <p class="sub">Choose one or more directories on your local drive. ClutterScope reads file information only — it never deletes, moves, or modifies your files.</p>
-
-        <div class="picker">
-          <div class="folder-row"><span class="ic">📁</span><span class="path">C:\Users\Jhan\Documents</span><span class="x">✕</span></div>
-          <div class="folder-row"><span class="ic">📁</span><span class="path">C:\Users\Jhan\Downloads</span><span class="x">✕</span></div>
-          <div class="addrow"><span style="font-size:18px">＋</span> Add another folder…</div>
+    <div class="body">
+      <!-- ---------- SIDEBAR ---------- -->
+      <aside class="sidebar">
+        <div class="logo-row">
+          <div class="logo">C</div>
+          <div><b>ClutterScope</b><small>v1.0 · Windows</small></div>
         </div>
 
-        <div class="opts">
-          <label class="opt"><input type="checkbox" checked> Duplicate files</label>
-          <label class="opt"><input type="checkbox" checked> Improperly named files</label>
-          <label class="opt"><input type="checkbox" checked> Folder depth &gt; 5 levels</label>
-          <label class="opt"><input type="checkbox" checked> Unused files (&gt; 12 months)</label>
+        <div class="nav-label">Workflow</div>
+        <div class="nav-item active" data-screen="home">
+          <span class="nico">🏠</span> Home <span class="step">1</span>
+        </div>
+        <div class="nav-item" data-screen="scan">
+          <span class="nico">🔍</span> Scanning <span class="step">2</span>
+        </div>
+        <div class="nav-item" data-screen="results">
+          <span class="nico">📊</span> Results <span class="step">3</span>
+        </div>
+        <div class="nav-item" data-screen="report">
+          <span class="nico">📄</span> Report <span class="step">4</span>
         </div>
 
-        <div class="home-actions">
-          <button class="btn ghost">Choose folder…</button>
-          <button class="btn primary" onclick="go('scan')">▶  Start Scan</button>
-        </div>
-      </section>
+        <div class="nav-label" style="margin-top:18px">General</div>
+        <div class="nav-item"><span class="nico">🕘</span> Scan History</div>
+        <div class="nav-item"><span class="nico">⚙️</span> Settings</div>
 
-      <!-- ============ SCREEN 2: SCANNING ============ -->
-      <section class="screen" id="scan">
-        <h2 class="screen-title">Scanning in progress…</h2>
-        <p class="sub">Analyzing your file system. This may take a moment for large folders.</p>
+        <div class="side-foot"><span class="dot-ok"></span> Read-only · 100% local</div>
+      </aside>
 
-        <div class="scan-wrap">
-          <div class="spinner"></div>
-          <div class="progress">
-            <div class="bar"><i></i></div>
+      <!-- ---------- MAIN ---------- -->
+      <main class="main">
+        <div class="toolbar">
+          <div>
+            <h1 id="t-title">New Scan</h1>
+            <div class="crumb" id="t-crumb">Step 1 of 4 · Choose folders to analyze</div>
           </div>
-          <div class="scan-stats">
-            <div><b>8,412</b> files processed</div>
-            <div><b>327</b> folders</div>
-            <div><b>64%</b> complete</div>
-          </div>
-          <div class="scan-file">Reading: C:\Users\Jhan\Downloads\setup_installer (3) - Copy.exe</div>
-          <button class="btn ghost" onclick="go('home')">Cancel</button>
-        </div>
-      </section>
-
-      <!-- ============ SCREEN 3: RESULTS DASHBOARD ============ -->
-      <section class="screen" id="results">
-        <h2 class="screen-title">Results dashboard</h2>
-        <p class="sub">Scan of 2 folders · 13,148 files · completed in 47 seconds</p>
-
-        <div class="dash">
-          <!-- circular gauge -->
-          <div class="gauge-card">
-            <div class="gauge">
-              <svg width="200" height="200" viewBox="0 0 200 200">
-                <circle cx="100" cy="100" r="84" fill="none" stroke="#e6ecf7" stroke-width="20"/>
-                <circle cx="100" cy="100" r="84" fill="none" stroke="#f59e0b" stroke-width="20"
-                        stroke-linecap="round" stroke-dasharray="527.5" stroke-dashoffset="190"/>
-              </svg>
-              <div class="val"><b>64</b><span>OUT OF 100</span></div>
-            </div>
-            <div class="band mod">Moderately Organized</div>
-            <div class="recover">Recoverable storage
-              <b>3.7 GB</b>
-            </div>
-          </div>
-
-          <!-- issue breakdown -->
-          <div class="issues">
-            <div class="issue">
-              <div class="badge b-dup">🗂️</div>
-              <div class="meta"><h4>Duplicate file sets</h4><p>Identical content found via SHA-256 hash</p></div>
-              <div class="count" style="color:var(--bad)">128</div>
-            </div>
-            <div class="issue">
-              <div class="badge b-name">🏷️</div>
-              <div class="meta"><h4>Improperly named files</h4><p>e.g. “New file (2)”, “asdf123.docx”, “Untitled”</p></div>
-              <div class="count" style="color:#ea580c">341</div>
-            </div>
-            <div class="issue">
-              <div class="badge b-depth">📐</div>
-              <div class="meta"><h4>Deeply nested folders</h4><p>Directory structures exceeding 5 levels</p></div>
-              <div class="count" style="color:#4f46e5">19</div>
-            </div>
-            <div class="issue">
-              <div class="badge b-unused">🕓</div>
-              <div class="meta"><h4>Unused files</h4><p>Not accessed or modified in over 12 months</p></div>
-              <div class="count" style="color:var(--ok)">906</div>
-            </div>
-            <div style="text-align:right;margin-top:4px">
-              <button class="btn primary" onclick="go('report')">View Recommendations  →</button>
-            </div>
+          <div class="right">
+            <button class="btn ghost sm">Help</button>
           </div>
         </div>
-      </section>
 
-      <!-- ============ SCREEN 4: RECOMMENDATIONS & REPORT ============ -->
-      <section class="screen" id="report">
-        <h2 class="screen-title">Recommendations &amp; report</h2>
-        <p class="sub">Suggested corrective actions based on the detected issues. All actions are advisory — you decide what to do.</p>
+        <div class="scroll">
 
-        <div class="rec">
-          <span class="ic">🗂️</span>
-          <div><h4>Review 128 duplicate file sets</h4>
-          <p>Removing duplicate copies could reclaim approximately <b>2.4 GB</b>. Keep one copy of each and delete the redundant versions.</p></div>
-        </div>
-        <div class="rec">
-          <span class="ic">🏷️</span>
-          <div><h4>Rename 341 improperly named files</h4>
-          <p>Apply a consistent naming convention (e.g. <i>Subject_Topic_Date</i>) so files are easier to search and retrieve.</p></div>
-        </div>
-        <div class="rec">
-          <span class="ic">📐</span>
-          <div><h4>Flatten 19 deeply nested folders</h4>
-          <p>Folders nested beyond 5 levels make navigation harder. Consider consolidating these into a simpler structure.</p></div>
-        </div>
-        <div class="rec">
-          <span class="ic">🕓</span>
-          <div><h4>Archive or remove 906 unused files</h4>
-          <p>These files have not been opened in over a year (<b>1.3 GB</b>). Archive the ones you want to keep and remove the rest.</p></div>
-        </div>
+          <!-- ===== SCREEN 1: HOME ===== -->
+          <section class="screen active" id="home">
+            <p class="lead">Select one or more folders on your computer. ClutterScope reads file information only — it never deletes, moves, or modifies anything.</p>
 
-        <div class="note">
-          <span>🔒</span>
-          <span><b>Read-only &amp; private.</b> ClutterScope analyzed your files locally on this computer. No file content, paths, or results were sent anywhere. The app never modifies your files — every corrective action is yours to make.</span>
-        </div>
+            <div class="section-h">📁 Selected folders</div>
+            <div class="card picker">
+              <div class="folder-row">
+                <div class="ic">📂</div>
+                <div class="path">C:\Users\Jhan\Documents</div>
+                <div class="sz">6,204 files · 8.1 GB</div>
+                <div class="x">✕</div>
+              </div>
+              <div class="folder-row">
+                <div class="ic">📂</div>
+                <div class="path">C:\Users\Jhan\Downloads</div>
+                <div class="sz">6,944 files · 12.3 GB</div>
+                <div class="x">✕</div>
+              </div>
+              <div class="add"><span style="font-size:17px">＋</span> Add another folder…</div>
+            </div>
 
-        <div class="report-actions">
-          <button class="btn ghost">Export PDF</button>
-          <button class="btn ghost">Export CSV</button>
-          <button class="btn primary" onclick="go('home')">New Scan</button>
-        </div>
-      </section>
+            <div class="section-h">🎯 Clutter indicators to check</div>
+            <div class="ind-grid">
+              <div class="ind"><div class="ib b-dup">🗂️</div><div><h4>Duplicate files</h4><p>Identical content (SHA-256)</p></div><div class="sw"></div></div>
+              <div class="ind"><div class="ib b-name">🏷️</div><div><h4>Improperly named</h4><p>Deviates from conventions</p></div><div class="sw"></div></div>
+              <div class="ind"><div class="ib b-depth">📐</div><div><h4>Folder depth</h4><p>Nested beyond 5 levels</p></div><div class="sw"></div></div>
+              <div class="ind"><div class="ib b-unused">🕓</div><div><h4>Unused files</h4><p>Untouched 12+ months</p></div><div class="sw"></div></div>
+            </div>
 
+            <div class="home-foot">
+              <button class="btn ghost">📁 Browse folder…</button>
+              <div class="spacer"></div>
+              <span style="font-size:12px;color:var(--muted)">2 folders · 13,148 files ready</span>
+              <button class="btn primary" onclick="go('scan')">▶  Start Scan</button>
+            </div>
+          </section>
+
+          <!-- ===== SCREEN 2: SCANNING ===== -->
+          <section class="screen" id="scan">
+            <div class="card scan-card">
+              <div class="ring">
+                <svg width="120" height="120" viewBox="0 0 120 120">
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="#e6ecf7" stroke-width="11"/>
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="url(#g1)" stroke-width="11" stroke-linecap="round"
+                          stroke-dasharray="314" stroke-dashoffset="113"/>
+                  <defs><linearGradient id="g1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#6366f1"/></linearGradient></defs>
+                </svg>
+                <div class="pct">64%</div>
+              </div>
+              <div>
+                <h3>Scanning your file system…</h3>
+                <p class="muted">Hashing files and measuring folder structure. Large folders may take a moment.</p>
+              </div>
+              <div class="stat-row">
+                <div class="stat"><b>8,412</b><span>Files</span></div>
+                <div class="stat"><b>327</b><span>Folders</span></div>
+                <div class="stat"><b>00:31</b><span>Elapsed</span></div>
+              </div>
+              <div class="cur">Reading → C:\Users\Jhan\Downloads\setup_installer (3) - Copy.exe</div>
+              <button class="btn ghost" onclick="go('home')">Cancel scan</button>
+            </div>
+          </section>
+
+          <!-- ===== SCREEN 3: RESULTS ===== -->
+          <section class="screen" id="results">
+            <div class="dash">
+              <!-- gauge -->
+              <div class="card score-card">
+                <div class="gauge">
+                  <svg width="210" height="210" viewBox="0 0 210 210">
+                    <circle cx="105" cy="105" r="88" fill="none" stroke="#eef1f7" stroke-width="20"/>
+                    <circle cx="105" cy="105" r="88" fill="none" stroke="#f59e0b" stroke-width="20" stroke-linecap="round"
+                            stroke-dasharray="552.9" stroke-dashoffset="199"/>
+                  </svg>
+                  <div class="center"><b style="color:#f59e0b">64</b><div class="o100">OUT OF 100</div></div>
+                </div>
+                <div class="band mod">⚠ Moderately Organized</div>
+                <div class="recover-box">
+                  <span>♻ Recoverable storage</span>
+                  <b>3.7 GB</b>
+                </div>
+              </div>
+
+              <!-- issues -->
+              <div class="issues">
+                <div class="card issue">
+                  <div class="badge b-dup">🗂️</div>
+                  <div class="meta"><h4>Duplicate file sets</h4><p>Identical content found via SHA-256 hash</p></div>
+                  <div class="count" style="color:var(--bad)">128<small>SETS</small></div>
+                </div>
+                <div class="card issue">
+                  <div class="badge b-name">🏷️</div>
+                  <div class="meta"><h4>Improperly named files</h4><p>“New file (2)”, “asdf123.docx”, “Untitled”…</p></div>
+                  <div class="count" style="color:#ea580c">341<small>FILES</small></div>
+                </div>
+                <div class="card issue">
+                  <div class="badge b-depth">📐</div>
+                  <div class="meta"><h4>Deeply nested folders</h4><p>Directory paths exceeding 5 levels</p></div>
+                  <div class="count" style="color:#4f46e5">19<small>FOLDERS</small></div>
+                </div>
+                <div class="card issue">
+                  <div class="badge b-unused">🕓</div>
+                  <div class="meta"><h4>Unused files</h4><p>Not accessed or modified in 12+ months</p></div>
+                  <div class="count" style="color:var(--ok)">906<small>FILES</small></div>
+                </div>
+                <div class="results-cta">
+                  <button class="btn primary" onclick="go('report')">View Recommendations  →</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===== SCREEN 4: REPORT ===== -->
+          <section class="screen" id="report">
+            <p class="lead">Suggested corrective actions based on the detected issues. Every action is advisory — ClutterScope never changes your files, so the decision is always yours.</p>
+
+            <div class="card rec">
+              <div class="ric b-dup">🗂️</div>
+              <div><h4>Review 128 duplicate file sets</h4>
+              <p>Keep one copy of each set and remove the redundant versions to reclaim space.</p></div>
+              <div class="pill">≈ 2.4 GB</div>
+            </div>
+            <div class="card rec">
+              <div class="ric b-name">🏷️</div>
+              <div><h4>Rename 341 improperly named files</h4>
+              <p>Apply a consistent convention (e.g. <i>Subject_Topic_Date</i>) so files are easier to search and retrieve.</p></div>
+              <div class="pill">Naming</div>
+            </div>
+            <div class="card rec">
+              <div class="ric b-depth">📐</div>
+              <div><h4>Flatten 19 deeply nested folders</h4>
+              <p>Consolidate folders nested beyond 5 levels into a simpler, shallower structure.</p></div>
+              <div class="pill">Structure</div>
+            </div>
+            <div class="card rec">
+              <div class="ric b-unused">🕓</div>
+              <div><h4>Archive or remove 906 unused files</h4>
+              <p>These haven’t been opened in over a year. Archive what you want to keep and remove the rest.</p></div>
+              <div class="pill">≈ 1.3 GB</div>
+            </div>
+
+            <div class="note">
+              <span class="lock">🔒</span>
+              <span><b>Read-only &amp; private.</b> ClutterScope analyzed your files locally on this computer. No file content, paths, or results were sent anywhere, and nothing was modified — every corrective action is yours to make.</span>
+            </div>
+
+            <div class="report-foot">
+              <button class="btn ghost">⬇ Export CSV</button>
+              <button class="btn ghost">⬇ Export PDF</button>
+              <button class="btn primary" onclick="go('home')">＋ New Scan</button>
+            </div>
+          </section>
+
+        </div>
+      </main>
     </div>
   </div>
-  <div class="footer-hint">Interactive mockup · click the numbered tabs above to move between the four screens · ClutterScope (PySide6 / Qt)</div>
-</div>
 
 <script>
-  const tabs=document.querySelectorAll('.tab');
+  const meta={
+    home:   {title:'New Scan',  crumb:'Step 1 of 4 · Choose folders to analyze'},
+    scan:   {title:'Scanning',  crumb:'Step 2 of 4 · Analyzing your file system'},
+    results:{title:'Results Dashboard', crumb:'Step 3 of 4 · Clutter score & breakdown'},
+    report: {title:'Recommendations & Report', crumb:'Step 4 of 4 · Suggested actions & export'}
+  };
+  const order=['home','scan','results','report'];
+  const navs=document.querySelectorAll('.nav-item[data-screen]');
   function go(id){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    tabs.forEach(t=>t.classList.toggle('active',t.dataset.screen===id));
+    const idx=order.indexOf(id);
+    navs.forEach(n=>{
+      const ni=order.indexOf(n.dataset.screen);
+      n.classList.toggle('active',n.dataset.screen===id);
+      n.classList.toggle('done',ni<idx);
+    });
+    document.getElementById('t-title').textContent=meta[id].title;
+    document.getElementById('t-crumb').textContent=meta[id].crumb;
+    document.querySelector('.scroll').scrollTop=0;
   }
-  tabs.forEach(t=>t.addEventListener('click',()=>go(t.dataset.screen)));
+  navs.forEach(n=>n.addEventListener('click',()=>go(n.dataset.screen)));
 </script>
 </body>
 </html>
