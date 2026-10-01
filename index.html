@@ -6,941 +6,1143 @@
 <title>ClutterScope — UI Mockup</title>
 <style>
   :root{
-    --bg:#eef1f6;--panel:#fff;--sidebar:#0f172a;--accent:#3b82f6;--accent-2:#6366f1;--accent-dark:#2563eb;
-    --ok:#16a34a;--warn:#f59e0b;--bad:#ef4444;--ink:#0f172a;--ink-2:#334155;--muted:#64748b;
-    --line:#e7eaf0;--soft:#f7f9fc;--radius:14px;--shadow-win:0 24px 60px rgba(15,23,42,.22);
+    --accent:#3b82f6;--accent-2:#6366f1;--accent-dark:#2563eb;--ok:#16a34a;--warn:#f59e0b;--bad:#ef4444;
+    --sidebar:#0f172a;--radius:14px;
+    --page-a:#dde6f7;--page-b:#e6ebf5;--page-c:#f1f3f9;
+    --bg:#eef1f6;--panel:#fff;--panel-2:#fbfcfe;--soft:#f7f9fc;--chip:#f1f5fb;--track:#eef1f7;
+    --ink:#0f172a;--ink-2:#334155;--muted:#64748b;--line:#e7eaf0;--line-2:#c9d6ee;
+    --good-bg:#dcfce7;--good-ink:#15803d;--fair-bg:#fef3c7;--fair-ink:#92400e;--poor-bg:#fee2e2;--poor-ink:#b91c1c;
+    --info-bg:#eff6ff;--info-bg-2:#f5f3ff;--info-line:#d7e3fb;--ok-bg:#f0fdf4;--ok-line:#c6f0d8;--bad-line:#fbcdcd;
+    --t-ren-bg:#ffedd5;--t-ren:#c2410c;--t-arc-bg:#e0e7ff;--t-arc:#4338ca;--t-del-bg:#fee2e2;--t-del:#b91c1c;--t-keep-bg:#f1f5f9;--t-keep:#475569;
+    --shadow-win:0 24px 60px rgba(15,23,42,.22);
     --shadow-card:0 1px 2px rgba(15,23,42,.04),0 4px 14px rgba(15,23,42,.06);
+    --actionbar:rgba(255,255,255,.94);
+    color-scheme:light;
+  }
+  :root[data-theme="dark"]{
+    --page-a:#1a2440;--page-b:#0b1120;--page-c:#111827;
+    --bg:#0e1626;--panel:#141d30;--panel-2:#111a2b;--soft:#18233a;--chip:#1c2842;--track:#1f2a42;
+    --ink:#e6ecf6;--ink-2:#c5cfe1;--muted:#8d9ab3;--line:#243150;--line-2:#34456b;
+    --good-bg:rgba(34,197,94,.16);--good-ink:#4ade80;--fair-bg:rgba(245,158,11,.16);--fair-ink:#fbbf24;--poor-bg:rgba(239,68,68,.16);--poor-ink:#f87171;
+    --info-bg:rgba(59,130,246,.12);--info-bg-2:rgba(99,102,241,.1);--info-line:rgba(99,130,246,.3);--ok-bg:rgba(34,197,94,.1);--ok-line:rgba(34,197,94,.3);--bad-line:rgba(239,68,68,.35);
+    --t-ren-bg:rgba(249,115,22,.16);--t-ren:#fb923c;--t-arc-bg:rgba(99,102,241,.2);--t-arc:#a5b4fc;--t-del-bg:rgba(239,68,68,.16);--t-del:#f87171;--t-keep-bg:#1c2842;--t-keep:#c5cfe1;
+    --shadow-win:0 24px 60px rgba(0,0,0,.5);--shadow-card:0 1px 2px rgba(0,0,0,.2),0 4px 14px rgba(0,0,0,.18);
+    --actionbar:rgba(20,29,48,.94);
+    color-scheme:dark;
   }
   *{box-sizing:border-box;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif}
   html,body{margin:0}
-  body{background:radial-gradient(1200px 600px at 70% -10%,#dde6f7,transparent),linear-gradient(135deg,#e6ebf5,#f1f3f9);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px;color:var(--ink)}
+  body{background:radial-gradient(1200px 600px at 70% -10%,var(--page-a),transparent),linear-gradient(135deg,var(--page-b),var(--page-c));min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;color:var(--ink)}
+  button,input,select{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  [hidden]{display:none!important}
 
-  .window{width:1040px;height:680px;background:var(--panel);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-win);border:1px solid #d4dae8;display:flex;flex-direction:column;position:relative}
-  .titlebar{height:40px;background:#fbfcfe;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
-  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:13px;color:var(--ink-2)}
-  .brand .wm{color:#9aa3b2;font-weight:400}
+  .window{width:min(1240px,100%);height:min(800px,calc(100vh - 48px));min-height:560px;background:var(--panel);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-win);border:1px solid var(--line);display:flex;flex-direction:column;position:relative}
+  .titlebar{height:40px;background:var(--panel-2);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:13px;color:var(--ink-2);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand .wm{color:var(--muted);font-weight:400}
   .winbtns{margin-left:auto;display:flex;gap:8px}
-  .winbtns span{width:12px;height:12px;border-radius:50%;cursor:pointer}
+  .winbtns span{width:12px;height:12px;border-radius:50%}
   .c1{background:#febc2e}.c2{background:#28c840}.c3{background:#ff5f57}
   .body{flex:1;display:flex;min-height:0}
 
   /* sidebar */
-  .sidebar{width:228px;background:linear-gradient(180deg,var(--sidebar),#111a30);color:#cbd5e1;display:flex;flex-direction:column;flex-shrink:0;padding:20px 14px}
-  .logo-row{display:flex;align-items:center;gap:11px;padding:0 6px 20px}
-  .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800;box-shadow:0 6px 16px rgba(59,130,246,.45)}
+  .sidebar{width:246px;background:linear-gradient(180deg,var(--sidebar),#111a30);color:#cbd5e1;display:flex;flex-direction:column;flex-shrink:0;padding:20px 14px;overflow-y:auto}
+  .logo-row{display:flex;align-items:center;gap:11px;padding:0 6px 18px}
+  .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800;box-shadow:0 6px 16px rgba(59,130,246,.45);flex-shrink:0}
   .logo-row b{font-size:15px;color:#fff}
   .logo-row small{display:block;font-size:10.5px;color:#7c8aa5;font-weight:400;margin-top:1px}
-  .nav-label{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:#5b6781;padding:6px 10px;margin-top:4px}
-  .nav-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:11px;font-size:13.5px;color:#aeb9d0;cursor:pointer;margin-bottom:3px;transition:.15s}
+  .nav-label{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:#5b6781;padding:6px 10px;margin-top:6px}
+  .nav-item{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:11px;font-size:13px;white-space:nowrap;color:#aeb9d0;cursor:pointer;margin-bottom:2px;transition:.15s;width:100%;background:none;border:none;text-align:left}
   .nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
   .nav-item.active{background:linear-gradient(135deg,rgba(59,130,246,.9),rgba(99,102,241,.9));color:#fff;box-shadow:0 6px 18px rgba(59,130,246,.35)}
-  .nav-item .nico{width:22px;display:flex;justify-content:center;font-size:15px}
-  .nav-item .step{margin-left:auto;font-size:10px;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-weight:700}
-  .nav-item.active .step{background:rgba(255,255,255,.25)}
-  .nav-item.done .nico{color:#34d399}
+  .nav-item .nico{width:22px;display:flex;justify-content:center;font-size:15px;flex-shrink:0}
+  .nav-item .nbadge{margin-left:auto;font-size:10.5px;font-weight:700;background:rgba(255,255,255,.14);color:#fff;border-radius:20px;padding:1px 8px}
+  .nav-item .nbadge:empty{display:none}
+  .nav-item.active .nbadge{background:rgba(255,255,255,.28)}
   .side-foot{margin-top:auto;padding:14px 10px 4px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:#7c8aa5;display:flex;align-items:center;gap:8px}
-  .dot-ok{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399}
-  /* workflow roadmap stepper — current step expands its detail like a submenu */
-  .stepper{padding:2px 4px 6px}
-  .step-item{display:none;align-items:flex-start;gap:12px;padding:8px 8px;position:relative}
-  .step-item.visible{display:flex}
-  .step-item.current{animation:reveal .32s ease}
-  .step-item.current::before{content:none}   /* path ends at the current step until the next is reached */
-  @keyframes reveal{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}
-  .step-item .sdot{width:24px;height:24px;border-radius:50%;background:#1b2740;border:2px solid rgba(148,163,184,.35);color:#7c8aa5;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;z-index:1;transition:.2s}
-  .step-item .slabel{font-size:13px;color:#7c8aa5;transition:.2s;padding-top:3px;display:flex;flex-direction:column;line-height:1.2}
-  .step-item:not(:last-child)::before{content:"";position:absolute;left:19px;top:33px;bottom:-1px;width:2px;background:rgba(148,163,184,.28)}
-  .step-item.done .sdot{background:#16a34a;border-color:#16a34a;color:#fff;font-size:0}
-  .step-item.done .sdot::after{content:"✓";font-size:13px}
-  .step-item.done .slabel{color:#aeb9d0}
-  .step-item.done:not(:last-child)::before{background:#16a34a}
-  .step-item.current .sdot{background:linear-gradient(135deg,var(--accent),var(--accent-2));border-color:transparent;color:#fff;box-shadow:0 0 0 4px rgba(59,130,246,.22)}
-  .step-item.current .slabel{color:#fff;font-weight:700}
-  .substep{display:none;font-size:10.5px;color:#8ea3c7;font-weight:500;margin-top:4px}
-  .step-item.current .substep{display:block}
+  .dot-ok{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399;flex-shrink:0}
 
   .main{flex:1;background:var(--bg);display:flex;flex-direction:column;min-width:0}
-  .toolbar{height:60px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;gap:14px;flex-shrink:0}
+  .toolbar{min-height:60px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:8px 24px;gap:14px;flex-shrink:0}
   .toolbar h1{font-size:16px;margin:0;font-weight:650}
   .toolbar .crumb{font-size:11.5px;color:var(--muted);margin-top:1px}
   .toolbar .right{margin-left:auto;display:flex;gap:9px;align-items:center}
-  .scroll{flex:1;overflow:auto;padding:24px}
-  .scroll::-webkit-scrollbar{width:9px}.scroll::-webkit-scrollbar-thumb{background:#cdd5e3;border-radius:6px}
-  .screen{display:none}.screen.active{display:block;animation:fade .3s ease}
+  .scroll{flex:1;overflow:auto;padding:22px 24px 24px}
+  .scroll::-webkit-scrollbar{width:9px}.scroll::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:6px}
+  .page{display:none}.page.active{display:block;animation:fade .3s ease}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-  .btn{border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:7px}
-  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 18px rgba(59,130,246,.28)}
-  .btn.primary:hover{filter:brightness(1.05);transform:translateY(-1px)}
-  .btn.ghost{background:#fff;color:var(--ink-2);border:1px solid var(--line)}
-  .btn.ghost:hover{background:var(--soft)}
-  .btn.danger{background:#fee2e2;color:#b91c1c;border:1px solid #fbcdcd}
-  .btn.danger:hover{background:#fdd}
-  .btn.sm{padding:7px 12px;font-size:12px}
-  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+  .btn{border:none;border-radius:10px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 18px rgba(59,130,246,.25)}
+  .btn.primary:hover{filter:brightness(1.07)}
+  .btn.ghost{background:var(--panel);color:var(--ink-2);border:1px solid var(--line)}
+  .btn.ghost:hover{background:var(--soft);border-color:var(--line-2)}
+  .btn.danger{background:var(--poor-bg);color:var(--poor-ink);border:1px solid var(--bad-line)}
+  .btn.danger-solid{background:#dc2626;color:#fff}
+  .btn.sm{padding:6px 11px;font-size:12px;border-radius:9px}
+  .btn.xs{padding:4px 9px;font-size:11.5px;border-radius:8px}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none}
+  .link{background:none;border:none;padding:0;color:var(--accent);font-weight:600;cursor:pointer;font-size:inherit}
+  .link:hover{text-decoration:underline}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-card)}
+  .card-h{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;font-size:13px;font-weight:700;color:var(--ink-2)}
+  .card-h .aside{margin-left:auto;font-weight:600;font-size:11.5px;color:var(--muted)}
+  .lead{font-size:13px;color:var(--muted);max-width:720px;line-height:1.55;margin:0 0 16px}
+  .section-h{font-size:12px;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.6px;margin:20px 4px 10px;display:flex;align-items:center;gap:10px}
+  .section-h .aside{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:600;font-size:11.5px;color:var(--muted)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+  .muted{color:var(--muted)}
+  .mono{font-family:Consolas,monospace}
+  .spacer{flex:1}
+  .note{font-size:12px;color:var(--ink-2);background:linear-gradient(135deg,var(--info-bg),var(--info-bg-2));border:1px solid var(--info-line);border-radius:12px;padding:11px 14px;display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+  .empty{font-size:12.5px;color:var(--muted);text-align:center;padding:26px}
 
-  /* HOME */
-  .lead{font-size:13.5px;color:var(--muted);max-width:640px;line-height:1.55;margin:0 0 18px}
-  .picker{padding:8px}
-  .folder-row{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:11px;font-size:13px}
-  .folder-row+.folder-row{border-top:1px solid var(--line)}
-  .folder-row:hover{background:var(--soft)}
-  .folder-row .ic{width:34px;height:34px;border-radius:9px;background:#eef4ff;display:flex;align-items:center;justify-content:center;font-size:17px}
-  .folder-row .path{flex:1;font-family:Consolas,monospace;color:var(--ink-2);font-size:12.5px}
-  .folder-row .sz{font-size:11.5px;color:var(--muted)}
-  .folder-row .x{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer}
-  .folder-row .x:hover{background:#fde8e8;color:var(--bad)}
-  .empty-folders{padding:22px;text-align:center;color:var(--muted);font-size:12.5px}
-  .add{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;padding:14px;border:1.5px dashed #c4d2ec;border-radius:11px;margin:10px 8px 8px;background:#fafcff}
-  .add:hover{background:#f1f6ff}
-  .section-h{font-size:12px;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.6px;margin:22px 4px 12px}
-  .ind-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-  .ind{display:flex;align-items:center;gap:12px;padding:13px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer;user-select:none;transition:.12s}
-  .ind:hover{border-color:#c9d6ee}
-  .ind .ib{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-  .ind h4{margin:0;font-size:13px}.ind p{margin:2px 0 0;font-size:11px;color:var(--muted)}
-  .ind .sw{margin-left:auto;width:38px;height:22px;border-radius:12px;background:var(--accent);position:relative;transition:.15s;flex-shrink:0}
-  .ind .sw::after{content:"";position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.15s}
-  .ind.off{opacity:.7}
-  .ind.off .sw{background:#cbd5e1}
-  .ind.off .sw::after{right:auto;left:2px}
-  .home-foot{display:flex;align-items:center;gap:14px;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
-  .home-foot .spacer{flex:1}
+  /* badges, pills, chips */
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap}
+  .good{background:var(--good-bg);color:var(--good-ink)}.fair{background:var(--fair-bg);color:var(--fair-ink)}.poor{background:var(--poor-bg);color:var(--poor-ink)}
+  .risk .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+  .conf{font-size:10.5px;color:var(--muted);font-weight:600;margin-left:6px;white-space:nowrap}
+  .chip{display:inline-block;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--chip);color:var(--ink-2);margin:2px 4px 2px 0;white-space:nowrap}
+  .chip.bad{background:var(--poor-bg);color:var(--poor-ink)}
+  .tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap}
+  .tag.rename{background:var(--t-ren-bg);color:var(--t-ren)}.tag.archive{background:var(--t-arc-bg);color:var(--t-arc)}
+  .tag.delete{background:var(--t-del-bg);color:var(--t-del)}.tag.keep{background:var(--t-keep-bg);color:var(--t-keep)}
+  .score{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:13px}
+  .score .mini{width:54px;height:6px;background:var(--track);border-radius:4px;overflow:hidden}
+  .score .mini i{display:block;height:100%;border-radius:4px}
+  .bar{flex:1;height:8px;background:var(--track);border-radius:5px;overflow:hidden;min-width:50px}
+  .bar i{display:block;height:100%;border-radius:5px}
 
-  /* SCANNING */
-  .scan-card{padding:40px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:4px}
-  .ring{position:relative;width:118px;height:118px}.ring svg{transform:rotate(-90deg)}
-  .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:800}
-  .scan-card h3{margin:0;font-size:18px}.scan-card .muted{color:var(--muted);font-size:13px;margin:0}
-  .stat-row{display:flex;gap:14px;margin-top:4px}
-  .stat{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:13px 22px;min-width:118px}
-  .stat b{display:block;font-size:23px}.stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-  .cur{font-family:Consolas,monospace;font-size:11.5px;color:var(--muted);background:#f1f5fb;padding:8px 14px;border-radius:8px;max-width:560px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* DASHBOARD */
+  .hello{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .hello h2{margin:0;font-size:18px}
+  .hello p{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px;margin-top:16px}
+  .kpi{padding:14px 15px;display:flex;flex-direction:column;gap:4px}
+  .kpi .kl{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px;display:flex;align-items:center;gap:6px}
+  .kpi .kv{font-size:26px;font-weight:800;line-height:1.1}
+  .kpi .ks{font-size:11.5px;color:var(--muted)}
+  .stack{display:flex;height:14px;border-radius:8px;overflow:hidden;background:var(--track);margin:4px 16px 12px}
+  .stack i{display:block;height:100%}
+  .legend-row{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12.5px;border-top:1px solid var(--line)}
+  .legend-row .sw{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+  .legend-row b{margin-left:auto}
+  .mini-row{display:flex;align-items:center;gap:12px;padding:10px 16px;font-size:12.5px;border-top:1px solid var(--line)}
+  .mini-row .nm{flex:1;min-width:0}
+  .mini-row .nm div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mini-row .nm small{display:block;color:var(--muted);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .card-foot{padding:10px 16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 
-  /* RESULTS */
-  .dash{display:grid;grid-template-columns:300px 1fr;gap:18px}
-  .score-card{padding:24px 20px;text-align:center;display:flex;flex-direction:column;align-items:center}
-  .gauge{position:relative;width:200px;height:200px;margin:2px 0 4px}.gauge svg{transform:rotate(-90deg)}
-  .gauge .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .gauge .center b{font-size:52px;line-height:1;font-weight:800}
-  .gauge .center .o100{font-size:11px;color:var(--muted);letter-spacing:1.5px;margin-top:2px}
-  .gauge .delta{font-size:11px;font-weight:700;color:var(--ok);margin-top:3px;height:14px}
-  .band{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:30px;font-size:12.5px;font-weight:700;margin-top:4px}
-  .recover-box{margin-top:18px;width:100%;background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1px solid #c6f0d8;border-radius:12px;padding:13px}
-  .recover-box span{font-size:11.5px;color:#15803d;font-weight:600}
-  .recover-box b{display:block;font-size:24px;color:#15803d;margin-top:2px}
-  .issues{display:flex;flex-direction:column;gap:11px}
-  .issue{display:flex;align-items:center;gap:14px;padding:14px 16px}
-  .issue .badge{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
-  .issue .meta{flex:1;min-width:0}.issue .meta h4{margin:0;font-size:14px}.issue .meta p{margin:3px 0 0;font-size:11.5px;color:var(--muted)}
-  .issue .count{font-size:25px;font-weight:800;line-height:1}
-  .issue .count small{display:block;font-size:10px;color:var(--muted);font-weight:600;text-align:right;letter-spacing:.4px}
-  .issue .go{color:var(--muted);font-size:18px}
-  .b-dup{background:#fee2e2;color:#dc2626}.b-name{background:#ffedd5;color:#ea580c}
-  .b-depth{background:#e0e7ff;color:#4f46e5}.b-unused{background:#dcfce7;color:#16a34a}
-  .results-cta{display:flex;justify-content:flex-end;gap:10px;margin-top:2px}
+  /* SCAN */
+  .folder-row{display:flex;align-items:center;gap:13px;padding:12px 15px;font-size:13px;border-top:1px solid var(--line)}
+  .folder-row .ic{width:34px;height:34px;border-radius:9px;background:var(--info-bg);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+  .folder-row .path{flex:1;font-family:Consolas,monospace;color:var(--ink-2);font-size:12.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .folder-row .sz{font-size:11.5px;color:var(--muted);white-space:nowrap}
+  .x{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;background:none;border:none;flex-shrink:0}
+  .x:hover{background:var(--poor-bg);color:var(--bad)}
+  .add{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;padding:13px;border:1.5px dashed var(--line-2);border-radius:11px;margin:8px;background:var(--soft);width:calc(100% - 16px)}
+  .add:hover{background:var(--info-bg)}
+  .scan-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
+  .rules{padding:0 16px 12px 34px;margin:0;font-size:12px;color:var(--ink-2);line-height:1.75}
+  .progress-card{padding:26px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+  .ring{position:relative;width:128px;height:128px}.ring svg{transform:rotate(-90deg)}
+  .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800}
+  .track{stroke:var(--track)}
+  .steps{list-style:none;margin:0;padding:0;font-size:12.5px}
+  .steps li{display:flex;align-items:center;gap:10px;padding:4px 0;color:var(--muted)}
+  .steps li .sd{width:20px;height:20px;border-radius:50%;border:2px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+  .steps li.done{color:var(--ink-2)}.steps li.done .sd{background:var(--ok);border-color:var(--ok);color:#fff}
+  .steps li.now{color:var(--ink);font-weight:700}.steps li.now .sd{border-color:var(--accent);background:var(--info-bg)}
+  .stat-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .stat{background:var(--soft);border:1px solid var(--line);border-radius:11px;padding:9px 16px;min-width:96px}
+  .stat b{display:block;font-size:19px}.stat span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .cur{font-family:Consolas,monospace;font-size:11.5px;color:var(--muted);background:var(--chip);padding:7px 12px;border-radius:8px;margin-top:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .done-card{padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+  .done-card .big{font-size:32px}
+  .done-card h3{margin:0 0 3px;font-size:16px}
+  .done-card p{margin:0;font-size:12.5px;color:var(--muted)}
+  .pick-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;margin-bottom:8px;cursor:pointer;width:100%;background:var(--panel);text-align:left}
+  .pick-row:hover:not(:disabled){border-color:var(--line-2);background:var(--soft)}
+  .pick-row:disabled{cursor:default;opacity:.7}
+  .pick-row.blocked{opacity:.85}
+  .pick-row .pp{flex:1;min-width:0;font-family:Consolas,monospace;font-size:12.5px}
+  .pick-row small{display:block;font-family:"Segoe UI",system-ui,sans-serif;font-size:11px;color:var(--muted)}
 
-  /* CLEAN UP */
-  .safe-banner{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #d7e3fb;border-radius:11px;padding:10px 14px;font-size:12px;color:var(--ink-2);margin-bottom:14px}
-  .grp{margin-bottom:18px}
-  .grp-h{display:flex;align-items:center;gap:11px;padding:0 4px 10px}
-  .grp-h .grp-all{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
-  .grp-h .gi{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
-  .grp-h h3{margin:0;font-size:14px}.grp-h p{margin:1px 0 0;font-size:11px;color:var(--muted)}
-  .grp-h .rec-act{margin-left:auto;font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;background:#f1f5fb;color:var(--ink-2)}
-  .ilist{overflow:hidden}
-  .ilist .extra{display:none}
-  .ilist.show-extra .extra{display:flex}
-  .irow{display:flex;align-items:center;gap:13px;padding:11px 15px;font-size:12.5px;transition:.15s}
+  /* tables */
+  .tbl-wrap{overflow-x:auto}
+  .tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+  .tbl th{text-align:left;color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .tbl td{padding:10px 12px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:middle}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl .fname{font-weight:600;color:var(--ink);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tbl .fpath{font-family:Consolas,monospace;font-size:10.5px;color:var(--muted);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tbl tr.row{cursor:pointer}
+  .tbl tr.row:hover td{background:var(--soft)}
+  .tbl tr.open td{background:var(--soft);border-bottom-color:transparent}
+  .tbl .num{text-align:right;white-space:nowrap}
+  .tbl .caret{color:var(--muted);width:18px;text-align:center;padding-right:0}
+  .expl td{background:var(--soft);padding:4px 16px 16px}
+  .expl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px}
+  .comp{font-size:12px}
+  .comp .ch{display:flex;justify-content:space-between;gap:10px;margin-bottom:5px}
+  .comp .ch b{white-space:nowrap}
+  .comp p{margin:5px 0 0;font-size:11.5px;color:var(--muted)}
+  .expl-foot{grid-column:1/-1;font-size:12px;color:var(--ink-2);border-top:1px dashed var(--line-2);padding-top:10px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
+  .tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .search{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0 11px;flex:1 1 180px;max-width:300px}
+  .search:focus-within{border-color:var(--accent)}
+  .search input{border:none;outline:none;background:none;padding:7px 0;font-size:12.5px;flex:1;min-width:0}
+  .select{border:1px solid var(--line);background:var(--panel);color:var(--ink-2);border-radius:10px;padding:7px 10px;font-size:12.5px;font-weight:600;cursor:pointer}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+  .seg button{border:none;background:none;padding:7px 13px;font-size:12px;cursor:pointer;color:var(--ink-2);font-weight:600;white-space:nowrap}
+  .seg button+button{border-left:1px solid var(--line)}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+  .seg button .n{opacity:.75;font-weight:700;margin-left:5px}
+  .formula{font-family:Consolas,monospace;font-size:11px;color:var(--muted);padding:12px 14px 0;text-align:center;line-height:1.7}
+
+  /* RECOMMENDATIONS */
+  .rec{display:grid;grid-template-columns:auto minmax(180px,1fr) auto minmax(220px,1.15fr) auto;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
+  .rec:first-child{border-top:none}
+  .rec input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent)}
+  .rec .orig{min-width:0}
+  .rec .orig div{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rec .orig small{display:block;font-size:11px;color:var(--muted);margin-top:4px}
+  .rec .arrow{color:var(--muted);font-size:16px}
+  .rec .sug input{width:100%;border:1px solid var(--line-2);border-radius:8px;padding:7px 9px;font-size:12.5px;font-family:Consolas,monospace;background:var(--panel)}
+  .rec .sug input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  .rec .sug small{display:block;font-size:11px;color:var(--muted);margin-top:4px}
+  .rec .acts{display:flex;gap:6px}
+  .grp-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line);font-size:12.5px}
+  .grp-row:first-child{border-top:none}
+  .grp-row .gi{min-width:0;flex:1}
+  .grp-row .gi div{font-weight:600}
+  .grp-row .gi small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* CLUTTER MANAGEMENT */
+  .dupgrp{margin-bottom:12px;overflow:hidden}
+  .dup-h{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .dup-h .gi{flex:1;min-width:0}
+  .dup-h .gi div{font-weight:700;font-size:13px}
+  .dup-h .gi small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+  .irow{display:flex;align-items:center;gap:12px;padding:10px 16px;font-size:12.5px;cursor:pointer}
   .irow+.irow{border-top:1px solid var(--line)}
   .irow:hover{background:var(--soft)}
-  .irow input{width:17px;height:17px;accent-color:var(--accent);cursor:pointer}
-  .irow .fic{font-size:16px}
-  .irow .nm{font-weight:600;color:var(--ink-2)}
-  .irow .pth{font-family:Consolas,monospace;font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .irow.sel{background:var(--info-bg)}
+  .irow.orig{cursor:default;background:var(--ok-bg)}
+  .irow input{width:16px;height:16px;accent-color:var(--accent);flex-shrink:0}
   .irow .col{flex:1;min-width:0}
-  .irow .sz{font-size:11.5px;color:var(--muted);white-space:nowrap}
-  .irow .tag{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap}
-  .irow.cleaned{opacity:.5}
-  .irow.cleaned .nm{text-decoration:line-through}
-  .irow.renamed{background:#f0fdf4}
-  .irow.renamed .nm{color:#15803d}
-  .tag.del{background:#fee2e2;color:#b91c1c}.tag.ren{background:#ffedd5;color:#c2410c}.tag.arc{background:#dcfce7;color:#15803d}.tag.done{background:#dcfce7;color:#15803d}
-  .grp-foot{padding:9px 15px;border-top:1px solid var(--line);background:var(--soft);font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:10px;border-radius:0 0 14px 14px;margin-top:-1px}
-  .grp-foot a{color:var(--accent);font-weight:600;cursor:pointer;text-decoration:none}
-  .allclear{display:none;align-items:center;justify-content:center;gap:9px;padding:16px;color:#15803d;background:#f0fdf4;border:1px solid #c6f0d8;border-radius:12px;font-size:13px;font-weight:600}
-
-  /* sticky action bar */
-  .actionbar{position:sticky;bottom:0;margin:6px -24px -24px;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:13px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;row-gap:8px;box-shadow:0 -8px 22px rgba(15,23,42,.06)}
+  .irow .col div{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .irow .col small{display:block;font-family:Consolas,monospace;font-size:10.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .irow .meta{font-size:11.5px;color:var(--muted);white-space:nowrap;text-align:right}
+  .actionbar{position:sticky;bottom:-24px;margin:14px -24px -24px;background:var(--actionbar);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;row-gap:8px;box-shadow:0 -8px 22px rgba(15,23,42,.06);z-index:5}
   .actionbar .selinfo{font-size:13px;font-weight:600}
-  .actionbar .selinfo b{color:var(--accent-dark)}
-  .actionbar .spacer{flex:1}
+  .actionbar .selinfo b{color:var(--accent)}
 
-  /* modals */
+  /* ACTION HISTORY */
+  .st-applied{color:var(--good-ink);font-weight:700;font-size:11.5px;white-space:nowrap}
+  .st-undone{color:var(--muted);font-weight:700;font-size:11.5px;white-space:nowrap}
+  tr.undone td{opacity:.6}
+  tr.undone .fname{text-decoration:line-through}
+
+  /* REPORTS */
+  .rpt-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .doc{padding:26px 28px}
+  .doc-h{display:flex;align-items:flex-start;gap:14px;border-bottom:2px solid var(--line);padding-bottom:14px;margin-bottom:16px;flex-wrap:wrap}
+  .doc-h .dl{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;flex-shrink:0}
+  .doc-h h2{margin:0;font-size:19px}
+  .doc-h p{margin:3px 0 0;font-size:12px;color:var(--muted)}
+  .doc-h .dm{margin-left:auto;text-align:right;font-size:11.5px;color:var(--muted);line-height:1.6}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+  .tile{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:var(--soft)}
+  .tile b{display:block;font-size:21px;line-height:1.2;margin-top:2px}
+  .tile span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+  .doc .tbl-wrap{border:1px solid var(--line);border-radius:10px}
+  .doc .tbl th{background:var(--soft)}
+  .doc-foot{margin-top:14px;font-size:11px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
+  .doc .stack{margin:0 0 16px}
+  .rpt-more{margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
+
+  /* SETTINGS / TESTING */
+  .set-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .set-row:last-child{border-bottom:none}
+  .set-row .si{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--chip)}
+  .set-row h4{margin:0;font-size:13px}.set-row p{margin:2px 0 0;font-size:11.5px;color:var(--muted)}
+  .lock{font-size:11px;font-weight:700;color:var(--muted);background:var(--chip);padding:4px 10px;border-radius:20px;white-space:nowrap}
+  .sw2{width:40px;height:23px;border-radius:12px;background:var(--accent);position:relative;cursor:pointer;flex-shrink:0;border:none;padding:0;transition:.15s}
+  .sw2::after{content:"";position:absolute;top:2px;right:2px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.15s}
+  .sw2[aria-checked="false"]{background:var(--line-2)}.sw2[aria-checked="false"]::after{right:auto;left:2px}
+  .kv-tbl td:first-child{color:var(--muted);width:34%}
+  .task-card{padding:20px}
+  .task-card .tq{font-size:17px;font-weight:700;margin:8px 0 4px}
+  .timer{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums}
+
+  /* dialogs, toast */
   .overlay{position:absolute;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;z-index:50;backdrop-filter:blur(2px)}
   .overlay.show{display:flex;animation:fade .2s ease}
-  .modal{width:440px;max-width:88%;background:#fff;border-radius:16px;box-shadow:0 30px 70px rgba(0,0,0,.35);overflow:hidden}
-  .modal .mhead{padding:22px 24px 8px;display:flex;gap:14px;align-items:flex-start}
-  .modal .mi{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0}
-  .modal h3{margin:0;font-size:17px}.modal .mhead p{margin:4px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
-  .modal .mbody{padding:6px 24px 4px}
-  .modal .summary{background:var(--soft);border:1px solid var(--line);border-radius:11px;padding:13px 15px;font-size:12.5px;color:var(--ink-2);max-height:160px;overflow:auto}
-  .modal .summary .li{display:flex;justify-content:space-between;padding:4px 0;gap:10px}
-  .modal .summary .li+.li{border-top:1px dashed var(--line)}
-  .ren-row{padding:8px 0}.ren-row+.ren-row{border-top:1px dashed var(--line)}
+  .modal{width:500px;max-width:92%;max-height:92%;display:flex;flex-direction:column;background:var(--panel);border-radius:16px;box-shadow:0 30px 70px rgba(0,0,0,.35);overflow:hidden;border:1px solid var(--line)}
+  .mhead{padding:20px 22px 8px;display:flex;gap:14px;align-items:flex-start}
+  .mi{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;background:var(--info-bg)}
+  .modal h3{margin:0;font-size:16.5px}.mhead p{margin:4px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
+  .mbody{padding:6px 22px 4px;overflow:auto;font-size:13px;color:var(--ink-2);line-height:1.55}
+  .mbody ul{margin:6px 0 0;padding-left:18px}.mbody li{margin:3px 0}
+  .summary{background:var(--soft);border:1px solid var(--line);border-radius:11px;padding:10px 14px;font-size:12.5px;max-height:230px;overflow:auto}
+  .summary .li{display:flex;justify-content:space-between;padding:5px 0;gap:10px}
+  .summary .li+.li{border-top:1px dashed var(--line)}
+  .summary .li span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .summary .li span:last-child{white-space:nowrap;color:var(--muted)}
+  .ren-row{padding:7px 0}.ren-row+.ren-row{border-top:1px dashed var(--line)}
   .ren-old{font-size:11px;color:var(--muted)}
-  .ren-input{width:100%;border:1px solid #c7d6fb;border-radius:7px;padding:6px 9px;font-size:12px;font-family:Consolas,monospace;margin-top:4px;color:var(--ink)}
+  .ren-input{width:100%;border:1px solid var(--line-2);border-radius:7px;padding:6px 9px;font-size:12px;font-family:Consolas,monospace;margin-top:4px;background:var(--panel)}
   .ren-input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
-  .reassure{display:flex;gap:9px;align-items:flex-start;font-size:11.5px;color:#15803d;background:#f0fdf4;border:1px solid #c6f0d8;border-radius:10px;padding:10px 13px;margin:14px 0 2px;line-height:1.45}
-  .modal .mfoot{padding:16px 24px 20px;display:flex;gap:10px;justify-content:flex-end}
-  .info-body{font-size:13px;color:var(--ink-2);line-height:1.6}
-  .info-body ul{margin:8px 0 0;padding-left:18px}.info-body li{margin:4px 0}
+  .ren-input.err{border-color:var(--bad);outline-color:var(--bad)}
+  .dlg-err{color:var(--poor-ink);font-size:12px;font-weight:600;margin-top:10px}
+  .reassure{display:flex;gap:9px;align-items:flex-start;font-size:11.5px;color:var(--good-ink);background:var(--ok-bg);border:1px solid var(--ok-line);border-radius:10px;padding:9px 12px;margin:12px 0 2px;line-height:1.45}
+  .mfoot{padding:14px 22px 18px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+  .toast{position:absolute;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:11px 16px;border-radius:11px;font-size:13px;display:flex;align-items:center;gap:12px;box-shadow:0 14px 30px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.3s;z-index:60;max-width:88%;border:1px solid rgba(255,255,255,.08)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  .toast button{background:none;border:none;color:#7dd3fc;font-weight:700;cursor:pointer;padding:0}
 
-  /* toast */
-  .toast{position:absolute;bottom:84px;left:50%;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:12px 18px;border-radius:11px;font-size:13px;display:flex;align-items:center;gap:12px;box-shadow:0 14px 30px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.3s;z-index:60;max-width:80%}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-  .toast a{color:#7dd3fc;font-weight:700;cursor:pointer}
-
-  /* report */
-  .note{font-size:12px;color:var(--ink-2);background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #d7e3fb;border-radius:12px;padding:14px 16px;margin-top:8px;display:flex;gap:11px;align-items:flex-start;line-height:1.55}
-  .note.ok{background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-color:#c6f0d8;color:#15803d}
-  .log-card{padding:6px}
-  .logrow{display:flex;align-items:center;gap:13px;padding:11px 15px;font-size:12.5px}
-  .logrow+.logrow{border-top:1px solid var(--line)}
-  .logrow .lic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
-  .logrow .when{margin-left:auto;font-size:11px;color:var(--muted)}
-  .report-foot{display:flex;gap:11px;justify-content:flex-end;margin-top:18px}
-  .empty{font-size:12.5px;color:var(--muted);text-align:center;padding:24px}
-
-  /* tables (history) */
-  .tbl{width:100%;border-collapse:collapse;font-size:12.5px}
-  .tbl th{text-align:left;color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;padding:11px 14px;border-bottom:1px solid var(--line)}
-  .tbl td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink-2)}
-  .tbl tr.hrow{cursor:pointer}.tbl tr.hrow:hover{background:var(--soft)}
-  .pill-score{font-weight:800;padding:2px 10px;border-radius:20px;font-size:12px}
-
-  /* settings */
-  .set-sec{font-size:12px;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.5px;margin:20px 4px 8px}
-  .set-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
-  .set-row:last-child{border-bottom:none}
-  .set-row .si{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-  .set-row h4{margin:0;font-size:13px}.set-row p{margin:2px 0 0;font-size:11px;color:var(--muted)}
-  .set-row .spacer{flex:1}
-  .sw2{width:40px;height:23px;border-radius:12px;background:var(--accent);position:relative;cursor:pointer;flex-shrink:0;transition:.15s}
-  .sw2::after{content:"";position:absolute;top:2px;right:2px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.15s}
-  .sw2.off{background:#cbd5e1}.sw2.off::after{right:auto;left:2px}
-  .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
-  .seg button{border:none;background:#fff;padding:7px 15px;font-size:12px;cursor:pointer;color:var(--ink-2);font-weight:600}
-  .seg button.on{background:var(--accent);color:#fff}
-  .radio-row{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-2);padding:4px 0}
-  .radio-row input{accent-color:var(--accent)}
-
-  /* score breakdown + legend + report summary */
-  .scope-bar{display:flex;flex-wrap:wrap;gap:7px 16px;align-items:center;font-size:11.5px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:11px;padding:10px 14px;margin-bottom:14px}
-  .scope-bar b{color:var(--ink-2)}
-  .scope-bar .chip2{background:#eef2ff;color:var(--accent-dark);border-radius:20px;padding:2px 9px;font-weight:600;font-size:10.5px}
-  .band-legend{display:flex;gap:6px;margin-top:14px;width:100%;justify-content:center;flex-wrap:wrap}
-  .lg{font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:20px}
-  .lg.red{background:#fee2e2;color:#b91c1c}.lg.amber{background:#fef3c7;color:#92400e}.lg.green{background:#dcfce7;color:#15803d}
-  .bd-row{display:flex;align-items:center;gap:12px;padding:12px 15px;font-size:12.5px}
-  .bd-row+.bd-row{border-top:1px solid var(--line)}
-  .bd-row .bi{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-  .bd-row .bn{width:190px}
-  .bd-row .bn h4{margin:0;font-size:12.5px}.bd-row .bn p{margin:1px 0 0;font-size:10.5px;color:var(--muted)}
-  .bar{flex:1;height:8px;background:#eef1f7;border-radius:5px;overflow:hidden;min-width:60px}
-  .bar i{display:block;height:100%;border-radius:5px}
-  .bd-row .wt{font-size:11px;color:var(--muted);width:70px;text-align:right}
-  .bd-row .pen{font-weight:800;width:50px;text-align:right;color:var(--bad)}
-  .bd-foot{display:flex;align-items:center;gap:12px;padding:13px 15px;border-top:2px solid var(--line);font-size:13px;font-weight:700;background:var(--soft)}
-  .bd-foot .spacer{flex:1}
-  .formula{font-family:Consolas,monospace;font-size:11px;color:var(--muted);padding:10px 15px;border-top:1px solid var(--line);text-align:center}
-  .rec-row{display:flex;gap:12px;padding:13px 15px;align-items:flex-start}
-  .rec-row+.rec-row{border-top:1px solid var(--line)}
-  .rec-row .ri{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-  .rec-row h4{margin:0;font-size:12.5px}.rec-row p{margin:2px 0 0;font-size:11.5px;color:var(--muted);line-height:1.45}
-  .rec-row .rp{margin-left:auto;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:#f1f5fb;color:var(--ink-2);white-space:nowrap;align-self:center}
-  .rsum{display:flex;align-items:center;gap:22px;padding:20px 22px}
-  .rsum .rscore{font-size:46px;font-weight:800;line-height:1}
-  .rsum .rmeta{flex:1}.rsum .rmeta h3{margin:0 0 6px;font-size:15px}
-  .rsum .rband{display:inline-flex;padding:5px 13px;border-radius:20px;font-size:12px;font-weight:700}
-  .rsum .rrec{text-align:right}.rsum .rrec b{display:block;font-size:22px;color:#15803d}.rsum .rrec span{font-size:11px;color:var(--muted)}
+  /* responsive */
+  @media (max-width:1020px){
+    .grid2,.scan-grid{grid-template-columns:1fr}
+    .rec{grid-template-columns:auto 1fr}
+    .rec .arrow{display:none}
+    .rec .sug,.rec .acts{grid-column:2}
+  }
+  @media (max-width:900px){
+    body{padding:12px}
+    .window{height:calc(100vh - 24px)}
+    .brand .wm{display:none}
+    .sidebar{width:72px;padding:16px 10px}
+    .logo-row{justify-content:center;padding:0 0 12px}
+    .logo-row>div:last-child,.nav-label,.nav-item .nlabel,.nav-item .nbadge,.side-foot span:last-child{display:none}
+    .nav-item{justify-content:center;padding:10px 0}
+    .side-foot{justify-content:center;padding:14px 0 4px}
+    .expl-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:600px){
+    body{padding:0;display:block}
+    .window{height:100vh;height:100dvh;min-height:0;border-radius:0;border:none}
+    .titlebar{display:none}
+    .body{flex-direction:column}
+    .sidebar{width:auto;flex-direction:row;align-items:center;padding:8px 10px;gap:2px;overflow-x:auto;overflow-y:hidden;flex-shrink:0}
+    .sidebar nav{display:flex}
+    .logo-row{padding:0 4px 0 0}
+    .logo{width:32px;height:32px;font-size:15px}
+    .nav-item{width:auto;padding:8px 9px;margin:0}
+    .side-foot{display:none}
+    .toolbar{padding:8px 14px}
+    .scroll{padding:16px}
+    .actionbar{margin:14px -16px -16px;padding:12px 16px;bottom:-16px}
+    .progress-card{grid-template-columns:1fr;justify-items:center}
+    .doc{padding:18px 16px}
+    .doc-h .dm{margin-left:0;text-align:left}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media print{
+    body{background:#fff;padding:0;display:block}
+    .window{box-shadow:none;border:none;height:auto;min-height:0;width:auto;overflow:visible;border-radius:0}
+    .titlebar,.sidebar,.toolbar,.toast,.overlay,.rpt-bar,.rpt-more-btn,#reports .lead{display:none!important}
+    .body,.main{display:block;background:#fff}
+    .scroll{overflow:visible;padding:0}
+    .page{display:none!important}
+    #reports{display:block!important;animation:none}
+    .card{box-shadow:none;border:none}
+    .tbl tr{break-inside:avoid}
+  }
 </style>
 </head>
 <body>
   <div class="window">
     <div class="titlebar">
-      <div class="brand"><b>ClutterScope</b><span class="wm">— Digital Clutter Scoring &amp; File Organization Tool</span></div>
-      <div class="winbtns"><span class="c1" title="Minimize" onclick="toast('Minimize (mockup)',false)"></span><span class="c2" title="Maximize" onclick="toast('Maximize (mockup)',false)"></span><span class="c3" title="Close" onclick="openInfo('🚪 Close ClutterScope','<div class=info-body>This is a UI mockup, so the window stays open. In the real app this would close ClutterScope.</div>')"></span></div>
+      <div class="brand"><b>ClutterScope</b><span class="wm">— Clutter and File Findability Scoring Tool</span></div>
+      <div class="winbtns" aria-hidden="true"><span class="c1"></span><span class="c2"></span><span class="c3"></span></div>
     </div>
 
     <div class="body">
       <aside class="sidebar">
         <div class="logo-row"><div class="logo">C</div><div><b>ClutterScope</b><small>v1.0 · Windows</small></div></div>
-        <div class="nav-label">Progress</div>
-        <div class="stepper">
-          <div class="step-item current visible" data-step="home"><span class="sdot">1</span><span class="slabel">Home<span class="substep">Choose folders &amp; indicators</span></span></div>
-          <div class="step-item" data-step="scan"><span class="sdot">2</span><span class="slabel">Scanning<span class="substep">Analyzing your files</span></span></div>
-          <div class="step-item" data-step="results"><span class="sdot">3</span><span class="slabel">Results<span class="substep">Score &amp; breakdown</span></span></div>
-          <div class="step-item" data-step="cleanup"><span class="sdot">4</span><span class="slabel">Clean Up<span class="substep">Select &amp; apply actions</span></span></div>
-          <div class="step-item" data-step="report"><span class="sdot">5</span><span class="slabel">Report<span class="substep">Summary &amp; export</span></span></div>
-        </div>
-        <div class="nav-label" style="margin-top:16px">General</div>
-        <div class="nav-item" data-screen="history"><span class="nico">🕘</span> Scan History</div>
-        <div class="nav-item" data-screen="settings"><span class="nico">⚙️</span> Settings</div>
-        <div class="side-foot"><span class="dot-ok"></span> 100% local · nothing leaves this PC</div>
+        <nav aria-label="Main">
+          <div class="nav-label">Workspace</div>
+          <button class="nav-item" data-page="dashboard" title="Dashboard"><span class="nico">🏠</span><span class="nlabel">Dashboard</span></button>
+          <button class="nav-item" data-page="scan" title="Scan"><span class="nico">🔎</span><span class="nlabel">Scan</span></button>
+          <button class="nav-item" data-page="analysis" title="File Analysis"><span class="nico">📊</span><span class="nlabel">File Analysis</span></button>
+          <button class="nav-item" data-page="recs" title="Recommendations"><span class="nico">💡</span><span class="nlabel">Recommendations</span><span class="nbadge" id="nb-recs"></span></button>
+          <button class="nav-item" data-page="clutter" title="Clutter Management"><span class="nico">🧹</span><span class="nlabel">Clutter Management</span><span class="nbadge" id="nb-clutter"></span></button>
+          <button class="nav-item" data-page="history" title="Action History"><span class="nico">🕘</span><span class="nlabel">Action History</span></button>
+          <button class="nav-item" data-page="reports" title="Reports"><span class="nico">📄</span><span class="nlabel">Reports</span></button>
+          <div class="nav-label">System</div>
+          <button class="nav-item" data-page="settings" title="Settings"><span class="nico">⚙️</span><span class="nlabel">Settings</span></button>
+          <button class="nav-item" data-page="testing" id="nav-testing" title="Retrieval Testing" hidden><span class="nico">🧪</span><span class="nlabel">Retrieval Testing</span></button>
+        </nav>
+        <div class="side-foot" title="100% local · metadata only"><span class="dot-ok"></span><span>100% local · metadata only</span></div>
       </aside>
 
       <main class="main">
         <div class="toolbar">
-          <button class="btn ghost sm" id="backBtn" style="display:none;margin-right:2px" onclick="back()">‹ Back</button>
-          <div><h1 id="t-title">New Scan</h1><div class="crumb" id="t-crumb">Step 1 of 5 · Choose folders to analyze</div></div>
-          <div class="right"><button class="btn ghost sm" onclick="showHelp()">❔ Help</button></div>
+          <div style="min-width:0"><h1 id="t-title">Dashboard</h1><div class="crumb" id="t-crumb"></div></div>
+          <div class="right">
+            <button class="btn ghost sm" onclick="showHelp()">❔ Help</button>
+          </div>
         </div>
-
         <div class="scroll" id="scroll">
-
-          <!-- HOME -->
-          <section class="screen active" id="home">
-            <p class="lead">Select one or more folders. ClutterScope reads your files to measure clutter — it never changes anything until you choose an action and confirm it.</p>
-            <div class="section-h">📁 Selected folders</div>
-            <div class="card picker">
-              <div id="folderList">
-                <div class="folder-row"><div class="ic">📂</div><div class="path">C:\Users\Jhan\Documents</div><div class="sz">6,204 files · 8.1 GB</div><div class="x" onclick="removeFolder(this)" title="Remove">✕</div></div>
-                <div class="folder-row"><div class="ic">📂</div><div class="path">C:\Users\Jhan\Downloads</div><div class="sz">6,944 files · 12.3 GB</div><div class="x" onclick="removeFolder(this)" title="Remove">✕</div></div>
-              </div>
-              <div class="add" onclick="addFolder()"><span style="font-size:17px">＋</span> Add another folder…</div>
-            </div>
-            <div class="section-h">🎯 Clutter indicators to check</div>
-            <div class="ind-grid">
-              <div class="ind" data-ind="dup" onclick="toggleInd(this)"><div class="ib b-dup">🗂️</div><div><h4>Duplicate files</h4><p>Identical content (SHA-256)</p></div><div class="sw"></div></div>
-              <div class="ind" data-ind="name" onclick="toggleInd(this)"><div class="ib b-name">🏷️</div><div><h4>Improperly named</h4><p>Deviates from conventions</p></div><div class="sw"></div></div>
-              <div class="ind" data-ind="depth" onclick="toggleInd(this)"><div class="ib b-depth">📐</div><div><h4>Folder depth</h4><p>Nested beyond 5 levels</p></div><div class="sw"></div></div>
-              <div class="ind" data-ind="unused" onclick="toggleInd(this)"><div class="ib b-unused">🕓</div><div><h4>Unused files</h4><p>Untouched 12+ months</p></div><div class="sw"></div></div>
-            </div>
-            <div class="home-foot">
-              <button class="btn ghost" onclick="addFolder()">📁 Browse folder…</button>
-              <div class="spacer"></div>
-              <span style="font-size:12px;color:var(--muted)" id="ready-text">2 folders · 13,148 files ready</span>
-              <button class="btn primary" id="start-btn" onclick="tryStartScan()">▶  Start Scan</button>
-            </div>
-          </section>
-
-          <!-- SCANNING -->
-          <section class="screen" id="scan">
-            <div class="card scan-card">
-              <div class="ring">
-                <svg width="118" height="118" viewBox="0 0 118 118">
-                  <circle cx="59" cy="59" r="49" fill="none" stroke="#e6ecf7" stroke-width="11"/>
-                  <circle id="scan-arc" cx="59" cy="59" r="49" fill="none" stroke="url(#g1)" stroke-width="11" stroke-linecap="round" stroke-dasharray="307.9" stroke-dashoffset="307.9"/>
-                  <defs><linearGradient id="g1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#6366f1"/></linearGradient></defs>
-                </svg>
-                <div class="pct" id="scan-pct">0%</div>
-              </div>
-              <div><h3 id="scan-h">Scanning your file system…</h3><p class="muted">Comparing SHA-256 hashes, checking file names, folder depth (&gt; 5 levels), and last-used dates (&gt; 12 months).</p></div>
-              <div class="stat-row"><div class="stat"><b id="scan-files">0</b><span>Files</span></div><div class="stat"><b id="scan-folders">0</b><span>Folders</span></div><div class="stat"><b id="scan-elapsed">00:00</b><span>Elapsed</span></div><div class="stat"><b id="scan-eta">—</b><span>Est. left</span></div></div>
-              <div class="cur" id="scan-cur">Preparing…</div>
-              <button class="btn ghost" onclick="newScan()">Cancel scan</button>
-            </div>
-          </section>
-
-          <!-- RESULTS -->
-          <section class="screen" id="results">
-            <div class="scope-bar">
-              <span>Scanned <b>2 folders</b> · <b>13,148 files</b> · <b>327 folders</b> in 47 s</span>
-              <span class="chip2">SHA-256 duplicates</span><span class="chip2">Naming</span><span class="chip2">Depth &gt; 5</span><span class="chip2">Unused &gt; 12 mo</span>
-            </div>
-            <div class="dash">
-              <div class="card score-card">
-                <div class="gauge">
-                  <svg width="200" height="200" viewBox="0 0 200 200">
-                    <circle cx="100" cy="100" r="84" fill="none" stroke="#eef1f7" stroke-width="19"/>
-                    <circle id="gauge-arc" cx="100" cy="100" r="84" fill="none" stroke="#f59e0b" stroke-width="19" stroke-linecap="round" stroke-dasharray="527.8" stroke-dashoffset="190"/>
-                  </svg>
-                  <div class="center"><b id="score-num" style="color:#f59e0b">64</b><div class="o100">OUT OF 100</div><div class="delta" id="score-delta"></div></div>
-                </div>
-                <div class="band" id="score-band" style="background:#fef3c7;color:#92400e">⚠ Moderately Organized</div>
-                <div class="recover-box"><span>♻ Recoverable storage</span><b id="recover-num">3.7 GB</b></div>
-                <div class="band-legend">
-                  <span class="lg red">0–40 Highly disorganized</span>
-                  <span class="lg amber">41–74 Moderately</span>
-                  <span class="lg green">75–100 Well organized</span>
-                </div>
-              </div>
-              <div class="issues">
-                <div class="card issue"><div class="badge b-dup">🗂️</div><div class="meta"><h4>Duplicate file sets</h4><p>Identical content found via SHA-256 hash</p></div><div class="count" style="color:var(--bad)"><span id="c-dup">128</span><small>SETS</small></div></div>
-                <div class="card issue"><div class="badge b-name">🏷️</div><div class="meta"><h4>Improperly named files</h4><p>“New file (2)”, “asdf123.docx”, “Untitled”…</p></div><div class="count" style="color:#ea580c"><span id="c-name">341</span><small>FILES</small></div></div>
-                <div class="card issue"><div class="badge b-depth">📐</div><div class="meta"><h4>Deeply nested folders</h4><p>Directory paths exceeding 5 levels</p></div><div class="count" style="color:#4f46e5"><span id="c-depth">19</span><small>FOLDERS</small></div></div>
-                <div class="card issue"><div class="badge b-unused">🕓</div><div class="meta"><h4>Unused files</h4><p>Not accessed or modified in 12+ months</p></div><div class="count" style="color:var(--ok)"><span id="c-unused">906</span><small>FILES</small></div></div>
-                <div class="results-cta"><button class="btn primary" onclick="go('cleanup')">Clean Up Clutter  →</button></div>
-              </div>
-            </div>
-
-          </section>
-
-          <!-- CLEAN UP -->
-          <section class="screen" id="cleanup">
-            <div class="safe-banner">🔒 <span><b>Nothing happens until you confirm.</b> Select items below and choose an action — ClutterScope shows a summary first, sends deletions to the Recycle Bin (reversible), and logs every change.</span></div>
-
-            <!-- Duplicates -->
-            <div class="grp" data-grp="dup">
-              <div class="grp-h"><input type="checkbox" class="grp-all" data-group="dup" title="Select all" onchange="selectGroup(this)"><div class="gi b-dup">🗂️</div><div><h3>Duplicate files</h3><p>Keep one copy, remove the rest</p></div><div class="rec-act">Suggested: Delete duplicates</div></div>
-              <div class="card ilist" data-group="dup">
-                <div class="irow"><input type="checkbox" class="it" data-sz="412"><span class="fic">📄</span><div class="col"><div class="nm">Lecture_Notes.pdf <span style="color:var(--muted);font-weight:400">(2 copies)</span></div><div class="pth">C:\Users\Jhan\Documents\School\…\Lecture_Notes - Copy.pdf</div></div><span class="sz">412 MB</span><span class="tag del">Delete copy</span></div>
-                <div class="irow"><input type="checkbox" class="it" data-sz="88"><span class="fic">🖼️</span><div class="col"><div class="nm">IMG_2381.jpg <span style="color:var(--muted);font-weight:400">(3 copies)</span></div><div class="pth">C:\Users\Jhan\Downloads\IMG_2381 (1).jpg</div></div><span class="sz">88 MB</span><span class="tag del">Delete copy</span></div>
-                <div class="irow"><input type="checkbox" class="it" data-sz="1900"><span class="fic">🎞️</span><div class="col"><div class="nm">project_demo.mp4 <span style="color:var(--muted);font-weight:400">(2 copies)</span></div><div class="pth">C:\Users\Jhan\Downloads\project_demo - Copy.mp4</div></div><span class="sz">1.9 GB</span><span class="tag del">Delete copy</span></div>
-                <div class="irow extra"><input type="checkbox" class="it" data-sz="240"><span class="fic">📄</span><div class="col"><div class="nm">syllabus.pdf <span style="color:var(--muted);font-weight:400">(2 copies)</span></div><div class="pth">C:\Users\Jhan\Documents\syllabus - Copy.pdf</div></div><span class="sz">240 MB</span><span class="tag del">Delete copy</span></div>
-                <div class="irow extra"><input type="checkbox" class="it" data-sz="60"><span class="fic">🖼️</span><div class="col"><div class="nm">logo.png <span style="color:var(--muted);font-weight:400">(4 copies)</span></div><div class="pth">C:\Users\Jhan\Downloads\logo (3).png</div></div><span class="sz">60 MB</span><span class="tag del">Delete copy</span></div>
-              </div>
-              <div class="card grp-foot">Showing <span class="shown">3</span> of 128 duplicate sets · <a onclick="toggleAll(this,'dup')">view all</a></div>
-              <div class="allclear">✓ All clear — no duplicate items left in this group.</div>
-            </div>
-
-            <!-- Improperly named -->
-            <div class="grp" data-grp="name">
-              <div class="grp-h"><input type="checkbox" class="grp-all" data-group="name" title="Select all" onchange="selectGroup(this)"><div class="gi b-name">🏷️</div><div><h3>Improperly named files</h3><p>Apply a clear, consistent name</p></div><div class="rec-act">Suggested: Rename</div></div>
-              <div class="card ilist" data-group="name">
-                <div class="irow"><input type="checkbox" class="it" data-sz="2"><span class="fic">📄</span><div class="col"><div class="nm">asdf123.docx</div><div class="pth">C:\Users\Jhan\Documents\asdf123.docx</div></div><span class="sz">2 MB</span><span class="tag ren">Rename</span></div>
-                <div class="irow"><input type="checkbox" class="it" data-sz="1"><span class="fic">📄</span><div class="col"><div class="nm">New file (2).txt</div><div class="pth">C:\Users\Jhan\Documents\New file (2).txt</div></div><span class="sz">12 KB</span><span class="tag ren">Rename</span></div>
-                <div class="irow"><input type="checkbox" class="it" data-sz="5"><span class="fic">📊</span><div class="col"><div class="nm">Untitled.xlsx</div><div class="pth">C:\Users\Jhan\Downloads\Untitled.xlsx</div></div><span class="sz">5 MB</span><span class="tag ren">Rename</span></div>
-                <div class="irow extra"><input type="checkbox" class="it" data-sz="3"><span class="fic">📄</span><div class="col"><div class="nm">document1.docx</div><div class="pth">C:\Users\Jhan\Documents\document1.docx</div></div><span class="sz">3 MB</span><span class="tag ren">Rename</span></div>
-              </div>
-              <div class="card grp-foot">Showing <span class="shown">3</span> of 341 files · <a onclick="toggleAll(this,'name')">view all</a></div>
-              <div class="allclear">✓ All clear — every flagged name handled.</div>
-            </div>
-
-            <!-- Unused -->
-            <div class="grp" data-grp="unused">
-              <div class="grp-h"><input type="checkbox" class="grp-all" data-group="unused" title="Select all" onchange="selectGroup(this)"><div class="gi b-unused">🕓</div><div><h3>Unused files</h3><p>Move to archive or remove</p></div><div class="rec-act">Suggested: Archive</div></div>
-              <div class="card ilist" data-group="unused">
-                <div class="irow"><input type="checkbox" class="it" data-sz="640"><span class="fic">🗜️</span><div class="col"><div class="nm">old_backup_2022.zip</div><div class="pth">C:\Users\Jhan\Downloads\old_backup_2022.zip · last opened Mar 2023</div></div><span class="sz">640 MB</span><span class="tag arc">Archive</span></div>
-                <div class="irow"><input type="checkbox" class="it" data-sz="120"><span class="fic">📄</span><div class="col"><div class="nm">tax_documents_2021.pdf</div><div class="pth">C:\Users\Jhan\Documents\tax_documents_2021.pdf · last opened Jan 2023</div></div><span class="sz">120 MB</span><span class="tag arc">Archive</span></div>
-                <div class="irow extra"><input type="checkbox" class="it" data-sz="310"><span class="fic">🎞️</span><div class="col"><div class="nm">vacation_2021.mov</div><div class="pth">C:\Users\Jhan\Videos\vacation_2021.mov · last opened Dec 2022</div></div><span class="sz">310 MB</span><span class="tag arc">Archive</span></div>
-              </div>
-              <div class="card grp-foot">Showing <span class="shown">2</span> of 906 files · <a onclick="toggleAll(this,'unused')">view all</a></div>
-              <div class="allclear">✓ All clear — no unused items left in this group.</div>
-            </div>
-
-            <div class="actionbar">
-              <span class="selinfo"><b id="sel-count">0</b> items selected <span id="sel-size" style="color:var(--muted);font-weight:400"></span></span>
-              <button class="btn ghost sm" id="continue-btn" onclick="go('report')" style="margin-left:12px">Continue to Report  →</button>
-              <div class="spacer"></div>
-              <button class="btn ghost sm" id="btn-rename" disabled onclick="confirmAction('rename')">🏷️ Rename</button>
-              <button class="btn ghost sm" id="btn-archive" disabled onclick="confirmAction('archive')">📦 Archive</button>
-              <button class="btn danger sm" id="btn-delete" disabled onclick="confirmAction('delete')">🗑️ Delete to Recycle Bin</button>
-            </div>
-          </section>
-
-          <!-- REPORT -->
-          <section class="screen" id="report">
-            <p class="lead">This is the summary report ClutterScope saves or exports. It combines your scan results with the corrective actions you applied.</p>
-
-            <div class="section-h">📊 Scan summary</div>
-            <div class="card rsum">
-              <div class="rscore" id="rp-score" style="color:#f59e0b">64</div>
-              <div class="rmeta">
-                <h3>Clutter Score <span style="color:var(--muted);font-weight:400;font-size:12px">/ 100</span></h3>
-                <span class="rband" id="rp-band" style="background:#fef3c7;color:#92400e">⚠ Moderately Organized</span>
-                <div style="font-size:11.5px;color:var(--muted);margin-top:8px">2 folders · 13,148 files · scanned Jun 24, 2026</div>
-              </div>
-              <div class="rrec"><b id="rp-recover">3.7 GB</b><span>recoverable</span></div>
-            </div>
-
-            <div class="note" id="rp-status" style="margin-top:2px"></div>
-
-            <div class="section-h">🔍 Detected issues</div>
-            <div class="card" id="rp-issues"></div>
-
-            <div class="section-h" id="rp-recs-h">💡 Recommended actions</div>
-            <div class="card" id="rp-recs"></div>
-
-            <div class="section-h">🧾 Actions performed</div>
-            <div class="card log-card" id="log-card">
-              <div class="empty" id="log-empty">No actions applied yet. Go to <b>Clean Up</b> to act on detected clutter.</div>
-            </div>
-
-            <div class="note"><span style="font-size:18px">🔒</span><span><b>Private &amp; reversible.</b> Every change was explicitly confirmed by you, recorded in this log, and — for deletions — sent to the Windows Recycle Bin so it can be restored.</span></div>
-            <div class="report-foot">
-              <button class="btn ghost" onclick="exportReport('CSV')">⬇ Export CSV</button>
-              <button class="btn ghost" onclick="exportReport('PDF')">⬇ Export PDF</button>
-              <button class="btn primary" onclick="newScan()">＋ New Scan</button>
-            </div>
-          </section>
-
-          <!-- SCAN HISTORY -->
-          <section class="screen" id="history">
-            <p class="lead">Past scans recorded on this computer. Select a scan to review its results, or clear the history.</p>
-            <div class="card" style="overflow:hidden">
-              <table class="tbl">
-                <thead><tr><th>Date</th><th>Folders</th><th>Files</th><th>Score</th><th>Recovered</th><th></th></tr></thead>
-                <tbody id="history-body">
-                  <tr class="hrow" onclick="loadHistory('Jun 24, 2026')"><td>Jun 24, 2026 · 9:14 PM</td><td>2</td><td>13,148</td><td><span class="pill-score" style="background:#fef3c7;color:#92400e">64</span></td><td>3.7 GB</td><td style="color:var(--accent);font-weight:600">Open ›</td></tr>
-                  <tr class="hrow" onclick="loadHistory('Jun 10, 2026')"><td>Jun 10, 2026 · 8:02 AM</td><td>3</td><td>21,004</td><td><span class="pill-score" style="background:#fee2e2;color:#b91c1c">38</span></td><td>9.1 GB</td><td style="color:var(--accent);font-weight:600">Open ›</td></tr>
-                  <tr class="hrow" onclick="loadHistory('May 28, 2026')"><td>May 28, 2026 · 4:47 PM</td><td>1</td><td>5,210</td><td><span class="pill-score" style="background:#dcfce7;color:#15803d">81</span></td><td>0.8 GB</td><td style="color:var(--accent);font-weight:600">Open ›</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div style="text-align:right;margin-top:14px"><button class="btn ghost sm" onclick="clearHistory()">🗑️ Clear history</button></div>
-          </section>
-
-          <!-- SETTINGS -->
-          <section class="screen" id="settings">
-            <p class="lead">Configure ClutterScope’s default behavior. All processing remains local on this computer.</p>
-
-            <div class="set-sec">Default clutter indicators</div>
-            <div class="card">
-              <div class="set-row"><div class="si b-dup">🗂️</div><div><h4>Duplicate files</h4><p>Detect via SHA-256 hash</p></div><div class="spacer"></div><div class="sw2" onclick="toggleSw(this)"></div></div>
-              <div class="set-row"><div class="si b-name">🏷️</div><div><h4>Improperly named files</h4><p>Names deviating from conventions</p></div><div class="spacer"></div><div class="sw2" onclick="toggleSw(this)"></div></div>
-              <div class="set-row"><div class="si b-depth">📐</div><div><h4>Excessive folder depth</h4><p>Nested beyond 5 levels</p></div><div class="spacer"></div><div class="sw2" onclick="toggleSw(this)"></div></div>
-              <div class="set-row"><div class="si b-unused">🕓</div><div><h4>Unused files</h4><p>Untouched for 12+ months</p></div><div class="spacer"></div><div class="sw2" onclick="toggleSw(this)"></div></div>
-            </div>
-
-            <div class="set-sec">Safety</div>
-            <div class="card">
-              <div class="set-row"><div class="si b-unused">♻</div><div style="flex:1"><h4>Deletion method</h4><p>How removed files are handled</p>
-                <div style="margin-top:8px">
-                  <label class="radio-row"><input type="radio" name="del" checked> Send to Windows Recycle Bin <span style="color:var(--ok);font-weight:600">(recommended)</span></label>
-                  <label class="radio-row" style="opacity:.55"><input type="radio" name="del" disabled> Delete permanently <span style="color:var(--muted)">— disabled for safety</span></label>
-                </div>
-              </div></div>
-              <div class="set-row"><div class="si b-name">📝</div><div><h4>Keep an action log</h4><p>Record every corrective action for traceability</p></div><div class="spacer"></div><div class="sw2" onclick="toggleSw(this)"></div></div>
-              <div class="set-row"><div class="si b-depth">✅</div><div><h4>Always confirm before acting</h4><p>Show a confirmation dialog before any change</p></div><div class="spacer"></div><div class="sw2" onclick="toggleSw(this)"></div></div>
-            </div>
-
-            <div class="set-sec">Appearance</div>
-            <div class="card">
-              <div class="set-row"><div class="si b-depth">🎨</div><div><h4>Theme</h4><p>Light or dark interface</p></div><div class="spacer"></div>
-                <div class="seg"><button class="on" onclick="segPick(this)">Light</button><button onclick="segPick(this)">Dark</button></div></div>
-            </div>
-
-            <div class="set-sec">About</div>
-            <div class="card"><div class="set-row"><div class="si b-dup">ℹ️</div><div><h4>ClutterScope v1.0</h4><p>Windows 10 / 11 · Python &amp; PySide6 · 100% local processing · Data Privacy Act (RA 10173) compliant</p></div></div></div>
-            <div style="height:10px"></div>
-          </section>
-
+          <section class="page" id="dashboard"></section>
+          <section class="page" id="scan"></section>
+          <section class="page" id="analysis"></section>
+          <section class="page" id="recs"></section>
+          <section class="page" id="clutter"></section>
+          <section class="page" id="history"></section>
+          <section class="page" id="reports"></section>
+          <section class="page" id="settings"></section>
+          <section class="page" id="testing"></section>
         </div>
       </main>
     </div>
 
-    <!-- confirmation / rename modal -->
-    <div class="overlay" id="overlay">
-      <div class="modal">
-        <div class="mhead">
-          <div class="mi" id="m-icon">🗑️</div>
-          <div><h3 id="m-title">Delete to Recycle Bin?</h3><p id="m-sub">Review the items below. This action only proceeds when you confirm.</p></div>
-        </div>
-        <div class="mbody">
-          <div class="summary" id="m-summary"></div>
-          <div class="reassure" id="m-reassure">♻ <span>These files will be moved to the <b>Windows Recycle Bin</b>, not erased — you can restore them anytime.</span></div>
-        </div>
-        <div class="mfoot">
-          <button class="btn ghost" onclick="closeModal()">Cancel</button>
-          <button class="btn primary" id="m-confirm" onclick="applyAction()">Confirm</button>
-        </div>
+    <div class="overlay" id="dlg">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+        <div class="mhead"><div class="mi" id="dlg-icon">❔</div><div><h3 id="dlg-title"></h3><p id="dlg-sub"></p></div></div>
+        <div class="mbody"><div id="dlg-body"></div><div class="dlg-err" id="dlg-err" hidden></div><div class="reassure" id="dlg-reassure" hidden></div></div>
+        <div class="mfoot"><button class="btn ghost" id="dlg-cancel">Cancel</button><button class="btn primary" id="dlg-ok">OK</button></div>
       </div>
     </div>
-
-    <!-- generic info modal -->
-    <div class="overlay" id="info">
-      <div class="modal">
-        <div class="mhead"><div class="mi b-depth" id="info-icon">❔</div><div><h3 id="info-title">Help</h3></div></div>
-        <div class="mbody"><div id="info-body" class="info-body"></div></div>
-        <div class="mfoot"><button class="btn primary" onclick="closeInfo()">Got it</button></div>
-      </div>
-    </div>
-
-    <!-- toast -->
-    <div class="toast" id="toast"><span id="toast-msg">Done</span><a id="toast-undo" onclick="undo()">Undo</a></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"><span id="toast-msg"></span><button id="toast-undo" onclick="toastUndo()">Undo</button></div>
   </div>
 
 <script>
-  const meta={
-    home:{title:'New Scan',crumb:'Step 1 of 5 · Choose folders to analyze'},
-    scan:{title:'Scanning',crumb:'Step 2 of 5 · Analyzing your file system'},
-    results:{title:'Results Dashboard',crumb:'Step 3 of 5 · Clutter score & breakdown'},
-    cleanup:{title:'Clean Up',crumb:'Step 4 of 5 · Select items & apply actions (with confirmation)'},
-    report:{title:'Report',crumb:'Step 5 of 5 · Summary, action log & export'},
-    history:{title:'Scan History',crumb:'Previously recorded scans on this computer'},
-    settings:{title:'Settings',crumb:'Default behavior & preferences'}
-  };
-  const order=['home','scan','results','cleanup','report'];
-  const navs=document.querySelectorAll('.nav-item[data-screen]');  // General destinations only (History, Settings)
-  let navStack=[], activeFlow='home';
-  function currentScreen(){const a=document.querySelector('.screen.active');return a?a.id:null;}
-  function go(id,isBack){
-    const cur=currentScreen();
-    if(!isBack && cur && cur!==id && cur!=='scan') navStack.push(cur);
-    stopScan();
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    if(order.includes(id)) activeFlow=id;
-    updateStepper();
-    navs.forEach(n=>n.classList.toggle('active',n.dataset.screen===id));
-    document.getElementById('t-title').textContent=meta[id].title;
-    document.getElementById('t-crumb').textContent=meta[id].crumb;
-    document.getElementById('backBtn').style.display=navStack.length?'':'none';
-    document.getElementById('scroll').scrollTop=0;
-    if(id==='scan') beginScan();
-    if(id==='report') renderReport();
-    if(id==='cleanup') updateContinueLabel();
-  }
-  function updateStepper(){
-    const idx=order.indexOf(activeFlow);
-    document.querySelectorAll('.step-item').forEach(si=>{const ni=order.indexOf(si.dataset.step);
-      si.classList.toggle('done',ni<idx);
-      si.classList.toggle('current',ni===idx);
-      si.classList.toggle('visible',ni<=idx);   /* reveal steps only as they are reached */
-    });
-  }
-  function back(){ if(navStack.length) go(navStack.pop(),true); }
-  function newScan(){ resetModel(); navStack=[]; activeFlow='home'; go('home',true); }
-  function renderReport(){
-    const b=document.getElementById('score-band');
-    document.getElementById('rp-score').textContent=score;
-    document.getElementById('rp-score').style.color=document.getElementById('score-num').style.color||'#f59e0b';
-    const rb=document.getElementById('rp-band');
-    rb.textContent=b.textContent; rb.style.background=b.style.background; rb.style.color=b.style.color;
-    document.getElementById('rp-recover').textContent=recover.toFixed(1)+' GB';
-    // acted vs deferred
-    const totalResolved=Object.values(resolved).reduce((a,c)=>a+c,0);
-    const acted=totalResolved>0;
-    const st=document.getElementById('rp-status');
-    if(acted){
-      const gained=baseRecover-recover;
-      st.className='note ok';
-      st.innerHTML='✅ <span>You applied <b>'+totalResolved+'</b> corrective action'+(totalResolved>1?'s':'')+
-        (gained>0.05?(' and freed <b>'+gained.toFixed(1)+' GB</b>'):'')+
-        '. Your clutter score improved from '+baseScore+' to <b>'+score+'</b>.</span>';
-    } else {
-      st.className='note';
-      st.innerHTML='ℹ️ <span>You deferred cleanup — no files were changed. The recommendations below are ready whenever you want to apply them.</span>';
-    }
-    // remaining issues + recommendations
-    const rem={}; CATS.forEach(c=>rem[c.key]=detected[c.key]-resolved[c.key]);
-    let ih=''; CATS.forEach(c=>{ if(rem[c.key]>0) ih+='<div class="bd-row"><div class="bi '+c.bg+'">'+c.icon+'</div><div class="bn" style="width:auto;flex:1"><h4>'+c.label+'</h4><p>'+c.sub+'</p></div><b style="color:'+c.color+'">'+rem[c.key].toLocaleString()+'</b></div>'; });
-    document.getElementById('rp-issues').innerHTML = ih || '<div class="allclear" style="display:flex">🎉 All detected issues have been resolved.</div>';
-    let rh=''; CATS.forEach(c=>{ if(rem[c.key]>0) rh+='<div class="rec-row"><div class="ri '+c.bg+'">'+c.icon+'</div><div><h4>'+c.rec.h+'</h4><p>'+c.rec.p+'</p></div><span class="rp">'+c.rec.pill+'</span></div>'; });
-    document.getElementById('rp-recs').innerHTML = rh || '<div class="allclear" style="display:flex">✓ Nothing left to do — your file system is in great shape.</div>';
-    document.getElementById('rp-recs-h').textContent = acted ? '💡 Remaining recommendations' : '💡 Recommended actions';
-    const le=document.getElementById('log-empty'); if(le) le.style.display = acted ? 'none' : 'block';
-  }
-  navs.forEach(n=>n.addEventListener('click',()=>go(n.dataset.screen)));
-  updateStepper();
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const plural=(n,w)=>n.toLocaleString()+' '+(n===1?w.replace(/s$/,''):w);
 
-  /* ---------- HOME: folders + indicators + validation ---------- */
-  const FOLDER_POOL=[
-    ['C:\\Users\\Jhan\\Pictures','4,120 files · 5.4 GB'],
-    ['C:\\Users\\Jhan\\Desktop','812 files · 2.1 GB'],
-    ['D:\\Projects','9,330 files · 18.7 GB'],
-    ['C:\\Users\\Jhan\\Videos','311 files · 22.5 GB']
+  /* =====================================================================
+     SAMPLE FILE SYSTEM (simulated) — name, folder under C:\Users\Jhan, size MB, months since last use, SHA-256 group
+     ===================================================================== */
+  const ROOT='C:\\Users\\Jhan';
+  const RAW=[
+    ['Capstone_Proposal_ClutterScope_2026.docx','Documents\\School\\Capstone',1.2,1,'A'],
+    ['Capstone_Proposal_ClutterScope_2026 - Copy.docx','Documents\\School\\Capstone',1.2,3,'A'],
+    ['Final.docx','Documents\\School\\Capstone',0.8,2],
+    ['Final (2).docx','Documents\\School\\Capstone',0.8,2],
+    ['Chapter2_Methodology_Draft_v3.docx','Documents\\School\\Capstone',0.6,0],
+    ['Presentation_Defense_Chapter1.pptx','Documents\\School\\Capstone',8.4,1],
+    ['Research_Log_Week5.docx','Documents\\School\\Capstone',0.2,0],
+    ['Report.docx','Documents\\School\\Capstone',0.5,4],
+    ['Untitled.xlsx','Documents\\School\\Capstone\\Data',0.3,5],
+    ['Survey_Responses_ISO25010_2026-06.xlsx','Documents\\School\\Capstone\\Data',0.4,1],
+    ['Lecture_Notes.pdf','Documents\\School\\IT101',41,18,'B'],
+    ['Lecture_Notes.pdf','Documents\\School\\2021\\Sem2\\IT101\\Finals\\Old\\Drafts',41,20,'B'],
+    ['syllabus.pdf','Documents\\School\\IT101',0.24,11,'E'],
+    ['IT101_Midterm_Reviewer.pdf','Documents\\School\\IT101',1.5,17],
+    ['Thesis_old_draft.docx','Documents\\School\\Thesis\\Old',4,22],
+    ['notes.txt','Documents\\School\\Thesis\\Old\\New folder\\New folder (2)',0.01,19],
+    ['asdf123.docx','Documents',2,4],
+    ['New file (2).txt','Documents',0.01,14],
+    ['document1.docx','Documents',3,16],
+    ['Resume_Panado_2026.pdf','Documents\\Personal',0.2,2],
+    ['tax_documents_2021.pdf','Documents\\Personal\\Finance',12,29],
+    ['Budget_2026-Q2.xlsx','Documents\\Personal\\Finance',0.1,1],
+    ['scan0001.pdf','Documents\\Personal\\Finance',2,13],
+    ['IMG_2381.jpg','Downloads',4.4,7,'C'],
+    ['IMG_2381 (1).jpg','Downloads',4.4,7,'C'],
+    ['IMG_2381 (2).jpg','Downloads\\Photos',4.4,7,'C'],
+    ['Group_Photo_Defense.jpg','Downloads\\Photos',3.1,2],
+    ['project_demo.mp4','Downloads',1900,6,'D'],
+    ['project_demo - Copy.mp4','Downloads',1900,6,'D'],
+    ['setup_installer.exe','Downloads',150,18],
+    ['old_backup_2022.zip','Downloads',640,39],
+    ['syllabus.pdf','Downloads',0.24,11,'E'],
+    ['logo.png','Downloads',0.06,3,'F'],
+    ['logo (3).png','Downloads\\Extracted\\setup\\files\\data\\bin\\New folder (3)',0.06,25,'F'],
+    ['Invoice_Lazada_2026-05.pdf','Downloads',0.1,1],
+    ['file.pdf','Downloads',1.1,8],
+    ['final_FINAL_v3 (1).docx','Desktop',1,3],
+    ['Draft_Report.docx','Desktop',0.3,2],
+    ['Screenshot 2026-06-20 101512.png','Desktop',0.9,0],
+    ['Meeting_Notes_Adviser_2026-06-18.docx','Desktop',0.05,0],
+    ['vacation_2021.mov','Desktop\\Stuff',310,30],
+    ['temp.docx','Desktop\\Stuff',0.1,15]
   ];
-  let poolIdx=0;
-  function folderCount(){return document.querySelectorAll('#folderList .folder-row').length;}
-  function addFolder(){
-    if(poolIdx>=FOLDER_POOL.length){ toast('No more sample folders to add',false); return; }
-    const [path,sz]=FOLDER_POOL[poolIdx++];
-    const list=document.getElementById('folderList');
-    const row=document.createElement('div');row.className='folder-row';
-    row.innerHTML='<div class="ic">📂</div><div class="path">'+path+'</div><div class="sz">'+sz+'</div><div class="x" onclick="removeFolder(this)" title="Remove">✕</div>';
-    list.appendChild(row); updateHome(); toast('Folder added',false);
-  }
-  function removeFolder(x){ x.closest('.folder-row').remove(); updateHome(); }
-  function updateHome(){
-    const fc=folderCount();
-    const list=document.getElementById('folderList');
-    let e=list.querySelector('.empty-folders');
-    if(fc===0){ if(!e){e=document.createElement('div');e.className='empty-folders';e.innerHTML='No folders selected. Click <b>Add another folder</b> to choose one.';list.appendChild(e);} }
-    else if(e){ e.remove(); }
-    document.getElementById('ready-text').textContent = fc===0 ? 'No folders selected' : (fc+' folder'+(fc>1?'s':'')+' selected');
-    document.getElementById('start-btn').disabled = fc===0;
-  }
-  function toggleInd(el){ el.classList.toggle('off'); }
-  function indsOn(){return document.querySelectorAll('#home .ind:not(.off)').length;}
-  function tryStartScan(){
-    if(folderCount()===0){ toast('Add at least one folder to scan',false); return; }
-    if(indsOn()===0){ toast('Select at least one clutter indicator',false); return; }
-    go('scan');
+  const SUGGEST={
+    'Final.docx':'Capstone_Final_Manuscript_2026.docx','Final (2).docx':'Capstone_Final_Manuscript_2026_v2.docx',
+    'Untitled.xlsx':'Capstone_Data_Tally_2026-06.xlsx','asdf123.docx':'Report_Draft_2026-06.docx',
+    'New file (2).txt':'Meeting_Notes_2026-06.txt','document1.docx':'Project_Proposal_2026.docx',
+    'scan0001.pdf':'Receipt_Scan_2026-05.pdf','notes.txt':'Thesis_Notes_2025.txt','Thesis_old_draft.docx':'Thesis_Draft_2024_Archived.docx',
+    'Screenshot 2026-06-20 101512.png':'Screenshot_Gantt_Chart_2026-06-20.png','file.pdf':'Enrollment_Form_2026.pdf',
+    'temp.docx':'Temp_Notes_Desktop_2025.docx','final_FINAL_v3 (1).docx':'Capstone_Final_v3.docx','syllabus.pdf':'IT101_Syllabus_2025.pdf',
+    'logo.png':'ClutterScope_Logo.png','Lecture_Notes.pdf':'IT101_Lecture_Notes.pdf','project_demo.mp4':'Capstone_Project_Demo_2026.mp4',
+    'IMG_2381.jpg':'Defense_Photo_2026-06.jpg','Report.docx':'Capstone_Report_2026.docx','Draft_Report.docx':'Draft_Report_Adviser_2026-06.docx'
+  };
+  const CANDIDATES=[
+    {path:ROOT+'\\Documents',root:'Documents'},{path:ROOT+'\\Downloads',root:'Downloads'},{path:ROOT+'\\Desktop',root:'Desktop'},
+    {path:'C:\\Windows',blocked:'System directory — always excluded'},{path:'C:\\Program Files',blocked:'Application directory — always excluded'},
+    {path:ROOT+'\\AppData',blocked:'Hidden application data — always excluded'}
+  ];
+
+  /* placeholder weights and thresholds — subject to adviser review */
+  const FW={d:40,t:20,c:25,p:15};                 // findability (per file)
+  const CW={dup:30,depth:20,unused:25,find:25};   // clutter (per folder)
+  const CONF_MIN=0.60, UNUSED_MONTHS=12, DEPTH_MAX=5;
+
+  const GENERIC=new Set(['new','file','files','folder','document','documents','doc','docx','copy','final','img','image','photo','pic','scan','screenshot','asdf','qwerty','test','temp','tmp','misc','stuff','untitled','old','draft']);
+  const DATE_RE=/(19|20)\d{2}|(^|[^a-z])q[1-4]([^a-z0-9]|$)|(^|[^a-z])v\d+|week\s*_?\d+/;
+  const GENERIC_DIR=/^(new folder( \(\d+\))?|stuff|misc|temp|old)$/i;
+  const baseName=n=>n.replace(/\.[^.]+$/,'');
+  const extOf=n=>(n.match(/\.([^.]+)$/)||[,''])[1].toLowerCase();
+  const tokens=n=>baseName(n).replace(/([a-z])([A-Z])/g,'$1 $2').replace(/([A-Za-z])(\d)/g,'$1 $2').replace(/(\d)([A-Za-z])/g,'$1 $2').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  const meaningful=t=>/^[a-z]{3,}$/.test(t)&&!GENERIC.has(t);
+  const collKey=n=>baseName(n).toLowerCase().replace(/\s*-\s*copy\b/g,'').replace(/\(\d+\)/g,'').replace(/[^a-z0-9]/g,'');
+  const depthOf=dir=>dir.split('\\').length;
+  const rootOf=f=>f.dir.split('\\')[0];
+  const fullPath=f=>ROOT+'\\'+f.dir+'\\'+f.name;
+  const fmtMB=mb=>mb<1?Math.max(1,Math.round(mb*1024))+' KB':mb>=1024?(mb/1024).toFixed(1)+' GB':(mb<10?mb.toFixed(1):Math.round(mb))+' MB';
+  const fmtDate=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const fmtTime=d=>d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  const fmtDT=d=>fmtDate(d)+' · '+fmtTime(d);
+  function lastUsed(f){ const d=new Date(S.date.getTime()); d.setMonth(d.getMonth()-f.u); return d.toLocaleDateString('en-US',{month:'short',year:'numeric'}); }
+
+  /* ================= STATE ================= */
+  const SKEY='clutterscope.settings.v2';
+  function loadSettings(){ const d={theme:'light',researcher:false}; try{ return {...d,...JSON.parse(localStorage.getItem(SKEY)||'{}')}; }catch(e){ return d; } }
+  function saveSettings(){ try{ localStorage.setItem(SKEY,JSON.stringify(settings)); }catch(e){} }
+  let settings=loadSettings();
+  let FS=[];                       // simulated file system — persists across scans; actions change it
+  let S=null;                      // latest scan {id,date,roots}
+  let LOG=[], batchSeq=0;
+  let sugg={};                     // edited rename suggestions by file id
+  let page='dashboard';
+  const ui={afTab:'files',q:'',risk:'all',sort:'score',open:new Set(),cmTab:'dups',sel:new Set(),rpt:'findability',histFilter:'all',recSel:new Set(),showDismissed:false,rptAll:false};
+  let scanState='idle', pendingRoots=['Documents','Downloads','Desktop'];
+
+  function resetFS(){
+    FS=RAW.map((r,i)=>({id:i,name:r[0],dir:r[1],mb:r[2],u:r[3],h:r[4]||null,status:'active',dismissed:false,origName:r[0]}));
+    LOG=[]; sugg={};
   }
 
-  /* ---------- SCANNING animation ---------- */
-  let scanTimer=null, virtualTotal=0;
-  const SCAN_FILES=13148, SCAN_FOLDERS=327, RINGC=307.9;
-  const SAMPLE=['Documents\\Thesis\\old\\draft (3).docx','Downloads\\setup_installer (3) - Copy.exe','Pictures\\2021\\IMG_2381 (1).jpg','Downloads\\old_backup_2022.zip','Documents\\Untitled.xlsx'];
-  function mmss(s){s=Math.max(0,Math.round(s));const m=Math.floor(s/60),x=s%60;return String(m).padStart(2,'0')+':'+String(x).padStart(2,'0');}
-  function beginScan(){
-    stopScan(); virtualTotal=13+Math.floor(Math.random()*8);   // 13–20 s simulated scan
-    const arc=document.getElementById('scan-arc');
-    document.getElementById('scan-h').textContent='Scanning your file system…';
-    document.getElementById('scan-eta').textContent='~'+mmss(virtualTotal);
-    let pct=0;
+  /* ================= SCORING ================= */
+  function inScan(f){ return S&&S.roots.includes(rootOf(f))&&(f.status==='active'||f.status==='kept'); }
+  function scanned(){ return FS.filter(inScan); }
+  let FOLDERS=[];
+  function computeAll(){
+    const act=scanned();
+    const byKey={}, byDir={}, byHash={};
+    act.forEach(f=>{ const k=collKey(f.name); (byKey[k]=byKey[k]||[]).push(f); (byDir[f.dir]=byDir[f.dir]||[]).push(f); if(f.h)(byHash[f.h]=byHash[f.h]||[]).push(f); });
+    act.forEach(f=>{ f.dupCopy=false; f.dupOf=null; f.copies=[]; });
+    Object.values(byHash).forEach(g=>{ if(g.length<2) return;
+      const orig=[...g].sort((a,b)=>depthOf(a.dir)-depthOf(b.dir)||collKey(a.name).length-collKey(b.name).length||a.name.length-b.name.length)[0];
+      g.forEach(f=>{ if(f!==orig){ f.dupCopy=true; f.dupOf=orig; orig.copies.push(f); } }); });
+    act.forEach(f=>{
+      const m=tokens(f.name).filter(meaningful);
+      const d=m.length>=2?1:m.length===1?.5:0;
+      const hasDate=DATE_RE.test(baseName(f.name).toLowerCase());
+      const others=new Set(byDir[f.dir].filter(o=>o!==f).flatMap(o=>tokens(o.name)));
+      const uniq=m.filter(t=>!others.has(t));
+      const t=(hasDate?.5:0)+(uniq.length?.5:0);
+      const col=byKey[collKey(f.name)].filter(o=>o!==f);
+      const c=col.length===0?1:col.length===1?.5:0;
+      const dep=depthOf(f.dir), gdir=f.dir.split('\\').some(s=>GENERIC_DIR.test(s));
+      let p=dep<=3?1:dep<=DEPTH_MAX?.6:.2; if(gdir) p=Math.max(0,+(p-.3).toFixed(2));
+      f.comp={d,t,c,p,m,hasDate,uniq,col,dep,gdir};
+      f.score=Math.round(FW.d*d+FW.t*t+FW.c*c+FW.p*p);
+      f.risk=f.score>=70?'F':f.score>=45?'U':'L';
+      const dist=Math.min(Math.abs(f.score-70),Math.abs(f.score-45));
+      f.conf=Math.min(.97,.55+dist/40);
+      f.unused=f.u>=UNUSED_MONTHS; f.deep=dep>DEPTH_MAX; f.naming=d<1||c<1;
+      f.ind=[];
+      if(f.dupCopy) f.ind.push(['Duplicate copy',1]);
+      if(f.unused) f.ind.push(['Unused '+f.u+' mo',1]);
+      if(f.deep) f.ind.push(['Deep path ('+dep+' levels)',1]);
+      if(d<1) f.ind.push([d===0?'Generic name':'Few descriptive words',0]);
+      if(t===0) f.ind.push(['No distinguishing terms',0]);
+      if(c<1) f.ind.push(['Similar name ×'+col.length,0]);
+    });
+    act.forEach(f=>f.rec=mapAction(f));
+    FOLDERS=Object.keys(byDir).map(dir=>{
+      const fs=byDir[dir], n=fs.length, dep=depthOf(dir);
+      const dup=fs.filter(f=>f.dupCopy).length, un=fs.filter(f=>f.unused).length;
+      const avgF=fs.reduce((a,f)=>a+f.score,0)/n;
+      const sev={dup:Math.min(1,dup/n/.3),depth:dep>DEPTH_MAX?1:dep>=4?.4:0,unused:Math.min(1,un/n/.5),find:(100-avgF)/100};
+      const clutter=Math.round(CW.dup*sev.dup+CW.depth*sev.depth+CW.unused*sev.unused+CW.find*sev.find);
+      return {dir,files:fs,n,dep,dup,un,avgF,sev,clutter};
+    }).sort((a,b)=>b.clutter-a.clutter);
+    updateBadges();
+  }
+  // deterministic action mapping (R1–R5)
+  function mapAction(f){
+    if(f.status==='kept') return {a:null,rule:'—',why:'Kept by user'};
+    if(f.dupCopy) return {a:'delete',rule:'R1',why:'Identical content to '+f.dupOf.name+' (SHA-256 match) — keep the original'};
+    if(f.conf<CONF_MIN) return {a:'keep',rule:'R2',why:'Prediction confidence '+Math.round(f.conf*100)+'% is below '+CONF_MIN*100+'% — no action by default'};
+    if(f.risk!=='F'&&f.naming) return {a:'rename',rule:'R3',why:'Predicted '+RISK[f.risk].label+'; '+namingIssue(f)};
+    if(f.unused) return {a:'archive',rule:'R4',why:'Not opened or modified for '+f.u+' months (≥ '+UNUSED_MONTHS+')'};
+    return {a:'keep',rule:'R5',why:f.ind.length?'Findable despite minor indicators':'No issues detected'};
+  }
+  function namingIssue(f){ const c=f.comp, p=[];
+    if(c.d===0) p.push('no descriptive words'); else if(c.d<1) p.push('only one descriptive word');
+    if(c.c<1) p.push(c.col.length+' similar filename'+(c.col.length>1?'s':'')); return p.join(', ')||'weak filename'; }
+  const RISK={F:{label:'Findable',cls:'good',color:'#16a34a'},U:{label:'Uncertain',cls:'fair',color:'#f59e0b'},L:{label:'Likely Lost',cls:'poor',color:'#ef4444'}};
+  const fBand=s=>s>=70?'good':s>=45?'fair':'poor';
+  const fColor=s=>s>=70?'#16a34a':s>=45?'#f59e0b':'#ef4444';
+  const cBand=s=>s<=30?{cls:'good',label:'Low'}:s<=60?{cls:'fair',label:'Moderate'}:{cls:'poor',label:'High'};
+  const cColor=s=>s<=30?'#16a34a':s<=60?'#f59e0b':'#ef4444';
+  const riskPill=f=>'<span class="pill risk '+RISK[f.risk].cls+'"><span class="dot"></span>'+RISK[f.risk].label+'</span><span class="conf">'+Math.round(f.conf*100)+'%</span>';
+  const scorePill=s=>'<span class="score" style="color:'+fColor(s)+'">'+s+'<span class="mini"><i style="width:'+s+'%;background:'+fColor(s)+'"></i></span></span>';
+  const clutterPill=s=>'<span class="pill '+cBand(s).cls+'">'+s+' · '+cBand(s).label+'</span>';
+  const ACT={rename:{icon:'🏷️',label:'Rename',verb:'Renamed'},archive:{icon:'📦',label:'Archive',verb:'Archived'},delete:{icon:'🗑️',label:'Delete',verb:'Deleted'},keep:{icon:'✋',label:'Keep',verb:'Kept'}};
+  const actTag=a=>a?'<span class="tag '+a+'">'+ACT[a].icon+' '+ACT[a].label+'</span>':'<span class="muted">—</span>';
+  const indChips=f=>f.ind.length?f.ind.map(i=>'<span class="chip'+(i[1]?' bad':'')+'">'+i[0]+'</span>').join(''):'<span class="muted" style="font-size:11.5px">None</span>';
+  const shortDir=dir=>{const p=dir.split('\\'); return p.length>4?p[0]+'\\…\\'+p.slice(-2).join('\\'):dir;};
+
+  function stats(){
+    const act=scanned(), n=act.length;
+    const risk={F:0,U:0,L:0}; act.forEach(f=>risk[f.risk]++);
+    const recs=act.filter(f=>f.rec.a&&!f.dismissed);
+    const cnt=a=>recs.filter(f=>f.rec.a===a&&(a!=='keep'||f.rec.rule==='R2')).length;   // "keep" counts only low-confidence reviews
+    const dupCopies=act.filter(f=>f.dupCopy), unused=act.filter(f=>f.unused);
+    return {act,n,risk,recs,rename:cnt('rename'),archive:cnt('archive'),delete:cnt('delete'),keep:cnt('keep'),
+      actionable:cnt('rename')+cnt('archive')+cnt('delete'),dupCopies,dupMB:dupCopies.reduce((a,f)=>a+f.mb,0),unused,
+      avgF:n?act.reduce((a,f)=>a+f.score,0)/n:0,clutter:n?FOLDERS.reduce((a,fo)=>a+fo.clutter*fo.n,0)/n:0,
+      totalMB:act.reduce((a,f)=>a+f.mb,0),folders:FOLDERS.length,deep:FOLDERS.filter(fo=>fo.dep>DEPTH_MAX).length};
+  }
+  function updateBadges(){ const st=stats(); $('nb-recs').textContent=(st.actionable+st.keep)||''; $('nb-clutter').textContent=(st.dupCopies.length+st.unused.length)||''; }
+
+  /* ================= NAVIGATION ================= */
+  const META={
+    dashboard:['Dashboard','Summary of your latest scan'],
+    scan:['Scan','Select folders and analyze file metadata'],
+    analysis:['File Analysis','Findability score, retrieval risk and indicators per file and folder'],
+    recs:['Recommendations','Suggested corrective actions — nothing changes until you confirm'],
+    clutter:['Clutter Management','Duplicate and unused files'],
+    history:['Action History','Every confirmed action, with undo'],
+    reports:['Reports','Findability, retrieval-risk, clutter and action reports · CSV / PDF'],
+    settings:['Settings','Preferences, detection rules and safety'],
+    testing:['Retrieval Testing','Researcher only · collect ground-truth retrieval outcomes']
+  };
+  function go(p){
+    if(p==='testing'&&!settings.researcher) p='settings';
+    page=p;
+    document.querySelectorAll('.page').forEach(s=>s.classList.toggle('active',s.id===p));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.page===p));
+    $('t-title').textContent=META[p][0]; $('t-crumb').textContent=META[p][1];
+    $('scroll').scrollTop=0;
+    render();
+  }
+  function render(){ ({dashboard:renderDashboard,scan:renderScan,analysis:renderAnalysis,recs:renderRecs,clutter:renderClutter,
+    history:renderHistory,reports:renderReports,settings:renderSettings,testing:renderTesting})[page](); }
+  document.querySelectorAll('.nav-item').forEach(n=>n.addEventListener('click',()=>go(n.dataset.page)));
+
+  /* ================= DASHBOARD ================= */
+  const kpi=(ic,l,v,s,to,color)=>'<div class="card kpi"><div class="kl">'+ic+' '+l+'</div><div class="kv"'+(color?' style="color:'+color+'"':'')+'>'+v+'</div><div class="ks">'+s+'</div></div>';
+  function renderDashboard(){
+    const st=stats(), P=$('dashboard');
+    const riskRow=k=>{const r=RISK[k], c=st.risk[k];
+      return '<div class="legend-row"><span class="sw" style="background:'+r.color+'"></span>'+r.label+'<span class="muted" style="font-size:11.5px">'+
+        ({F:'score ≥ 70',U:'score 45–69',L:'score below 45'})[k]+'</span><b>'+c+' <span class="muted" style="font-weight:600">('+(st.n?Math.round(c/st.n*100):0)+'%)</span></b></div>';};
+    const worst=[...st.act].sort((a,b)=>a.score-b.score).slice(0,5);
+    const bandLabel={good:'Good',fair:'Fair',poor:'Poor'}[fBand(st.avgF)];
+    P.innerHTML=
+      '<div class="hello"><div><h2>Welcome back 👋</h2><p>Last scan '+fmtDT(S.date)+' · '+S.roots.map(r=>ROOT+'\\'+r).join(', ')+'</p></div>'+
+      '</div>'+
+      '<div class="kpis">'+
+        kpi('📁','Files scanned',st.n,plural(st.folders,'folders')+' · '+fmtMB(st.totalMB),'analysis')+
+        kpi('🎯','Avg findability',Math.round(st.avgF)+'<span style="font-size:13px;color:var(--muted)"> /100</span>','<span class="pill '+fBand(st.avgF)+'">'+bandLabel+'</span>','analysis',fColor(st.avgF))+
+        kpi('⚠️','At-risk files',st.risk.U+st.risk.L,st.risk.L+' likely lost · '+st.risk.U+' uncertain','analysis','#ef4444')+
+        kpi('🗂️','Duplicate files',st.dupCopies.length,fmtMB(st.dupMB)+' recoverable','clutter')+
+        kpi('🕓','Unused files',st.unused.length,'untouched ≥ '+UNUSED_MONTHS+' months','clutter')+
+        kpi('💡','Recommended actions',st.actionable,st.rename+' rename · '+st.archive+' archive · '+st.delete+' delete','recs','var(--accent)')+
+      '</div>'+
+      '<div class="grid2">'+
+        '<div class="card"><div class="card-h">Retrieval risk distribution<span class="aside">ML prediction</span></div>'+
+          '<div class="stack">'+['F','U','L'].map(k=>'<i style="width:'+(st.n?st.risk[k]/st.n*100:0)+'%;background:'+RISK[k].color+'" title="'+RISK[k].label+'"></i>').join('')+'</div>'+
+          riskRow('F')+riskRow('U')+riskRow('L')+'</div>'+
+        '<div class="card"><div class="card-h">Most cluttered folders<span class="aside">higher = more cluttered</span></div>'+
+          FOLDERS.slice(0,5).map(fo=>'<div class="mini-row"><div class="nm"><div class="mono" style="font-size:12px" title="'+esc(ROOT+'\\'+fo.dir)+'">'+esc(shortDir(fo.dir))+'</div><small>'+plural(fo.n,'files')+' · depth '+fo.dep+'</small></div>'+
+            '<div class="bar" style="max-width:110px"><i style="width:'+fo.clutter+'%;background:'+cColor(fo.clutter)+'"></i></div>'+clutterPill(fo.clutter)+'</div>').join('')+
+          '<div class="card-foot"><button class="link" onclick="ui.afTab=\'folders\';go(\'analysis\')">View all folders →</button></div></div>'+
+      '</div>'+
+      '<div class="grid2">'+
+        '<div class="card"><div class="card-h">Files most at risk</div>'+
+          worst.map(f=>'<div class="mini-row"><div class="nm"><div>'+esc(f.name)+'</div><small>'+esc(shortDir(f.dir))+'</small></div>'+scorePill(f.score)+'<span style="white-space:nowrap">'+riskPill(f)+'</span></div>').join('')+
+          '<div class="card-foot"><button class="link" onclick="ui.risk=\'L\';ui.afTab=\'files\';go(\'analysis\')">View likely-lost files →</button></div></div>'+
+        '<div class="card"><div class="card-h">Recommended actions</div>'+
+          [['rename','Rename unclear filenames','recs'],['delete','Delete duplicate copies (to Recycle Bin)','dups'],['archive','Archive unused files','unused'],['keep','Keep — low confidence or no change needed','recs']].map(r=>
+            '<div class="mini-row">'+actTag(r[0])+'<div class="nm"><div>'+r[1]+'</div></div><b>'+st[r[0]]+'</b></div>').join('')+
+          '<div class="card-foot">Mapped from predicted risk and detected indicators by fixed rules (R1–R5).</div></div>'+
+      '</div>';
+  }
+
+  /* ================= SCAN ================= */
+  let scanTimer=null;
+  const STEPS=['Scan files & extract metadata','Exclude system and application directories','Detect clutter indicators','Compute findability and clutter scores','Predict retrieval risk (ML classifier)','Generate recommended actions'];
+  function rootFiles(r){ return FS.filter(f=>rootOf(f)===r&&(f.status==='active'||f.status==='kept')); }
+  function renderScan(){
+    const P=$('scan');
+    if(scanState==='running'){ P.innerHTML=
+      '<div class="card progress-card"><div class="ring"><svg width="128" height="128" viewBox="0 0 128 128" aria-hidden="true"><circle class="track" cx="64" cy="64" r="53" fill="none" stroke-width="12"/>'+
+      '<circle id="scan-arc" cx="64" cy="64" r="53" fill="none" stroke="url(#g1)" stroke-width="12" stroke-linecap="round" stroke-dasharray="333" stroke-dashoffset="333"/>'+
+      '<defs><linearGradient id="g1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#6366f1"/></linearGradient></defs></svg><div class="pct" id="scan-pct">0%</div></div>'+
+      '<div style="min-width:0"><h3 style="margin:0 0 10px;font-size:17px">Scanning '+plural(pendingRoots.length,'folders')+'…</h3><ol class="steps" id="scan-steps">'+
+      STEPS.map((s,i)=>'<li><span class="sd">'+(i+1)+'</span>'+s+'</li>').join('')+'</ol>'+
+      '<div class="stat-row"><div class="stat"><b id="sc-files">0</b><span>Files</span></div><div class="stat"><b id="sc-dirs">0</b><span>Folders</span></div><div class="stat"><b id="sc-ex">0</b><span>Excluded</span></div><div class="stat"><b id="sc-time">00:00</b><span>Elapsed</span></div></div>'+
+      '<div class="cur" id="sc-cur">Preparing…</div><div style="margin-top:12px"><button class="btn ghost sm" onclick="cancelScan()">Cancel scan</button></div></div></div>';
+      return; }
+    const st=stats();
+    P.innerHTML=(scanState==='done'?
+      '<div class="card done-card"><span class="big">✅</span><div><h3>Scan complete</h3><p>'+plural(st.n,'files')+' in '+plural(st.folders,'folders')+' · average findability <b style="color:'+fColor(st.avgF)+'">'+Math.round(st.avgF)+'</b> · '+
+      (st.risk.U+st.risk.L)+' at-risk files · '+st.actionable+' recommended actions</p></div></div>':'')+
+      '<div class="scan-grid"><div class="card"><div class="card-h">📁 Folders to scan<span class="aside">'+plural(pendingRoots.length,'folders')+' selected</span></div>'+
+        (pendingRoots.length?pendingRoots.map(r=>{const fs=rootFiles(r); return '<div class="folder-row"><div class="ic">📂</div><div class="path">'+esc(ROOT+'\\'+r)+'</div><div class="sz">'+plural(fs.length,'files')+' · '+fmtMB(fs.reduce((a,f)=>a+f.mb,0))+'</div><button class="x" onclick="removeRoot(\''+r+'\')" aria-label="Remove '+r+'" title="Remove">✕</button></div>';}).join('')
+          :'<div class="empty" style="border-top:1px solid var(--line)">No folders selected. Add at least one folder to scan.</div>')+
+        '<button class="add" onclick="openPicker()">＋ Add folder…</button>'+
+        '<div class="card-foot"><span>Reads file metadata only — contents are never opened</span><span class="spacer"></span><button class="btn primary" '+(pendingRoots.length?'':'disabled')+' onclick="startScan()">▶ Start scan</button></div></div>'+
+      '<div class="card"><div class="card-h">🛡️ Rule-based exclusions</div><ul class="rules">'+
+        '<li>System directories (e.g. <span class="mono">C:\\Windows</span>)</li><li>Application directories (<span class="mono">Program Files</span>, <span class="mono">AppData</span>)</li>'+
+        '<li>Files with hidden or system attributes</li><li>Folders without read permission are skipped and logged</li></ul>'+
+        '<div class="card-h" style="padding-top:2px">🔍 Indicators detected</div><ul class="rules">'+
+        '<li>Duplicate files — identical SHA-256 content hash</li><li>Unused files — not used for ≥ '+UNUSED_MONTHS+' months</li>'+
+        '<li>Folder depth — nested beyond '+DEPTH_MAX+' levels</li><li>Naming issues — generic names, no distinguishing terms, name collisions</li></ul></div></div>';
+  }
+  function removeRoot(r){ pendingRoots=pendingRoots.filter(x=>x!==r); scanState='idle'; renderScan(); }
+  function openPicker(){
+    openDialog({icon:'📁',title:'Add a folder to scan',sub:'System and application folders are excluded automatically.',cancel:false,ok:'Done',
+      body:CANDIDATES.map((c,i)=>{ const added=c.root&&pendingRoots.includes(c.root);
+        return '<button class="pick-row'+(c.blocked?' blocked':'')+'" data-pick="'+i+'"'+(added?' disabled':'')+'><span>'+(c.blocked?'🚫':'📂')+'</span><span class="pp">'+esc(c.path)+
+          '<small>'+(c.blocked?c.blocked:added?'Already added':plural(rootFiles(c.root).length,'files'))+'</small></span>'+(added?'<span class="pill good">Added</span>':'')+'</button>';}).join('')+
+        '<div class="dlg-err" id="pick-warn" hidden></div>'});
+    $('dlg-body').onclick=e=>{ const b=e.target.closest('[data-pick]'); if(!b||b.disabled) return; const c=CANDIDATES[+b.dataset.pick];
+      if(c.blocked){ const w=$('pick-warn'); w.hidden=false; w.textContent='⚠ '+c.path+' cannot be scanned: '+c.blocked.toLowerCase()+'.'; return; }
+      pendingRoots.push(c.root); scanState='idle'; closeDialog(); renderScan(); toast('Added '+c.path); };
+  }
+  function startScan(){
+    if(!pendingRoots.length) return;
+    scanState='running'; renderScan();
+    const target={id:'s'+Date.now(),date:new Date(),roots:[...pendingRoots]};
+    const files=FS.filter(f=>target.roots.includes(rootOf(f))&&(f.status==='active'||f.status==='kept'));
+    const dirs=new Set(files.map(f=>f.dir)).size;
+    let pct=0, tick=0;
     scanTimer=setInterval(()=>{
-      pct+=Math.max(1,Math.round((100-pct)*0.06));
-      if(pct>=100)pct=100;
-      const vEl=virtualTotal*pct/100, vLeft=virtualTotal-vEl;
-      document.getElementById('scan-pct').textContent=pct+'%';
-      arc.setAttribute('stroke-dashoffset', (RINGC*(1-pct/100)).toFixed(1));
-      document.getElementById('scan-files').textContent=Math.round(SCAN_FILES*pct/100).toLocaleString();
-      document.getElementById('scan-folders').textContent=Math.round(SCAN_FOLDERS*pct/100).toLocaleString();
-      document.getElementById('scan-elapsed').textContent=mmss(vEl);
-      document.getElementById('scan-eta').textContent=pct>=100?'00:00':'~'+mmss(vLeft);
-      document.getElementById('scan-cur').textContent='Reading → C:\\Users\\Jhan\\'+SAMPLE[Math.floor(Math.random()*SAMPLE.length)];
-      if(pct>=100){
-        clearInterval(scanTimer);scanTimer=null;
-        document.getElementById('scan-h').textContent='Scan complete ✓';
-        document.getElementById('scan-cur').textContent='Done — opening results…';
-        setTimeout(()=>{ if(document.getElementById('scan').classList.contains('active')) go('results'); },700);
+      tick++; pct=Math.min(100,pct+Math.max(2,Math.round((100-pct)*0.09)));
+      if($('scan-pct')){
+        $('scan-pct').textContent=pct+'%'; $('scan-arc').setAttribute('stroke-dashoffset',(333*(1-pct/100)).toFixed(1));
+        $('sc-files').textContent=Math.round(files.length*pct/100); $('sc-dirs').textContent=Math.round(dirs*pct/100);
+        $('sc-ex').textContent=Math.round(3*pct/100); $('sc-time').textContent='00:'+String(Math.floor(tick*0.18)).padStart(2,'0');
+        const f=files[Math.min(files.length-1,Math.floor(files.length*pct/100))]; if(f) $('sc-cur').textContent='Reading metadata → '+fullPath(f);
+        const now=Math.min(STEPS.length-1,Math.floor(pct/100*STEPS.length));
+        document.querySelectorAll('#scan-steps li').forEach((li,i)=>{ li.className=pct>=100||i<now?'done':i===now?'now':''; });
       }
+      if(pct>=100){ clearInterval(scanTimer); scanTimer=null; if($('sc-cur')) $('sc-cur').textContent='Done — '+files.length+' files scored';
+        setTimeout(()=>{ S=target; computeAll(); scanState='done';
+          if(page!=='scan') return;
+          // continue to the next step: review the scored files
+          ui.afTab='files'; ui.risk='all'; ui.q=''; ui.sort='score'; ui.open.clear();
+          const st=stats(); go('analysis');
+          toast('Scan complete · '+plural(st.n,'files')+' scored · '+(st.risk.U+st.risk.L)+' at risk');
+        },700); }
     },90);
   }
-  function stopScan(){ if(scanTimer){clearInterval(scanTimer);scanTimer=null;} }
+  function cancelScan(){ clearInterval(scanTimer); scanTimer=null; scanState='idle'; renderScan(); toast('Scan cancelled — previous results kept'); }
 
-  /* ---------- CLEAN UP: selection ---------- */
-  const checks=()=>[...document.querySelectorAll('#cleanup .it')];
-  function selectableIn(group){return [...document.querySelectorAll('.ilist[data-group="'+group+'"] .it')].filter(c=>!c.closest('.irow').classList.contains('cleaned')&&!c.closest('.irow').classList.contains('renamed'));}
-  function refreshSel(){
-    const sel=checks().filter(c=>c.checked&&!c.closest('.irow').classList.contains('cleaned'));
-    const n=sel.length;
-    const mb=sel.reduce((a,c)=>a+(+c.dataset.sz||0),0);
-    document.getElementById('sel-count').textContent=n;
-    document.getElementById('sel-size').textContent=n?('· '+fmt(mb)):'';
-    ['btn-rename','btn-archive','btn-delete'].forEach(id=>document.getElementById(id).disabled=!n);
-  }
-  function fmt(mb){return mb>=1024?(mb/1024).toFixed(1)+' GB':mb+' MB';}
-  document.addEventListener('change',e=>{ if(e.target.classList.contains('it')) refreshSel(); });
-  function selectGroup(box){
-    selectableIn(box.dataset.group).forEach(c=>{c.checked=box.checked;});
-    refreshSel();
-  }
-  function toggleAll(link,group){
-    const list=document.querySelector('.ilist[data-group="'+group+'"]');
-    const grp=link.closest('.grp');
-    list.classList.toggle('show-extra');
-    const on=list.classList.contains('show-extra');
-    link.textContent=on?'show less':'view all';
-    grp.querySelector('.shown').textContent = on ? list.querySelectorAll('.irow').length : (list.querySelectorAll('.irow:not(.extra)').length);
-  }
-
-  /* ---------- clutter model, categories & smart rename suggestions ---------- */
-  const detected={dup:128,name:341,depth:19,unused:906};
-  let resolved={dup:0,name:0,depth:0,unused:0};
-  let score=64, recover=3.7; const baseScore=64, baseRecover=3.7;
-  const TODAY='2026-06-27';
-  const RENAME_SUGGEST={
-    'asdf123.docx':'Report_Draft_2026-06.docx',
-    'New file (2).txt':'Meeting_Notes_2026-06.txt',
-    'Untitled.xlsx':'Budget_2026-Q2.xlsx',
-    'document1.docx':'Project_Proposal_2026.docx'
-  };
-  const TYPEWORD={docx:'Document',doc:'Document',pdf:'Document',rtf:'Document',txt:'Notes',
-    xlsx:'Spreadsheet',xls:'Spreadsheet',csv:'Data',pptx:'Presentation',ppt:'Presentation',
-    jpg:'Image',jpeg:'Image',png:'Image',gif:'Image',mp4:'Video',mov:'Video',avi:'Video',
-    zip:'Archive',rar:'Archive',mp3:'Audio'};
-  function suggestName(old){
-    if(RENAME_SUGGEST[old]) return RENAME_SUGGEST[old];
-    const dot=old.lastIndexOf('.'); const ext=dot>=0?old.slice(dot+1).toLowerCase():'';
-    return (TYPEWORD[ext]||'File')+'_'+TODAY+(ext?('.'+ext):'');   // clean Type_Date name
-  }
-  const CATS=[
-    {key:'dup',icon:'🗂️',bg:'b-dup',color:'var(--bad)',label:'Duplicate file sets',sub:'Identical content (SHA-256)',
-       rec:{h:'Remove duplicate copies',p:'Keep one copy of each set and delete the redundant versions.',pill:'≈ 2.4 GB'}},
-    {key:'name',icon:'🏷️',bg:'b-name',color:'#ea580c',label:'Improperly named files',sub:'Deviate from naming conventions',
-       rec:{h:'Rename improperly named files',p:'Apply a consistent convention such as <i>Subject_Topic_Date</i>.',pill:'Naming'}},
-    {key:'depth',icon:'📐',bg:'b-depth',color:'#4f46e5',label:'Deeply nested folders',sub:'Beyond 5 levels',
-       rec:{h:'Flatten deeply nested folders',p:'Consolidate directories nested beyond 5 levels.',pill:'Structure'}},
-    {key:'unused',icon:'🕓',bg:'b-unused',color:'var(--ok)',label:'Unused files',sub:'Untouched 12+ months',
-       rec:{h:'Archive or remove unused files',p:'Move rarely used files to an archive or the Recycle Bin.',pill:'≈ 1.3 GB'}}
-  ];
-
-  /* ---------- actions + confirm/rename modal ---------- */
-  let pendingAction=null, pendingRows=[];
-  const A={
-    delete:{icon:'🗑️',bg:'b-dup',title:'Delete to Recycle Bin?',confirm:'Delete to Recycle Bin',
-            reassure:'♻ <span>These files will be moved to the <b>Windows Recycle Bin</b>, not erased — you can restore them anytime.</span>',log:'🗑️',verb:'Deleted'},
-    archive:{icon:'📦',bg:'b-unused',title:'Move to archive folder?',confirm:'Archive',
-            reassure:'📦 <span>Files are moved to <b>C:\\Users\\Jhan\\ClutterScope Archive</b>. Nothing is deleted.</span>',log:'📦',verb:'Archived'},
-    rename:{icon:'🏷️',bg:'b-name',title:'Rename selected files?',confirm:'Rename',
-            reassure:'✏ <span>Review the suggested names below (edit if you like). Names follow a clear <b>Type_Date</b> convention; file contents are unchanged.</span>',log:'🏷️',verb:'Renamed'}
-  };
-  function rawName(r){ return r.querySelector('.nm').childNodes[0].textContent.trim(); }
-  function confirmAction(type){
-    const sel=checks().filter(c=>c.checked&&!c.closest('.irow').classList.contains('cleaned'));
-    if(!sel.length)return;
-    pendingAction=type; pendingRows=sel.map(c=>c.closest('.irow'));
-    const a=A[type];
-    document.getElementById('m-icon').textContent=a.icon;
-    document.getElementById('m-icon').className='mi '+a.bg;
-    document.getElementById('m-title').textContent=a.title;
-    document.getElementById('m-sub').textContent = type==='rename' ? 'Confirm or edit the new file names. Nothing changes until you click Rename.' : 'Review the items below. This action only proceeds when you confirm.';
-    document.getElementById('m-confirm').textContent=a.confirm;
-    document.getElementById('m-reassure').innerHTML=a.reassure;
-    let html='';
-    if(type==='rename'){
-      pendingRows.forEach((r,i)=>{const nm=rawName(r);const sug=suggestName(nm);
-        html+='<div class="ren-row"><div class="ren-old">'+nm+' →</div><input class="ren-input" data-i="'+i+'" value="'+sug+'"></div>';});
+  /* ================= FILE ANALYSIS ================= */
+  function renderAnalysis(){
+    const P=$('analysis'), st=stats();
+    let html='<div class="tools"><div class="seg" role="group"><button aria-pressed="'+(ui.afTab==='files')+'" onclick="ui.afTab=\'files\';renderAnalysis()">📄 Files<span class="n">'+st.n+'</span></button>'+
+      '<button aria-pressed="'+(ui.afTab==='folders')+'" onclick="ui.afTab=\'folders\';renderAnalysis()">📁 Folders<span class="n">'+st.folders+'</span></button></div>';
+    if(ui.afTab==='files'){
+      html+='<label class="search"><span aria-hidden="true">🔍</span><input id="af-q" type="search" placeholder="Search name or path…" value="'+esc(ui.q)+'"></label>'+
+        '<div class="seg" role="group" aria-label="Risk filter">'+[['all','All',st.n],['F','Findable',st.risk.F],['U','Uncertain',st.risk.U],['L','Likely Lost',st.risk.L]].map(r=>
+          '<button aria-pressed="'+(ui.risk===r[0])+'" onclick="ui.risk=\''+r[0]+'\';renderAnalysis()">'+r[1]+'<span class="n">'+r[2]+'</span></button>').join('')+'</div>'+
+        '<select class="select" id="af-sort" aria-label="Sort"><option value="score">Lowest score first</option><option value="score-d">Highest score first</option><option value="name">Name A–Z</option><option value="conf">Lowest confidence</option></select></div>';
+      const rows=st.act.filter(f=>(ui.risk==='all'||f.risk===ui.risk)&&(!ui.q||(f.name+' '+f.dir).toLowerCase().includes(ui.q.toLowerCase())));
+      rows.sort(ui.sort==='name'?(a,b)=>a.name.localeCompare(b.name):ui.sort==='score-d'?(a,b)=>b.score-a.score:ui.sort==='conf'?(a,b)=>a.conf-b.conf:(a,b)=>a.score-b.score);
+      html+='<div class="card tbl-wrap"><table class="tbl"><thead><tr><th></th><th>File</th><th>Findability</th><th>Retrieval risk</th><th>Indicators</th><th>Recommended</th></tr></thead><tbody>'+
+        (rows.length?rows.map(f=>{const o=ui.open.has('f'+f.id);
+          return '<tr class="row'+(o?' open':'')+'" data-open="f'+f.id+'" tabindex="0"><td class="caret">'+(o?'▾':'▸')+'</td><td><div class="fname" title="'+esc(f.name)+'">'+esc(f.name)+'</div><div class="fpath" title="'+esc(ROOT+'\\'+f.dir)+'">'+esc(ROOT+'\\'+f.dir)+'</div></td>'+
+            '<td>'+scorePill(f.score)+'</td><td style="white-space:nowrap">'+riskPill(f)+'</td><td>'+indChips(f)+'</td><td>'+(f.dismissed?'<span class="muted" style="font-size:11.5px">Cancelled</span>':actTag(f.rec.a))+'</td></tr>'+
+            (o?'<tr class="expl"><td colspan="6">'+explainFile(f)+'</td></tr>':'');}).join('')
+          :'<tr><td colspan="6" class="empty">No files match these filters.</td></tr>')+'</tbody></table></div>'+
+        '<div class="formula">Findability = '+FW.d+'·D + '+FW.t+'·T + '+FW.c+'·C + '+FW.p+'·P   (D descriptiveness · T distinguishing terms · C name collisions · P path context, each 0–1)<br>Findable ≥ 70 · Uncertain 45–69 · Likely Lost &lt; 45 · placeholder weights, subject to adviser review</div>';
     } else {
-      let tot=0;
-      pendingRows.forEach(r=>{const nm=rawName(r);const sz=r.querySelector('.sz').textContent;tot+=+r.querySelector('.it').dataset.sz||0;
-        html+='<div class="li"><span>'+nm+'</span><span style="color:var(--muted)">'+sz+'</span></div>';});
-      html+='<div class="li" style="font-weight:700"><span>'+pendingRows.length+' item(s)</span><span>'+fmt(tot)+'</span></div>';
+      html+='</div><div class="card tbl-wrap"><table class="tbl"><thead><tr><th></th><th>Folder</th><th class="num">Files</th><th class="num">Depth</th><th class="num">Duplicates</th><th class="num">Unused</th><th>Avg findability</th><th>Clutter score</th></tr></thead><tbody>'+
+        FOLDERS.map(fo=>{const o=ui.open.has('d'+fo.dir);
+          return '<tr class="row'+(o?' open':'')+'" data-open="d'+esc(fo.dir)+'" tabindex="0"><td class="caret">'+(o?'▾':'▸')+'</td><td><div class="fpath" style="font-size:12px;color:var(--ink-2);max-width:380px" title="'+esc(ROOT+'\\'+fo.dir)+'">'+esc(ROOT+'\\'+fo.dir)+'</div></td>'+
+            '<td class="num">'+fo.n+'</td><td class="num"'+(fo.dep>DEPTH_MAX?' style="color:var(--poor-ink);font-weight:700"':'')+'>'+fo.dep+'</td><td class="num">'+fo.dup+'</td><td class="num">'+fo.un+'</td><td>'+scorePill(Math.round(fo.avgF))+'</td><td>'+clutterPill(fo.clutter)+'</td></tr>'+
+            (o?'<tr class="expl"><td colspan="8">'+explainFolder(fo)+'</td></tr>':'');}).join('')+'</tbody></table></div>'+
+        '<div class="formula">Clutter = '+CW.dup+'·duplicates + '+CW.depth+'·depth + '+CW.unused+'·unused + '+CW.find+'·(1 − avg findability ÷ 100)   (each 0–1; higher = more cluttered)<br>Low ≤ 30 · Moderate 31–60 · High &gt; 60 · placeholder weights, subject to adviser review</div>';
     }
-    document.getElementById('m-summary').innerHTML=html;
-    document.getElementById('overlay').classList.add('show');
+    P.innerHTML=html;
+    const q=$('af-q'); if(q) q.oninput=e=>{ ui.q=e.target.value; const pos=e.target.selectionStart; renderAnalysis(); const n=$('af-q'); n.focus(); n.setSelectionRange(pos,pos); };
+    const so=$('af-sort'); if(so){ so.value=ui.sort; so.onchange=e=>{ ui.sort=e.target.value; renderAnalysis(); }; }
   }
-  function closeModal(){document.getElementById('overlay').classList.remove('show');}
+  $('analysis').addEventListener('click',e=>{ const r=e.target.closest('tr.row'); if(!r) return; const k=r.dataset.open; ui.open.has(k)?ui.open.delete(k):ui.open.add(k); renderAnalysis(); });
+  $('analysis').addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.matches('tr.row')){ e.preventDefault(); e.target.click(); } });
+  const comp=(label,pts,max,desc)=>'<div class="comp"><div class="ch"><span>'+label+'</span><b>'+(+pts.toFixed(1))+' / '+max+'</b></div><div class="bar"><i style="width:'+(pts/max*100)+'%;background:var(--accent)"></i></div><p>'+desc+'</p></div>';
+  function explainFile(f){ const c=f.comp;
+    return '<div class="expl-grid">'+
+      comp('Filename descriptiveness (D)',FW.d*c.d,FW.d,c.m.length?c.m.length+' descriptive word'+(c.m.length>1?'s':'')+': '+c.m.join(', '):'No descriptive words — generic name')+
+      comp('Distinguishing terms (T)',FW.t*c.t,FW.t,(c.hasDate?'Has a date or version':'No date or version')+' · '+(c.uniq.length?'unique in folder: '+c.uniq.slice(0,3).join(', '):'no term unique in its folder'))+
+      comp('Name collisions (C)',FW.c*c.c,FW.c,c.col.length?'Similar to: '+c.col.slice(0,3).map(o=>esc(o.name)).join(', '):'No similar filenames')+
+      comp('Path context (P)',FW.p*c.p,FW.p,c.dep+' level'+(c.dep>1?'s':'')+' deep'+(c.dep>DEPTH_MAX?' (beyond '+DEPTH_MAX+')':'')+(c.gdir?' · generic folder name in path':''))+
+      '<div class="expl-foot"><span>Findability <b style="color:'+fColor(f.score)+'">'+f.score+'</b></span><span>Retrieval risk '+riskPill(f)+'</span>'+
+      '<span>'+fmtMB(f.mb)+' · last used '+lastUsed(f)+'</span><span>'+actTag(f.rec.a)+' <span class="muted">'+f.rec.rule+': '+esc(f.rec.why)+'</span></span></div></div>';
+  }
+  function explainFolder(fo){ const s=fo.sev;
+    return '<div class="expl-grid">'+
+      comp('Duplicate files',CW.dup*s.dup,CW.dup,fo.dup+' of '+fo.n+' files are duplicate copies')+
+      comp('Folder depth',CW.depth*s.depth,CW.depth,fo.dep+' levels deep'+(fo.dep>DEPTH_MAX?' — beyond '+DEPTH_MAX:''))+
+      comp('Unused files',CW.unused*s.unused,CW.unused,fo.un+' of '+fo.n+' files unused ≥ '+UNUSED_MONTHS+' months')+
+      comp('Low findability',CW.find*s.find,CW.find,'Average findability of contained files: '+Math.round(fo.avgF))+
+      '<div class="expl-foot">Files: '+fo.files.map(f=>esc(f.name)).join(', ')+'</div></div>';
+  }
 
-  let lastBatch=[], lastMeta=null;
-  function applyAction(){
-    const a=A[pendingAction]; let freed=0; lastBatch=[]; const catCount={};
-    const inputs=[...document.querySelectorAll('#m-summary .ren-input')];
-    pendingRows.forEach((r,i)=>{
-      const cat=r.closest('.grp').dataset.grp;
-      const tag=r.querySelector('.tag');
-      const rec={row:r,prevName:rawName(r),prevTagClass:tag.className,prevTagText:tag.textContent};
-      catCount[cat]=(catCount[cat]||0)+1;
-      r.querySelector('.it').checked=false;
-      if(pendingAction==='rename'){
-        const nv=inputs[i]?inputs[i].value.trim():rawName(r);
-        r.querySelector('.nm').childNodes[0].textContent=nv+' ';
-        r.classList.add('renamed');
-        tag.className='tag done'; tag.textContent='✓ Renamed';
-        addLog(a.log,a.bg,'Renamed → '+nv,r.querySelector('.sz').textContent);
-      } else {
-        r.classList.add('cleaned');
-        freed+=+r.querySelector('.it').dataset.sz||0;
-        addLog(a.log,a.bg,a.verb+' '+rawName(r),r.querySelector('.sz').textContent);
-      }
-      lastBatch.push(rec);
-    });
-    const n=pendingRows.length;
-    Object.keys(catCount).forEach(c=>{ resolved[c]=Math.min(detected[c],resolved[c]+catCount[c]); });
-    const prev=score;
-    score=Math.min(100, score + (pendingAction==='rename'? n : n*2));
-    if(pendingAction!=='rename') recover=Math.max(0, recover - freed/1024);
-    lastMeta={action:pendingAction,catCount,freed,scoreDelta:score-prev};
-    applyScore(); updateResultCounts();
-    closeModal(); refreshSel(); updateGroups(); updateContinueLabel();
-    toast(a.verb+' '+n+' item(s)',true);
+  /* ================= RECOMMENDATIONS ================= */
+  function suggestionFor(f){
+    if(sugg[f.id]!=null) return sugg[f.id];
+    let s=SUGGEST[f.name];
+    if(!s){ const e=extOf(f.name), seg=f.dir.split('\\').filter(x=>!GENERIC_DIR.test(x)).pop()||'Files';
+      s=({docx:'Document',xlsx:'Spreadsheet',pdf:'Document',txt:'Notes',png:'Image',jpg:'Image',mp4:'Video',pptx:'Presentation'}[e]||'File')+'_'+seg.replace(/[^A-Za-z0-9]/g,'')+'_2026'+(e?'.'+e:''); }
+    const taken=n=>scanned().some(o=>o!==f&&o.dir===f.dir&&o.name.toLowerCase()===n.toLowerCase());
+    if(taken(s)){ const b=baseName(s), e=s.slice(b.length); let i=2; while(taken(b+'_'+i+e)) i++; s=b+'_'+i+e; }
+    return s;
   }
-  function undo(){
-    if(lastMeta){
-      Object.keys(lastMeta.catCount).forEach(c=>{ resolved[c]=Math.max(0,resolved[c]-lastMeta.catCount[c]); });
-      score=Math.max(baseScore, score-lastMeta.scoreDelta);
-      if(lastMeta.action!=='rename') recover=Math.min(baseRecover, recover+lastMeta.freed/1024);
-      applyScore(); updateResultCounts();
+  function renderRecs(){
+    const st=stats(), P=$('recs');
+    const ren=st.recs.filter(f=>f.rec.a==='rename').sort((a,b)=>a.score-b.score);
+    const del=st.recs.filter(f=>f.rec.a==='delete'), arc=st.recs.filter(f=>f.rec.a==='archive'), keep=st.recs.filter(f=>f.rec.a==='keep'&&f.rec.rule==='R2');
+    const dism=st.act.filter(f=>f.dismissed&&f.rec.a);
+    ui.recSel=new Set([...ui.recSel].filter(id=>ren.some(f=>f.id===id)));
+    P.innerHTML=
+      '<p class="lead">Each recommendation is derived from the file’s predicted retrieval risk and detected indicators. Review the suggested filename, edit it if needed, then confirm — a confirmation dialog always appears before any change.</p>'+
+      '<div class="section-h">🏷️ Rename suggestions <span class="muted" style="text-transform:none;letter-spacing:0">('+ren.length+')</span><span class="aside">'+
+        (ren.length?'<button class="btn primary xs" '+(ui.recSel.size?'':'disabled')+' onclick="requestRename([...ui.recSel].map(i=>FS[i]))">Confirm selected ('+ui.recSel.size+')</button>':'')+'</span></div>'+
+      '<div class="card">'+(ren.length?ren.map(f=>
+        '<div class="rec"><input type="checkbox" data-rsel="'+f.id+'" '+(ui.recSel.has(f.id)?'checked':'')+' aria-label="Select '+esc(f.name)+'">'+
+        '<div class="orig"><div title="'+esc(fullPath(f))+'">'+esc(f.name)+'</div><small>'+riskPill(f)+' · score '+f.score+' · '+esc(shortDir(f.dir))+'</small></div>'+
+        '<span class="arrow">→</span><div class="sug"><input data-sug="'+f.id+'" value="'+esc(suggestionFor(f))+'" aria-label="Suggested filename for '+esc(f.name)+'"><small>'+f.rec.rule+': '+esc(f.rec.why)+'</small></div>'+
+        '<div class="acts"><button class="btn primary xs" data-ren="'+f.id+'">Confirm rename</button><button class="btn ghost xs" data-dis="'+f.id+'">Cancel</button></div></div>').join('')
+        :'<div class="empty">🎉 No rename suggestions — all scanned filenames are descriptive enough.</div>')+'</div>'+
+      '<div class="section-h">🧹 Archive and delete<span class="aside">Applied from Clutter Management</span></div><div class="card">'+
+        grpRow('delete',del,'duplicate copies — keep the original, send copies to the Recycle Bin')+
+        grpRow('archive',arc,'unused ≥ '+UNUSED_MONTHS+' months but still findable — move to ClutterScope Archive')+
+      '</div>'+
+      '<div class="section-h">✋ Keep <span class="muted" style="text-transform:none;letter-spacing:0">('+keep.length+')</span><span class="aside">Low-confidence predictions default to no action</span></div>'+
+      '<div class="card">'+(keep.length?keep.map(f=>'<div class="grp-row">'+actTag('keep')+'<div class="gi"><div>'+esc(f.name)+'</div><small>'+f.rec.rule+': '+esc(f.rec.why)+' · '+esc(shortDir(f.dir))+'</small></div><span style="white-space:nowrap">'+riskPill(f)+'</span>'+
+        '<button class="btn ghost xs" data-keep="'+f.id+'">Confirm keep</button></div>').join(''):'<div class="empty">Nothing to review.</div>')+'</div>'+
+      (dism.length?'<div class="section-h">↩ Cancelled suggestions <span class="aside"><button class="link" onclick="ui.showDismissed=!ui.showDismissed;renderRecs()">'+(ui.showDismissed?'Hide':'Show')+' ('+dism.length+')</button></span></div>'+
+        (ui.showDismissed?'<div class="card">'+dism.map(f=>'<div class="grp-row">'+actTag(f.rec.a)+'<div class="gi"><div>'+esc(f.name)+'</div><small>'+esc(f.rec.why)+'</small></div><button class="btn ghost xs" data-undis="'+f.id+'">Restore</button></div>').join('')+'</div>':''):'');
+  }
+  function grpRow(a,list,desc){
+    return '<div class="grp-row">'+actTag(a)+'<div class="gi"><div>'+plural(list.length,'files')+' · '+desc+'</div><small>'+(list.length?list.slice(0,4).map(f=>esc(f.name)).join(', ')+(list.length>4?', …':''):'None')+'</small></div>'+
+      '<b style="white-space:nowrap">'+fmtMB(list.reduce((s,f)=>s+f.mb,0))+'</b></div>';
+  }
+  $('recs').addEventListener('input',e=>{ if(e.target.dataset.sug!=null) sugg[e.target.dataset.sug]=e.target.value; });
+  $('recs').addEventListener('change',e=>{ const id=e.target.dataset.rsel; if(id==null) return; e.target.checked?ui.recSel.add(+id):ui.recSel.delete(+id); renderRecs(); });
+  $('recs').addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b) return; const d=b.dataset;
+    if(d.ren!=null) requestRename([FS[+d.ren]]);
+    if(d.dis!=null){ const f=FS[+d.dis]; f.dismissed=true; refresh(); toast('Suggestion for '+f.name+' cancelled',()=>{ f.dismissed=false; refresh(); }); }
+    if(d.undis!=null){ FS[+d.undis].dismissed=false; refresh(); }
+    if(d.keep!=null) requestAction('keep',[FS[+d.keep]]);
+  });
+
+  /* ================= CLUTTER MANAGEMENT ================= */
+  function renderClutter(){
+    const st=stats(), P=$('clutter');
+    const groups=st.act.filter(f=>f.copies&&f.copies.length);
+    ui.sel=new Set([...ui.sel].filter(id=>st.act.some(f=>f.id===id&&(ui.cmTab==='dups'?f.dupCopy:f.unused))));
+    let html='<div class="tools"><div class="seg" role="group"><button aria-pressed="'+(ui.cmTab==='dups')+'" onclick="ui.cmTab=\'dups\';ui.sel.clear();renderClutter()">🗂️ Duplicate files<span class="n">'+st.dupCopies.length+'</span></button>'+
+      '<button aria-pressed="'+(ui.cmTab==='unused')+'" onclick="ui.cmTab=\'unused\';ui.sel.clear();renderClutter()">🕓 Unused files<span class="n">'+st.unused.length+'</span></button></div><span class="spacer"></span>'+
+      '<span class="muted" style="font-size:12px">'+(ui.cmTab==='dups'?fmtMB(st.dupMB)+' recoverable from '+plural(groups.length,'duplicate groups'):'Not opened or modified for '+UNUSED_MONTHS+'+ months · '+fmtMB(st.unused.reduce((a,f)=>a+f.mb,0)))+'</span></div>';
+    if(ui.cmTab==='dups'){
+      html+=groups.length?groups.map(o=>{
+        const all=[o,...o.copies];
+        return '<div class="card dupgrp"><div class="dup-h"><span style="font-size:20px">🗂️</span><div class="gi"><div>'+esc(o.name)+' — '+all.length+' identical files</div>'+
+          '<small class="mono">SHA-256 '+fakeHash(o.h)+' · '+fmtMB(o.mb)+' each · '+fmtMB(o.mb*o.copies.length)+' recoverable</small></div>'+
+          '<button class="btn ghost xs" data-selgrp="'+o.id+'">Select copies</button></div>'+
+          all.map(f=>f===o
+            ?'<div class="irow orig"><span style="width:16px;text-align:center;color:var(--good-ink)">✓</span><div class="col"><div>'+esc(f.name)+'</div><small>'+esc(ROOT+'\\'+f.dir)+'</small></div><span class="pill good">Original · keep</span></div>'
+            :'<label class="irow'+(ui.sel.has(f.id)?' sel':'')+'"><input type="checkbox" data-sel="'+f.id+'" '+(ui.sel.has(f.id)?'checked':'')+'><div class="col"><div>'+esc(f.name)+'</div><small>'+esc(ROOT+'\\'+f.dir)+'</small></div>'+
+              '<span class="meta">last used '+lastUsed(f)+'</span>'+actTag('delete')+'</label>').join('')+'</div>';}).join('')
+        :'<div class="card empty">🎉 No duplicate files in the scanned folders.</div>';
+    } else {
+      html+=st.unused.length?'<div class="card">'+[...st.unused].sort((a,b)=>b.u-a.u).map(f=>
+        '<label class="irow'+(ui.sel.has(f.id)?' sel':'')+'"><input type="checkbox" data-sel="'+f.id+'" '+(ui.sel.has(f.id)?'checked':'')+'><div class="col"><div>'+esc(f.name)+'</div><small>'+esc(ROOT+'\\'+f.dir)+'</small></div>'+
+        '<span class="meta">last used '+lastUsed(f)+'<br>'+f.u+' months · '+fmtMB(f.mb)+'</span>'+actTag(f.rec.a)+'</label>').join('')+'</div>'
+        :'<div class="card empty">🎉 No unused files in the scanned folders.</div>';
     }
-    lastBatch.forEach(rec=>{
-      rec.row.classList.remove('cleaned'); rec.row.classList.remove('renamed');
-      rec.row.querySelector('.nm').childNodes[0].textContent=rec.prevName+' ';
-      const tag=rec.row.querySelector('.tag'); tag.className=rec.prevTagClass; tag.textContent=rec.prevTagText;
+    const sel=[...ui.sel].map(id=>FS[id]);
+    html+='<div class="actionbar"><span class="selinfo"><b>'+sel.length+'</b> selected <span class="muted" style="font-weight:400">'+(sel.length?'· '+fmtMB(sel.reduce((a,f)=>a+f.mb,0)):'')+'</span></span><span class="spacer"></span>'+
+      '<button class="btn ghost sm" '+(sel.length?'':'disabled')+' onclick="requestAction(\'archive\',[...ui.sel].map(i=>FS[i]))">📦 Archive</button>'+
+      '<button class="btn danger sm" '+(sel.length?'':'disabled')+' onclick="requestAction(\'delete\',[...ui.sel].map(i=>FS[i]))">🗑️ Delete to Recycle Bin</button></div>';
+    P.innerHTML=html;
+  }
+  $('clutter').addEventListener('change',e=>{ const id=e.target.dataset.sel; if(id==null) return; e.target.checked?ui.sel.add(+id):ui.sel.delete(+id); renderClutter(); });
+  $('clutter').addEventListener('click',e=>{ const b=e.target.closest('[data-selgrp]'); if(!b) return; FS[+b.dataset.selgrp].copies.forEach(c=>ui.sel.add(c.id)); renderClutter(); });
+  function fakeHash(h){ let x=7; for(const ch of 'clutterscope-'+h) x=(Math.imul(x,31)+ch.charCodeAt(0))>>>0; const y=Math.imul(x,2654435761)>>>0; const hex=(x.toString(16).padStart(8,'0')+y.toString(16).padStart(8,'0')); return hex.slice(0,8)+'…'+hex.slice(8,16); }
+
+  /* ================= ACTIONS: confirm → apply → log → rescore ================= */
+  const ARCHIVE_DIR='ClutterScope Archive';
+  function requestRename(files){
+    if(!files.length) return;
+    openDialog({icon:'🏷️',title:files.length>1?'Rename '+files.length+' files?':'Rename this file?',sub:'Check the new names. Nothing changes until you click Rename.',
+      body:files.map((f,i)=>'<div class="ren-row"><div class="ren-old">'+esc(f.name)+' · <span class="mono">'+esc(shortDir(f.dir))+'</span></div><input class="ren-input" data-i="'+i+'" value="'+esc(suggestionFor(f))+'" aria-label="New name for '+esc(f.name)+'"></div>').join(''),
+      reassure:'✏ <span>Only the filename changes — contents and location stay the same. The action is logged and can be undone from Action History.</span>',
+      ok:'Rename',onOk:()=>{
+        const inputs=[...document.querySelectorAll('#dlg-body .ren-input')], names=inputs.map(x=>x.value.trim()); let err='';
+        inputs.forEach((x,i)=>{ x.classList.remove('err'); const n=names[i], f=files[i];
+          if(!n||/[\\/:*?"<>|]/.test(n)){ x.classList.add('err'); err='Enter a valid filename (no \\ / : * ? " < > |).'; return; }
+          if(extOf(n)!==extOf(f.name)){ x.classList.add('err'); err='Keep the original file extension (.'+extOf(f.name)+').'; return; }
+          const clash=scanned().some(o=>o!==f&&o.dir===f.dir&&o.name.toLowerCase()===n.toLowerCase())||names.some((m,j)=>j!==i&&files[j].dir===f.dir&&m.toLowerCase()===n.toLowerCase());
+          if(clash){ x.classList.add('err'); err='“'+n+'” already exists in that folder — choose a different name.'; } });
+        if(err){ showErr(err); return false; }
+        apply('rename',files,names);
+      }});
+  }
+  function requestAction(a,files){
+    if(!files.length) return;
+    const total=files.reduce((s,f)=>s+f.mb,0);
+    const cfg={
+      archive:{icon:'📦',title:'Archive '+plural(files.length,'files')+'?',ok:'Archive',reassure:'📦 <span>Files move to <b>'+ROOT+'\\'+ARCHIVE_DIR+'</b>, keeping their folder structure. Nothing is deleted, and you can undo from Action History.</span>'},
+      delete:{icon:'🗑️',title:'Delete '+plural(files.length,'files')+' to the Recycle Bin?',ok:'Delete to Recycle Bin',danger:true,reassure:'♻ <span>Files go to the <b>Windows Recycle Bin</b> — never erased permanently. You can restore them or undo from Action History.</span>'},
+      keep:{icon:'✋',title:'Keep '+(files.length>1?plural(files.length,'files'):'this file')+'?',ok:'Keep',reassure:'✋ <span>No change is made to the file. The recommendation is marked as reviewed and logged.</span>'}
+    }[a];
+    openDialog({icon:cfg.icon,title:cfg.title,sub:'Review the items below. The action only runs when you confirm.',
+      body:'<div class="summary">'+files.map(f=>'<div class="li"><span>'+esc(f.name)+'</span><span>'+fmtMB(f.mb)+'</span></div>').join('')+
+        (files.length>1?'<div class="li" style="font-weight:700"><span>'+plural(files.length,'files')+'</span><span>'+fmtMB(total)+'</span></div>':'')+'</div>',
+      reassure:cfg.reassure,ok:cfg.ok,okClass:cfg.danger?'danger-solid':'primary',onOk:()=>apply(a,files)});
+  }
+  function apply(a,files,names){
+    const batch=++batchSeq, t=new Date();
+    files.forEach((f,i)=>{
+      const from={name:f.name,dir:f.dir,status:f.status,dismissed:f.dismissed};
+      if(a==='rename'){ f.name=names[i]; delete sugg[f.id]; }
+      if(a==='archive') f.status='archived';
+      if(a==='delete') f.status='deleted';
+      if(a==='keep') f.status='kept';
+      LOG.push({id:LOG.length+1,batch,time:t,type:a,fileId:f.id,from,to:{name:f.name,dir:f.dir,status:f.status},undone:null});
+      ui.sel.delete(f.id); ui.recSel.delete(f.id);
     });
-    lastBatch=[]; lastMeta=null;
-    document.querySelectorAll('#log-card .logrow.fresh').forEach(x=>x.remove());
-    checkLogEmpty(); refreshSel(); updateGroups(); updateContinueLabel(); hideToast();
+    closeDialog(); refresh();
+    toast(ACT[a].verb+' '+(files.length===1?files[0].name:plural(files.length,'files'))+' · scores updated',()=>undoBatch(batch));
+  }
+  function canUndo(e){ return !e.undone&&!LOG.some(x=>x.fileId===e.fileId&&!x.undone&&x.id>e.id); }
+  function undoEntry(e,silent){
+    if(!canUndo(e)) return false;
+    const f=FS[e.fileId]; f.name=e.from.name; f.dir=e.from.dir; f.status=e.from.status; f.dismissed=e.from.dismissed; e.undone=new Date();
+    if(!silent){ refresh(); toast('Undid: '+ACT[e.type].verb.toLowerCase()+' '+e.from.name+' · scores updated'); }
+    return true;
+  }
+  function undoBatch(b){ let n=0; LOG.filter(e=>e.batch===b&&!e.undone).reverse().forEach(e=>{ if(undoEntry(e,true)) n++; }); refresh(); toast(n?'Undid '+plural(n,'actions')+' · scores updated':'Nothing to undo'); }
+  function refresh(){ computeAll(); render(); }
+
+  /* ================= ACTION HISTORY ================= */
+  function destOf(e){
+    if(e.type==='rename') return '<div class="fname">'+esc(e.to.name)+'</div>';
+    if(e.type==='archive') return '<div class="fpath" style="max-width:230px" title="'+esc(ROOT+'\\'+ARCHIVE_DIR+'\\'+e.from.dir)+'">📦 '+esc(ARCHIVE_DIR+'\\'+shortDir(e.from.dir))+'</div>';
+    if(e.type==='delete') return '<span class="muted">♻ Recycle Bin</span>';
+    return '<span class="muted">No change</span>';
+  }
+  function renderHistory(){
+    const P=$('history');
+    const list=LOG.filter(e=>ui.histFilter==='all'||e.type===ui.histFilter).slice().reverse();
+    P.innerHTML='<div class="tools"><div class="seg" role="group">'+[['all','All'],['rename','Rename'],['archive','Archive'],['delete','Delete'],['keep','Keep']].map(r=>
+      '<button aria-pressed="'+(ui.histFilter===r[0])+'" onclick="ui.histFilter=\''+r[0]+'\';renderHistory()">'+r[1]+'<span class="n">'+(r[0]==='all'?LOG.length:LOG.filter(e=>e.type===r[0]).length)+'</span></button>').join('')+
+      '</div><span class="spacer"></span><span class="muted" style="font-size:12px">Newest first · stored locally</span></div>'+
+      '<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Date & time</th><th>Action</th><th>Original filename</th><th>New filename / location</th><th>Status</th><th></th></tr></thead><tbody>'+
+      (list.length?list.map(e=>{ const ok=canUndo(e);
+        return '<tr'+(e.undone?' class="undone"':'')+'><td style="white-space:nowrap">'+fmtDT(e.time)+'</td><td>'+actTag(e.type)+'</td>'+
+          '<td><div class="fname">'+esc(e.from.name)+'</div><div class="fpath" style="max-width:230px" title="'+esc(ROOT+'\\'+e.from.dir)+'">'+esc(shortDir(e.from.dir))+'</div></td><td>'+destOf(e)+'</td>'+
+          '<td>'+(e.undone?'<span class="st-undone">↩ Undone '+fmtTime(e.undone)+'</span>':'<span class="st-applied">✓ Applied</span>')+'</td>'+
+          '<td class="num">'+(e.undone?'':'<button class="btn ghost xs" data-undo="'+e.id+'" '+(ok?'':'disabled title="Undo the later action on this file first"')+'>↩ Undo</button>')+'</td></tr>';}).join('')
+        :'<tr><td colspan="6" class="empty">No actions yet. Confirmed actions from Recommendations and Clutter Management appear here.</td></tr>')+
+      '</tbody></table></div>';
+  }
+  $('history').addEventListener('click',e=>{ const b=e.target.closest('[data-undo]'); if(!b) return; const en=LOG.find(x=>x.id===+b.dataset.undo); if(en) undoEntry(en); });
+
+  /* ================= REPORTS ================= */
+  const REPORTS={findability:'Findability Report',risk:'Retrieval-Risk Report',clutter:'Clutter Report',action:'Action Report'};
+  function reportData(k){
+    const st=stats();
+    if(k==='findability'){
+      const rows=[...st.act].sort((a,b)=>a.score-b.score), band={good:0,fair:0,poor:0}; rows.forEach(f=>band[fBand(f.score)]++);
+      return {tiles:[['Files',st.n],['Avg findability',Math.round(st.avgF)],['Good (≥ 70)',band.good],['Fair (45–69)',band.fair],['Poor (< 45)',band.poor]],
+        head:['File','Findability','Indicators','Retrieval risk'],
+        rows:rows.map(f=>['<div class="fname" style="max-width:240px">'+esc(f.name)+'</div><div class="fpath" style="max-width:240px">'+esc(shortDir(f.dir))+'</div>',scorePill(f.score),'<div style="min-width:220px">'+indChips(f)+'</div>','<span style="white-space:nowrap">'+riskPill(f)+'</span>']),
+        csv:[['File','Folder','Findability','D','T','C','P','Indicators','Retrieval risk','Confidence']].concat(rows.map(f=>[f.name,ROOT+'\\'+f.dir,f.score,f.comp.d,f.comp.t,f.comp.c,f.comp.p,f.ind.map(i=>i[0]).join('; '),RISK[f.risk].label,f.conf.toFixed(2)])),
+        limit:15,note:'Findability = '+FW.d+'·D + '+FW.t+'·T + '+FW.c+'·C + '+FW.p+'·P (placeholder weights).'};
+    }
+    if(k==='risk'){
+      const rows=st.act.filter(f=>f.risk!=='F').sort((a,b)=>({L:0,U:1}[a.risk]-{L:0,U:1}[b.risk])||a.score-b.score);
+      const pct=c=>st.n?Math.round(c/st.n*100)+'%':'0%';
+      return {tiles:[['Files',st.n],['Findable',st.risk.F+' · '+pct(st.risk.F)],['Uncertain',st.risk.U+' · '+pct(st.risk.U)],['Likely Lost',st.risk.L+' · '+pct(st.risk.L)]],
+        stack:true,head:['At-risk file','Folder','Findability','Predicted risk · confidence','Recommended action'],
+        rows:rows.map(f=>['<div class="fname">'+esc(f.name)+'</div>','<span class="fpath">'+esc(shortDir(f.dir))+'</span>',scorePill(f.score),'<span style="white-space:nowrap">'+riskPill(f)+'</span>',actTag(f.dismissed?null:f.rec.a)]),
+        csv:[['File','Folder','Findability','Retrieval risk','Confidence','Recommended action']].concat(st.act.map(f=>[f.name,ROOT+'\\'+f.dir,f.score,RISK[f.risk].label,f.conf.toFixed(2),f.rec.a||''])),
+        note:'Classes: Findable, Uncertain, Likely Lost. Below '+CONF_MIN*100+'% confidence the recommended action defaults to Keep.'};
+    }
+    if(k==='clutter'){
+      return {tiles:[['Overall clutter',Math.round(st.clutter)+' · '+cBand(st.clutter).label],['Folders',st.folders],['Duplicate copies',st.dupCopies.length+' · '+fmtMB(st.dupMB)],['Unused files',st.unused.length],['Folders deeper than '+DEPTH_MAX,st.deep]],
+        head:['Folder','Files','Depth','Duplicates','Unused','Avg findability','Clutter score'],
+        rows:FOLDERS.map(fo=>['<span class="fpath" style="color:var(--ink-2);font-size:11.5px;max-width:340px;display:block" title="'+esc(ROOT+'\\'+fo.dir)+'">'+esc(ROOT+'\\'+fo.dir)+'</span>',fo.n,fo.dep,fo.dup,fo.un,scorePill(Math.round(fo.avgF)),clutterPill(fo.clutter)]),
+        csv:[['Folder','Files','Depth','Duplicates','Unused','Avg findability','Clutter score','Level']].concat(FOLDERS.map(fo=>[ROOT+'\\'+fo.dir,fo.n,fo.dep,fo.dup,fo.un,Math.round(fo.avgF),fo.clutter,cBand(fo.clutter).label])),
+        note:'Clutter = '+CW.dup+'·duplicates + '+CW.depth+'·depth + '+CW.unused+'·unused + '+CW.find+'·low findability (placeholder weights; higher = more cluttered).'};
+    }
+    const c=a=>LOG.filter(e=>e.type===a&&!e.undone).length;
+    return {tiles:[['Actions',LOG.length],['Renamed',c('rename')],['Archived',c('archive')],['Deleted',c('delete')],['Kept',c('keep')],['Undone',LOG.filter(e=>e.undone).length]],
+      head:['Date & time','Action','Original filename','New filename / location','Undo status'],
+      rows:LOG.map(e=>['<span style="white-space:nowrap">'+fmtDT(e.time)+'</span>',actTag(e.type),'<div class="fname">'+esc(e.from.name)+'</div>',destOf(e),e.undone?'<span class="st-undone">Undone '+fmtTime(e.undone)+'</span>':canUndo(e)?'<span class="st-applied">Applied · undo available</span>':'<span class="st-applied">Applied</span>']),
+      csv:[['Date','Time','Action','Original filename','Original folder','New filename','Destination','Undo status']].concat(LOG.map(e=>[fmtDate(e.time),fmtTime(e.time),ACT[e.type].label,e.from.name,ROOT+'\\'+e.from.dir,e.to.name,e.type==='archive'?ROOT+'\\'+ARCHIVE_DIR+'\\'+e.from.dir:e.type==='delete'?'Recycle Bin':ROOT+'\\'+e.to.dir,e.undone?'Undone':'Applied'])),
+      note:'Every action required confirmation. Deletions go to the Windows Recycle Bin.'};
+  }
+  function renderReports(){
+    const k=ui.rpt, d=reportData(k), st=stats(), P=$('reports');
+    P.innerHTML='<p class="lead">Four reports built from the latest scan and your action log. Export any of them as CSV or PDF.</p>'+
+      '<div class="rpt-bar"><div class="seg" role="group">'+Object.entries(REPORTS).map(([key,t])=>'<button aria-pressed="'+(k===key)+'" onclick="ui.rpt=\''+key+'\';renderReports()">'+t.replace(' Report','')+'</button>').join('')+'</div><span class="spacer"></span>'+
+      '<button class="btn ghost sm" onclick="exportCSV()">⬇ Export CSV</button><button class="btn ghost sm" onclick="exportPDF()">⬇ Export PDF</button></div>'+
+      '<div class="card doc" id="rpt-doc"><div class="doc-h"><div class="dl">C</div><div><h2>'+REPORTS[k]+'</h2><p>ClutterScope · '+S.roots.map(r=>ROOT+'\\'+r).join(', ')+'</p></div>'+
+        '<div class="dm">Scan: '+fmtDT(S.date)+'<br>'+plural(st.n,'files')+' · '+plural(st.folders,'folders')+'<br>Generated: '+fmtDT(new Date())+'</div></div>'+
+        '<div class="tiles">'+d.tiles.map(t=>'<div class="tile"><span>'+t[0]+'</span><b>'+t[1]+'</b></div>').join('')+'</div>'+
+        (d.stack?'<div class="stack">'+['F','U','L'].map(r=>'<i style="width:'+(st.n?st.risk[r]/st.n*100:0)+'%;background:'+RISK[r].color+'"></i>').join('')+'</div>':'')+
+        '<div class="tbl-wrap"><table class="tbl"><thead><tr>'+d.head.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+
+        (d.rows.length?(d.limit&&!ui.rptAll?d.rows.slice(0,d.limit):d.rows).map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join(''):'<tr><td colspan="'+d.head.length+'" class="empty">'+(k==='action'?'No actions performed yet.':'No files at risk.')+'</td></tr>')+
+        '</tbody></table></div>'+
+        (d.limit&&d.rows.length>d.limit?'<div class="rpt-more">'+(ui.rptAll?'Showing all '+d.rows.length+' files':'Showing the '+d.limit+' lowest-scoring of '+d.rows.length+' files · the full list is included in the CSV export')+
+          ' <button class="link rpt-more-btn" onclick="ui.rptAll=!ui.rptAll;renderReports()">'+(ui.rptAll?'Show fewer':'Show all '+d.rows.length)+'</button></div>':'')+
+        '<div class="doc-foot"><span>'+d.note+'</span><span>All processing local · metadata only</span></div></div>';
+  }
+  function downloadCSV(rows,name){
+    const cell=x=>{const s=String(x??'');return /[",\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;};
+    const url=URL.createObjectURL(new Blob(['\ufeff'+rows.map(r=>r.map(cell).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}));
+    const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function exportCSV(){ downloadCSV(reportData(ui.rpt).csv,'ClutterScope_'+REPORTS[ui.rpt].replace(/[^A-Za-z]+/g,'_')+'_'+S.date.toISOString().slice(0,10)+'.csv'); toast(REPORTS[ui.rpt]+' downloaded as CSV'); }
+  let printTheme=null;
+  function exportPDF(){ toast('Choose “Save as PDF” in the print dialog'); setTimeout(()=>window.print(),150); }
+  window.addEventListener('beforeprint',()=>{ printTheme=document.documentElement.dataset.theme; document.documentElement.dataset.theme='light'; });
+  window.addEventListener('afterprint',()=>{ if(printTheme) document.documentElement.dataset.theme=printTheme; });
+
+  /* ================= SETTINGS ================= */
+  function renderSettings(){
+    $('settings').innerHTML='<p class="lead">Preferences are saved on this computer. Scoring weights and thresholds are fixed by the study and shown here for transparency.</p>'+
+      '<div class="section-h">Appearance</div><div class="card"><div class="set-row"><div class="si">🎨</div><div><h4>Theme</h4><p>Light, dark, or follow Windows</p></div><span class="spacer"></span>'+
+        '<div class="seg" role="group" aria-label="Theme">'+['light','dark','system'].map(t=>'<button aria-pressed="'+(settings.theme===t)+'" onclick="setTheme(\''+t+'\')">'+t[0].toUpperCase()+t.slice(1)+'</button>').join('')+'</div></div></div>'+
+      '<div class="section-h">Safety <span class="aside">Required by design — cannot be turned off</span></div><div class="card">'+
+        [['✅','Confirm before every action','A confirmation dialog appears before any rename, archive, delete or keep'],['♻','Deletions go to the Windows Recycle Bin','Files are never permanently erased'],
+         ['📝','Action log with undo','Every action is recorded and can be reversed'],['🔐','Local processing, metadata only','Contents are hashed for duplicate detection but never stored, read or transmitted'],
+         ['👤','No administrator rights needed','ClutterScope runs with standard user permissions']].map(r=>
+          '<div class="set-row"><div class="si">'+r[0]+'</div><div><h4>'+r[1]+'</h4><p>'+r[2]+'</p></div><span class="spacer"></span><span class="lock">🔒 Always on</span></div>').join('')+'</div>'+
+      '<div class="section-h">Detection & scoring <span class="aside">Placeholder values — subject to adviser review</span></div><div class="card tbl-wrap"><table class="tbl kv-tbl"><tbody>'+
+        [['Unused file threshold','≥ '+UNUSED_MONTHS+' months since last access or modification'],['Folder depth threshold','Nested beyond '+DEPTH_MAX+' levels'],['Duplicate detection','Identical SHA-256 content hash'],
+         ['Findability weights','Descriptiveness '+FW.d+' · Distinguishing terms '+FW.t+' · Name collisions '+FW.c+' · Path context '+FW.p],
+         ['Clutter weights','Duplicates '+CW.dup+' · Depth '+CW.depth+' · Unused '+CW.unused+' · Low findability '+CW.find],
+         ['Retrieval risk classes','Findable · Uncertain · Likely Lost (Random Forest classifier)'],['Low-confidence rule','Confidence below '+CONF_MIN*100+'% → Keep (no action)'],
+         ['Action rules','R1 duplicate copy → Delete · R2 low confidence → Keep · R3 at risk + naming issue → Rename · R4 unused → Archive · R5 otherwise → Keep']].map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+
+      '</tbody></table></div>'+
+      '<div class="section-h">Research</div><div class="card"><div class="set-row"><div class="si">🧪</div><div><h4>Researcher mode</h4><p>Shows the Retrieval Testing module used to collect ground-truth data for the classifier</p></div><span class="spacer"></span>'+
+        '<button class="sw2" role="switch" aria-checked="'+settings.researcher+'" aria-label="Researcher mode" onclick="toggleResearcher()"></button></div>'+
+        '<div class="set-row"><div class="si">↺</div><div><h4>Reset sample data</h4><p>Restore the demo file set and clear the action log</p></div><span class="spacer"></span><button class="btn ghost sm" onclick="resetDemo()">Reset</button></div></div>'+
+      '<div class="section-h">About</div><div class="card"><div class="set-row"><div class="si">ℹ️</div><div><h4>ClutterScope v1.0 — UI mockup</h4><p>Windows 10 / 11 · Python, PySide6, scikit-learn, SQLite · 100% local · Data Privacy Act (RA 10173). Files, scores and predictions shown are simulated.</p></div></div></div>';
+  }
+  function toggleResearcher(){ settings.researcher=!settings.researcher; saveSettings(); $('nav-testing').hidden=!settings.researcher; renderSettings(); toast('Researcher mode '+(settings.researcher?'on — Retrieval Testing added to the menu':'off')); }
+  function resetDemo(){
+    openDialog({icon:'↺',title:'Reset sample data?',sub:'Restores all demo files to their original state and clears the action log.',ok:'Reset',okClass:'danger-solid',
+      onOk:()=>{ resetFS(); T.results={}; computeAll(); closeDialog(); render(); toast('Sample data reset'); }});
+  }
+  const darkMQ=matchMedia('(prefers-color-scheme: dark)');
+  function applyTheme(){ const t=settings.theme==='system'?(darkMQ.matches?'dark':'light'):settings.theme; document.documentElement.dataset.theme=t; }
+  darkMQ.addEventListener('change',()=>{ if(settings.theme==='system') applyTheme(); });
+  function setTheme(t){ settings.theme=t; saveSettings(); applyTheme(); if(page==='settings') renderSettings(); }
+
+  /* ================= RETRIEVAL TESTING (researcher only) ================= */
+  const T={participant:1,task:0,attempts:1,start:null,timer:null,results:{},limit:120};
+  const testSet=()=>FS.filter(f=>f.status!=='deleted');
+  function taskPrompt(f){ const n=SUGGEST[f.origName]||f.origName; return tokens(n).filter(t=>!/^\d+$/.test(t)||t.length===4).join(' ').replace(/\b\w/g,c=>c.toUpperCase())+' ('+extOf(f.name).toUpperCase()+')'; }
+  const labelFor=r=>!r||r.n<10?null:r.s>=8?'F':r.s>=4?'U':'L';
+  function renderTesting(){
+    const P=$('testing'), set=testSet(), f=set[T.task%set.length];
+    if(!T.start) T.start=Date.now();
+    clearInterval(T.timer); T.timer=setInterval(()=>{ const el=$('tt'); if(!el||page!=='testing'){ clearInterval(T.timer); return; } const s=Math.floor((Date.now()-T.start)/1000);
+      el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); el.style.color=s>=T.limit?'var(--bad)':''; },500);
+    const done=Object.values(T.results).reduce((a,r)=>a+r.n,0);
+    P.innerHTML='<div class="note" style="margin-bottom:14px">🧪 <span><b>Researcher only.</b> Participants search the prepared sample folder set (not their own files). After 10 participants, each file is labeled by how many found it: 8–10 → Findable, 4–7 → Uncertain, 0–3 → Likely Lost. These labels train the classifier.</span></div>'+
+      '<div class="grid2" style="margin-top:0"><div class="card task-card"><div class="muted" style="font-size:12px;font-weight:700">PARTICIPANT <select class="select" id="tp" style="margin:0 6px">'+
+        Array.from({length:10},(_,i)=>'<option value="'+(i+1)+'"'+(T.participant===i+1?' selected':'')+'>P'+String(i+1).padStart(2,'0')+'</option>').join('')+'</select> · TASK '+(T.task%set.length+1)+' OF '+set.length+'</div>'+
+        '<div class="tq">Find: “'+esc(taskPrompt(f))+'”</div><div class="muted" style="font-size:11.5px">Target (hidden from participant): <span class="mono">'+esc(fullPath(f))+'</span></div>'+
+        '<div style="display:flex;align-items:center;gap:22px;margin:16px 0;flex-wrap:wrap"><div><div class="muted" style="font-size:11px;font-weight:700">ELAPSED · LIMIT '+T.limit+' s</div><div class="timer" id="tt">00:00</div></div>'+
+        '<div><div class="muted" style="font-size:11px;font-weight:700">NAVIGATION / SEARCH ATTEMPTS</div><div style="display:flex;align-items:center;gap:8px;margin-top:4px"><button class="btn ghost xs" onclick="T.attempts=Math.max(1,T.attempts-1);renderTesting()" aria-label="Fewer attempts">−</button><b style="font-size:20px">'+T.attempts+'</b><button class="btn ghost xs" onclick="T.attempts++;renderTesting()" aria-label="More attempts">＋</button></div></div></div>'+
+        '<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" onclick="recordTrial(true)">✓ Found</button><button class="btn danger" onclick="recordTrial(false)">✕ Not found / timed out</button><button class="btn ghost" onclick="T.task++;T.start=Date.now();T.attempts=1;renderTesting()">Skip</button></div></div>'+
+      '<div class="card"><div class="card-h">Classifier training<span class="aside">'+plural(done,'outcomes')+' recorded</span></div><table class="tbl kv-tbl"><tbody>'+
+        '<tr><td>Model</td><td>Random Forest (scikit-learn)</td></tr><tr><td>Validation</td><td>80/20 stratified split + 5-fold cross-validation</td></tr>'+
+        '<tr><td>Baseline</td><td>Rule-based classifier using clutter indicators only</td></tr><tr><td>Metrics</td><td>Accuracy, precision, recall, F1-score — computed after training</td></tr>'+
+        '<tr><td>Labeled files</td><td>'+Object.values(T.results).filter(r=>labelFor(r)).length+' of '+set.length+'</td></tr></tbody></table>'+
+        '<div class="card-foot"><span class="spacer"></span><button class="btn ghost sm" onclick="exportTrials()">⬇ Export labeled dataset (CSV)</button></div></div></div>'+
+      '<div class="section-h">Outcomes per file</div><div class="card tbl-wrap"><table class="tbl"><thead><tr><th>File</th><th class="num">Attempts</th><th class="num">Found</th><th class="num">Success rate</th><th class="num">Avg time</th><th>Label</th></tr></thead><tbody>'+
+        set.map(x=>{ const r=T.results[x.id], l=labelFor(r);
+          return '<tr><td><div class="fname">'+esc(x.name)+'</div><div class="fpath">'+esc(shortDir(x.dir))+'</div></td><td class="num">'+(r?r.n:0)+' / 10</td><td class="num">'+(r?r.s:0)+'</td><td class="num">'+(r&&r.n?Math.round(r.s/r.n*100)+'%':'—')+'</td>'+
+            '<td class="num">'+(r&&r.n?Math.round(r.t/r.n)+' s':'—')+'</td><td>'+(l?'<span class="pill '+RISK[l].cls+'">'+RISK[l].label+'</span>':'<span class="muted" style="font-size:11.5px">Needs '+(10-(r?r.n:0))+' more</span>')+'</td></tr>';}).join('')+
+      '</tbody></table></div>';
+    $('tp').onchange=e=>{ T.participant=+e.target.value; renderTesting(); };
+  }
+  function recordTrial(found){
+    const set=testSet(), f=set[T.task%set.length], secs=Math.min(T.limit,Math.round((Date.now()-T.start)/1000));
+    const r=T.results[f.id]=T.results[f.id]||{n:0,s:0,t:0,att:0};
+    if(r.n>=10) toast('This file already has 10 outcomes');
+    else { r.n++; if(found) r.s++; r.t+=secs; r.att+=T.attempts; toast('Recorded: P'+String(T.participant).padStart(2,'0')+' '+(found?'found':'did not find')+' '+f.name+' ('+secs+' s)'); }
+    T.task++; T.attempts=1; T.start=Date.now();
+    if(T.task%set.length===0&&T.participant<10){ T.participant++; toast('All tasks done — next participant P'+String(T.participant).padStart(2,'0')); }
+    renderTesting();
+  }
+  function exportTrials(){
+    const rows=[['File','Folder','Attempts','Found','Success rate','Avg time (s)','Avg navigation attempts','Label','Findability','D','T','C','P','Depth','Unused months']];
+    testSet().forEach(f=>{ const r=T.results[f.id]||{n:0,s:0,t:0,att:0}, l=labelFor(r), c=f.comp||{};
+      rows.push([f.name,ROOT+'\\'+f.dir,r.n,r.s,r.n?(r.s/r.n).toFixed(2):'',r.n?(r.t/r.n).toFixed(1):'',r.n?(r.att/r.n).toFixed(1):'',l?RISK[l].label:'',f.score??'',c.d??'',c.t??'',c.c??'',c.p??'',depthOf(f.dir),f.u]); });
+    downloadCSV(rows,'ClutterScope_Retrieval_Trials.csv'); toast('Labeled dataset exported');
   }
 
-  function updateGroups(){
-    document.querySelectorAll('#cleanup .grp').forEach(g=>{
-      const rows=[...g.querySelectorAll('.irow')];
-      const done=rows.every(r=>r.classList.contains('cleaned')||r.classList.contains('renamed'));
-      g.querySelector('.ilist').style.display = done?'none':'';
-      g.querySelector('.grp-foot').style.display = done?'none':'';
-      g.querySelector('.allclear').style.display = done?'flex':'none';
-    });
+  /* ================= DIALOG / HELP / TOAST ================= */
+  let dlgOpts={}, lastFocus=null;
+  function openDialog(o){
+    dlgOpts=o; lastFocus=document.activeElement;
+    $('dlg-icon').textContent=o.icon||'ℹ️'; $('dlg-title').textContent=o.title; $('dlg-sub').textContent=o.sub||''; $('dlg-sub').hidden=!o.sub;
+    $('dlg-body').innerHTML=o.body||''; $('dlg-body').onclick=null;
+    $('dlg-err').hidden=true; $('dlg-reassure').hidden=!o.reassure; $('dlg-reassure').innerHTML=o.reassure||'';
+    $('dlg-ok').textContent=o.ok||'OK'; $('dlg-ok').className='btn '+(o.okClass||'primary');
+    $('dlg-cancel').hidden=o.cancel===false;
+    $('dlg').classList.add('show');
+    setTimeout(()=>{ const f=$('dlg-body').querySelector('input')||$('dlg-ok'); f.focus(); if(f.select) f.select(); },30);
   }
-
-  /* ---------- score gauge + result counts + reset ---------- */
-  function applyScore(){
-    document.getElementById('score-num').textContent=score;
-    const arc=document.getElementById('gauge-arc'),C=527.8;
-    arc.style.strokeDashoffset=C*(1-score/100);
-    const col=score>=75?'#16a34a':score>=40?'#f59e0b':'#ef4444';
-    arc.setAttribute('stroke',col); document.getElementById('score-num').style.color=col;
-    const band=document.getElementById('score-band');
-    if(score>=75){band.textContent='✓ Well Organized';band.style.background='#dcfce7';band.style.color='#15803d';}
-    else if(score>=40){band.textContent='⚠ Moderately Organized';band.style.background='#fef3c7';band.style.color='#92400e';}
-    else{band.textContent='✕ Highly Disorganized';band.style.background='#fee2e2';band.style.color='#b91c1c';}
-    document.getElementById('score-delta').textContent = score>baseScore ? ('▲ +'+(score-baseScore)) : '';
-    document.getElementById('recover-num').textContent=recover.toFixed(1)+' GB';
-  }
-  function updateResultCounts(){
-    CATS.forEach(c=>{const el=document.getElementById('c-'+c.key); if(el) el.textContent=(detected[c.key]-resolved[c.key]).toLocaleString();});
-  }
-  function updateContinueLabel(){
-    const btn=document.getElementById('continue-btn'); if(!btn) return;
-    const acted=document.querySelectorAll('#log-card .logrow').length>0;
-    btn.innerHTML = acted ? '✓ Done — View Report  →' : 'Continue to Report  →';
-    btn.title = acted ? 'View the summary report of your scan and the actions you applied.'
-                      : 'You can act on the items above, or continue to the report and do it later.';
-  }
-  function resetModel(){
-    resolved={dup:0,name:0,depth:0,unused:0}; score=baseScore; recover=baseRecover;
-    document.querySelectorAll('#cleanup .irow').forEach(r=>{
-      r.classList.remove('cleaned','renamed'); r.querySelector('.it').checked=false;
-      if(r.dataset.origName) r.querySelector('.nm').childNodes[0].textContent=r.dataset.origName+' ';
-      if(r.dataset.origTag){ const t=r.querySelector('.tag'); const p=r.dataset.origTag.split('|'); t.className=p[0]; t.textContent=p[1]; }
-    });
-    document.querySelectorAll('.grp-all').forEach(c=>c.checked=false);
-    document.querySelectorAll('#log-card .logrow').forEach(x=>x.remove());
-    const le=document.getElementById('log-empty'); if(le){le.style.display='block'; le.innerHTML='No actions applied yet. Go to <b>Clean Up</b> to act on detected clutter.';}
-    applyScore(); updateResultCounts(); updateGroups(); refreshSel(); updateContinueLabel();
-  }
-
-  /* ---------- action log ---------- */
-  function addLog(icon,bg,text,size){
-    document.getElementById('log-empty')&&(document.getElementById('log-empty').style.display='none');
-    const row=document.createElement('div');row.className='logrow fresh';
-    row.innerHTML='<div class="lic '+bg+'">'+icon+'</div><div><div style="font-weight:600">'+text+'</div><div style="font-size:11px;color:var(--muted)">'+size+'</div></div><div class="when">just now</div>';
-    document.getElementById('log-card').appendChild(row);
-  }
-  function checkLogEmpty(){
-    const rows=document.querySelectorAll('#log-card .logrow');
-    document.getElementById('log-empty').style.display=rows.length?'none':'block';
-  }
-
-  /* ---------- export, history, settings, help ---------- */
-  function exportReport(kind){
-    const path='C:\\Users\\Jhan\\Documents\\ClutterScope_Report.'+kind.toLowerCase();
-    openInfo('✅ Report exported','<div class="info-body">Your '+kind+' report was saved to:<br><br><code style="background:#f1f5fb;padding:4px 8px;border-radius:6px;font-size:12px">'+path+'</code></div>');
-  }
-  function loadHistory(date){ toast('Loaded scan from '+date,false); go('results'); }
-  function clearHistory(){
-    document.getElementById('history-body').innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:22px">No scan history.</td></tr>';
-    toast('Scan history cleared',false);
-  }
-  function toggleSw(el){ el.classList.toggle('off'); }
-  function segPick(b){ [...b.parentElement.children].forEach(x=>x.classList.remove('on')); b.classList.add('on');
-    toast(b.textContent+' theme selected (preview)',false); }
+  function closeDialog(){ $('dlg').classList.remove('show'); if(lastFocus&&document.contains(lastFocus)) lastFocus.focus(); }
+  function showErr(m){ $('dlg-err').hidden=false; $('dlg-err').textContent='⚠ '+m; }
+  $('dlg-ok').onclick=()=>{ if(dlgOpts.onOk&&dlgOpts.onOk()===false) return; if($('dlg').classList.contains('show')) closeDialog(); };
+  $('dlg-cancel').onclick=closeDialog;
+  $('dlg').addEventListener('click',e=>{ if(e.target.id==='dlg') closeDialog(); });
+  $('dlg-body').addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.matches('input')){ e.preventDefault(); $('dlg-ok').click(); } });
   function showHelp(){
-    openInfo('❔ How to use ClutterScope',
-      '<div class="info-body">'+
-      '<b>1. Home</b> — pick folders &amp; the clutter indicators to check, then <b>Start Scan</b>.<br>'+
-      '<b>2. Scanning</b> — ClutterScope hashes files and measures folders locally.<br>'+
-      '<b>3. Results</b> — see your 0–100 clutter score and the breakdown.<br>'+
-      '<b>4. Clean Up</b> — select items and choose <b>Delete / Rename / Archive</b>. You confirm before anything changes; deletions go to the Recycle Bin.<br>'+
-      '<b>5. Report</b> — review the action log and export to CSV/PDF.'+
-      '<ul><li>Everything runs on your PC — nothing is uploaded.</li><li>No file is changed without your confirmation.</li></ul></div>');
+    openDialog({icon:'❔',title:'How ClutterScope works',cancel:false,ok:'Got it',body:
+      '<b>1. Scan</b> — pick folders; ClutterScope reads file metadata (never contents) and skips system folders.<br>'+
+      '<b>2. Scores</b> — each file gets a <b>findability score</b> (0–100, higher is easier to find) and each folder a <b>clutter score</b> (0–100, higher is more cluttered).<br>'+
+      '<b>3. Retrieval risk</b> — a machine-learning classifier predicts <i>Findable</i>, <i>Uncertain</i> or <i>Likely Lost</i>, with a confidence value.<br>'+
+      '<b>4. Recommendations</b> — fixed rules turn risk and indicators into <b>rename, archive, delete or keep</b>.<br>'+
+      '<b>5. Act safely</b> — you confirm every action, deletions go to the Recycle Bin, and Action History lets you undo. Scores update automatically.'+
+      '<ul><li>Everything stays on this PC.</li><li>Press <b>Ctrl+Z</b> to undo the most recent action.</li></ul>'});
   }
-  function openInfo(title,bodyHtml){ document.getElementById('info-title').textContent=title;
-    document.getElementById('info-body').innerHTML=bodyHtml; document.getElementById('info').classList.add('show'); }
-  function closeInfo(){ document.getElementById('info').classList.remove('show'); }
+  let toastT=null, toastFn=null;
+  function toast(msg,undoFn){ toastFn=undoFn||null; $('toast-msg').textContent=msg; $('toast-undo').hidden=!toastFn; $('toast').classList.add('show'); clearTimeout(toastT); toastT=setTimeout(hideToast,4500); }
+  function hideToast(){ $('toast').classList.remove('show'); }
+  function toastUndo(){ const f=toastFn; toastFn=null; hideToast(); if(f) f(); }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&$('dlg').classList.contains('show')){ closeDialog(); return; }
+    const typing=/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!typing&&!$('dlg').classList.contains('show')){
+      const last=[...LOG].reverse().find(x=>!x.undone); if(last){ e.preventDefault(); undoBatch(last.batch); } }
+  });
 
-  /* ---------- toast ---------- */
-  let toastT=null;
-  function toast(msg,showUndo){
-    document.getElementById('toast-msg').textContent=msg;
-    document.getElementById('toast-undo').style.display=showUndo?'inline':'none';
-    document.getElementById('toast').classList.add('show');
-    clearTimeout(toastT);toastT=setTimeout(hideToast,4000);
-  }
-  function hideToast(){document.getElementById('toast').classList.remove('show');
-    document.querySelectorAll('#log-card .logrow.fresh').forEach(x=>x.classList.remove('fresh'));}
-
-  /* close overlays on backdrop click */
-  document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal();});
-  document.getElementById('info').addEventListener('click',e=>{if(e.target.id==='info')closeInfo();});
-
-  document.querySelectorAll('#cleanup .irow').forEach(r=>{r.dataset.origName=rawName(r);const t=r.querySelector('.tag');r.dataset.origTag=t.className+'|'+t.textContent;});
-  refreshSel();updateHome();
+  /* ================= INIT ================= */
+  resetFS();
+  S={id:'s0',date:new Date(),roots:['Documents','Downloads','Desktop']};
+  computeAll();
+  $('nav-testing').hidden=!settings.researcher;
+  applyTheme();
+  go('dashboard');
 </script>
 </body>
 </html>
