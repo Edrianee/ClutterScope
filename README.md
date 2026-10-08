@@ -23,12 +23,13 @@ _(Available once GitHub Pages is enabled for this repository.)_
 1. **Dashboard** — files scanned, average findability, at-risk files, duplicates, unused files, recommended actions, risk distribution, most cluttered folders
 2. **Scan** — folder selection (system folders blocked), progress through the processing steps, results summary
 3. **File Analysis** — per-file findability, risk, indicators and explanation; per-folder clutter scores
-4. **Recommendations** — original → suggested filename with confirm / cancel; archive, delete and keep suggestions
-5. **Clutter Management** — duplicate groups (keep the original) and unused files; archive or delete to Recycle Bin
-6. **Action History** — original/new filename, date and time, status, per-row undo
-7. **Reports** — Findability, Retrieval-Risk, Clutter and Action reports; CSV and PDF export
+4. **Recommendations** — by default, a summary of every recommended rename, archive, delete and keep action with its expected effect, applied in one confirmed step (undoable as a batch). With *Manual review* (Settings), each suggested filename is confirmed or cancelled individually, and duplicate groups and unused files are selected and archived or deleted to the Recycle Bin
+5. **Action History** — original/new filename, date and time, status, per-row undo
+6. **Reports** — Findability, Retrieval-Risk, Clutter and Action reports; CSV and PDF export
 
-Plus **Settings** (theme, locked safety rules, scoring rules) and a researcher-only **Retrieval Testing** module (enable *Researcher mode* in Settings) for collecting ground-truth retrieval outcomes.
+Plus **Settings** (theme, one-click or manual recommendations, locked safety rules, scoring rules) and a researcher-only **Retrieval Testing** module (enable *Researcher mode* in Settings) for collecting ground-truth retrieval outcomes.
+
+See [CHANGELOG.md](CHANGELOG.md) for what changed in each version.
 
 ## How to run locally
 
