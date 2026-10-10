@@ -146,6 +146,10 @@
   .add:hover{background:var(--info-bg)}
   .scan-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
   .rules{padding:0 16px 12px 34px;margin:0;font-size:12px;color:var(--ink-2);line-height:1.75}
+  .ex-log{margin:0 16px 14px;border:1px solid var(--line);border-radius:10px;background:var(--soft);font-size:11.5px}
+  .ex-row{display:flex;flex-direction:column;gap:1px;padding:7px 11px}
+  .ex-row+.ex-row{border-top:1px dashed var(--line)}
+  .ex-row .mono{font-size:11px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .progress-card{padding:26px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
   .ring{position:relative;width:128px;height:128px}.ring svg{transform:rotate(-90deg)}
   .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800}
@@ -228,10 +232,18 @@
   .plan-h .gi{flex:1;min-width:0}.plan-h .gi div{font-weight:600}.plan-h .gi small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
   .plan-list{padding:0 16px 10px 44px;font-size:12px}
   .plan-list summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:11.5px;padding:2px 0}
-  .plan-list ul{margin:6px 0 0;padding:0;list-style:none;max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--soft)}
+  .plan-list ul{margin:6px 0 0;padding:0;list-style:none;max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--soft)}
   .plan-list li{padding:6px 10px;display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
   .plan-list li+li{border-top:1px dashed var(--line)}
   .plan-list .arrow{color:var(--muted)}
+  .plan-list .why{flex-basis:100%;color:var(--muted);font-size:11px}
+  .plan-list li>input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);align-self:center;margin:0 4px 0 0;flex-shrink:0}
+  .plan-list li .pd{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;flex:1;min-width:0}
+  .plan-list li.skip .pd{opacity:.45}.plan-list li.skip .pd>span:first-child{text-decoration:line-through}
+  .name-edit{border:1px solid var(--line-2);border-radius:6px;padding:3px 7px;font-size:12px;background:var(--panel);color:var(--ink);min-width:0;width:min(320px,100%)}
+  .name-edit:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  .name-edit.err{border-color:var(--bad);outline-color:var(--bad)}
+  .pill.safe{background:var(--ok-bg);color:var(--good-ink);border:1px solid var(--ok-line);font-weight:600;font-size:10.5px;padding:1px 8px;margin-left:4px;vertical-align:1px}
   .ack{display:flex;gap:9px;align-items:flex-start;margin-top:12px;font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer}
   .ack input{width:16px;height:16px;margin-top:1px;accent-color:var(--accent);flex-shrink:0}
 
@@ -278,20 +290,16 @@
   .doc-foot{margin-top:14px;font-size:11px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
   .doc .stack{margin:0 0 16px}
   .rpt-more{margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
+  .doc-sub{font-size:14px;margin:22px 0 10px}
+  .doc .tbl tr.grp-first td{border-top:2px solid var(--line)}
 
-  /* SETTINGS / TESTING */
+  /* SETTINGS */
   .set-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
   .set-row:last-child{border-bottom:none}
   .set-row .si{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--chip)}
   .set-row h4{margin:0;font-size:13px}.set-row p{margin:2px 0 0;font-size:11.5px;color:var(--muted)}
   .lock{font-size:11px;font-weight:700;color:var(--muted);background:var(--chip);padding:4px 10px;border-radius:20px;white-space:nowrap}
-  .sw2{width:40px;height:23px;border-radius:12px;background:var(--accent);position:relative;cursor:pointer;flex-shrink:0;border:none;padding:0;transition:.15s}
-  .sw2::after{content:"";position:absolute;top:2px;right:2px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.15s}
-  .sw2[aria-checked="false"]{background:var(--line-2)}.sw2[aria-checked="false"]::after{right:auto;left:2px}
   .kv-tbl td:first-child{color:var(--muted);width:34%}
-  .task-card{padding:20px}
-  .task-card .tq{font-size:17px;font-weight:700;margin:8px 0 4px}
-  .timer{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums}
 
   /* dialogs, toast */
   .overlay{position:absolute;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;z-index:50;backdrop-filter:blur(2px)}
@@ -389,7 +397,6 @@
           <button class="nav-item" data-page="reports" title="Reports"><span class="nico">📄</span><span class="nlabel">Reports</span></button>
           <div class="nav-label">System</div>
           <button class="nav-item" data-page="settings" title="Settings"><span class="nico">⚙️</span><span class="nlabel">Settings</span></button>
-          <button class="nav-item" data-page="testing" id="nav-testing" title="Retrieval Testing" hidden><span class="nico">🧪</span><span class="nlabel">Retrieval Testing</span></button>
         </nav>
         <div class="side-foot" title="100% local · metadata only"><span class="dot-ok"></span><span>100% local · metadata only</span></div>
       </aside>
@@ -409,7 +416,6 @@
           <section class="page" id="history"></section>
           <section class="page" id="reports"></section>
           <section class="page" id="settings"></section>
-          <section class="page" id="testing"></section>
         </div>
       </main>
     </div>
@@ -487,6 +493,16 @@
     'logo.png':'ClutterScope_Logo.png','Lecture_Notes.pdf':'IT101_Lecture_Notes.pdf','project_demo.mp4':'Capstone_Project_Demo_2026.mp4',
     'IMG_2381.jpg':'Defense_Photo_2026-06.jpg','Report.docx':'Capstone_Report_2026.docx','Draft_Report.docx':'Draft_Report_Adviser_2026-06.docx'
   };
+  // items the scanner skips by rule (TC-SAF-02 / TC-SAF-10): logged with the reason, never scored
+  const EXCLUDED=[
+    {root:'Documents',path:'Documents\\desktop.ini',reason:'System file attribute'},
+    {root:'Documents',path:'Documents\\School\\Capstone\\~$pstone_Proposal_ClutterScope_2026.docx',reason:'Hidden temporary file'},
+    {root:'Documents',path:'Documents\\My Music',reason:'No read permission — folder skipped'},
+    {root:'Downloads',path:'Downloads\\desktop.ini',reason:'System file attribute'},
+    {root:'Downloads',path:'Downloads\\Photos\\Thumbs.db',reason:'Hidden system file'},
+    {root:'Desktop',path:'Desktop\\desktop.ini',reason:'System file attribute'}
+  ];
+  const excludedFor=roots=>EXCLUDED.filter(e=>roots.includes(e.root));
   const CANDIDATES=[
     {path:ROOT+'\\Documents',root:'Documents'},{path:ROOT+'\\Downloads',root:'Downloads'},{path:ROOT+'\\Desktop',root:'Desktop'},
     {path:'C:\\Windows',blocked:'System directory — always excluded'},{path:'C:\\Program Files',blocked:'Application directory — always excluded'},
@@ -517,7 +533,7 @@
 
   /* ================= STATE ================= */
   const SKEY='clutterscope.settings.v2';
-  function loadSettings(){ const d={theme:'light',researcher:false,recMode:'auto'}; try{ return {...d,...JSON.parse(localStorage.getItem(SKEY)||'{}')}; }catch(e){ return d; } }
+  function loadSettings(){ const d={theme:'light',recMode:'auto'}; try{ return {...d,...JSON.parse(localStorage.getItem(SKEY)||'{}')}; }catch(e){ return d; } }
   function saveSettings(){ try{ localStorage.setItem(SKEY,JSON.stringify(settings)); }catch(e){} }
   let settings=loadSettings();
   let FS=[];                       // simulated file system — persists across scans; actions change it
@@ -525,7 +541,7 @@
   let LOG=[], batchSeq=0;
   let sugg={};                     // edited rename suggestions by file id
   let page='dashboard';
-  const ui={afTab:'files',q:'',risk:'all',sort:'score',open:new Set(),cmTab:'dups',sel:new Set(),rpt:'findability',histFilter:'all',recSel:new Set(),showDismissed:false,rptAll:false,inc:{},lastAuto:null};
+  const ui={afTab:'files',q:'',risk:'all',sort:'score',open:new Set(),cmTab:'dups',sel:new Set(),rpt:'findability',histFilter:'all',recSel:new Set(),showDismissed:false,rptAll:false,inc:{},skip:new Set(),names:{},lastAuto:null};
   let scanState='idle', pendingRoots=['Documents','Downloads','Desktop'];
 
   function resetFS(){
@@ -538,7 +554,21 @@
   function scanned(){ return FS.filter(inScan); }
   let FOLDERS=[];
   function computeAll(){
-    const act=scanned();
+    const act=scanned(), byDir=scoreFiles(act);
+    act.forEach(f=>f.rec=mapAction(f));
+    FOLDERS=Object.keys(byDir).map(dir=>{
+      const fs=byDir[dir], n=fs.length, dep=depthOf(dir);
+      const dup=fs.filter(f=>f.dupCopy).length, un=fs.filter(f=>f.unused).length;
+      const avgF=fs.reduce((a,f)=>a+f.score,0)/n;
+      const sev={dup:Math.min(1,dup/n/.3),depth:dep>DEPTH_MAX?1:dep>=4?.4:0,unused:Math.min(1,un/n/.5),find:(100-avgF)/100};
+      const clutter=Math.round(CW.dup*sev.dup+CW.depth*sev.depth+CW.unused*sev.unused+CW.find*sev.find);
+      return {dir,files:fs,n,dep,dup,un,avgF,sev,clutter};
+    }).sort((a,b)=>b.clutter-a.clutter);
+    updateBadges();
+  }
+  // Findability, risk, duplicates and indicators for a set of files scored together
+  // (collisions and distinguishing terms depend on the other files in the set). Returns files grouped by folder.
+  function scoreFiles(act){
     const byKey={}, byDir={}, byHash={};
     act.forEach(f=>{ const k=collKey(f.name); (byKey[k]=byKey[k]||[]).push(f); (byDir[f.dir]=byDir[f.dir]||[]).push(f); if(f.h)(byHash[f.h]=byHash[f.h]||[]).push(f); });
     act.forEach(f=>{ f.dupCopy=false; f.dupOf=null; f.copies=[]; });
@@ -558,6 +588,8 @@
       let p=dep<=3?1:dep<=DEPTH_MAX?.6:.2; if(gdir) p=Math.max(0,+(p-.3).toFixed(2));
       f.comp={d,t,c,p,m,hasDate,uniq,col,dep,gdir};
       f.score=Math.round(FW.d*d+FW.t*t+FW.c*c+FW.p*p);
+      // Mockup stand-in for the trained classifier: the score baseline (70 / 45) plus a distance-based confidence.
+      // In the app the risk and confidence come from the model trained on the retrieval-trial labels.
       f.risk=f.score>=70?'F':f.score>=45?'U':'L';
       const dist=Math.min(Math.abs(f.score-70),Math.abs(f.score-45));
       f.conf=Math.min(.97,.55+dist/40);
@@ -570,16 +602,7 @@
       if(t===0) f.ind.push(['No distinguishing terms',0]);
       if(c<1) f.ind.push(['Similar name ×'+col.length,0]);
     });
-    act.forEach(f=>f.rec=mapAction(f));
-    FOLDERS=Object.keys(byDir).map(dir=>{
-      const fs=byDir[dir], n=fs.length, dep=depthOf(dir);
-      const dup=fs.filter(f=>f.dupCopy).length, un=fs.filter(f=>f.unused).length;
-      const avgF=fs.reduce((a,f)=>a+f.score,0)/n;
-      const sev={dup:Math.min(1,dup/n/.3),depth:dep>DEPTH_MAX?1:dep>=4?.4:0,unused:Math.min(1,un/n/.5),find:(100-avgF)/100};
-      const clutter=Math.round(CW.dup*sev.dup+CW.depth*sev.depth+CW.unused*sev.unused+CW.find*sev.find);
-      return {dir,files:fs,n,dep,dup,un,avgF,sev,clutter};
-    }).sort((a,b)=>b.clutter-a.clutter);
-    updateBadges();
+    return byDir;
   }
   // deterministic action mapping (R1–R5)
   function mapAction(f){
@@ -617,7 +640,7 @@
       avgF:n?act.reduce((a,f)=>a+f.score,0)/n:0,clutter:n?FOLDERS.reduce((a,fo)=>a+fo.clutter*fo.n,0)/n:0,
       totalMB:act.reduce((a,f)=>a+f.mb,0),folders:FOLDERS.length,deep:FOLDERS.filter(fo=>fo.dep>DEPTH_MAX).length};
   }
-  // Counts of the full one-click plan (including follow-up actions). planAll() rescores internally,
+  // Counts of the full review-&-apply plan (including follow-up actions). planAll() rescores internally,
   // which calls back into updateBadges — the `planning` flag stops that recursion.
   let planning=false;
   function planCounts(){
@@ -626,7 +649,7 @@
     const c={rename:0,archive:0,delete:0,keep:0}; ops.forEach(o=>c[o.a]++);
     c.total=ops.length; c.changes=ops.length-c.keep; return c;
   }
-  // what the user will actually be offered: the full plan in one-click mode, first-round suggestions in manual mode
+  // what the user will actually be offered: the full plan in review-&-apply mode, first-round suggestions in manual mode
   function recCounts(st){
     const pc=settings.recMode!=='manual'?planCounts():null;
     return pc||{rename:st.rename,archive:st.archive,delete:st.delete,keep:st.keep,total:st.actionable+st.keep,changes:st.actionable};
@@ -645,11 +668,9 @@
     recs:['Recommendations','Suggested corrective actions — nothing changes until you confirm'],
     history:['Action History','Every confirmed action, with undo'],
     reports:['Reports','Findability, retrieval-risk, clutter and action reports · CSV / PDF'],
-    settings:['Settings','Preferences, detection rules and safety'],
-    testing:['Retrieval Testing','Researcher only · collect ground-truth retrieval outcomes']
+    settings:['Settings','Preferences, detection rules and safety']
   };
   function go(p){
-    if(p==='testing'&&!settings.researcher) p='settings';
     page=p;
     document.querySelectorAll('.page').forEach(s=>s.classList.toggle('active',s.id===p));
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.page===p));
@@ -658,7 +679,7 @@
     render();
   }
   function render(){ ({dashboard:renderDashboard,scan:renderScan,analysis:renderAnalysis,recs:renderRecs,
-    history:renderHistory,reports:renderReports,settings:renderSettings,testing:renderTesting})[page](); }
+    history:renderHistory,reports:renderReports,settings:renderSettings})[page](); }
   document.querySelectorAll('.nav-item').forEach(n=>n.addEventListener('click',()=>go(n.dataset.page)));
 
   /* ================= DASHBOARD ================= */
@@ -667,7 +688,7 @@
     const st=stats(), rc=recCounts(st), P=$('dashboard');
     const riskRow=k=>{const r=RISK[k], c=st.risk[k];
       return '<div class="legend-row"><span class="sw" style="background:'+r.color+'"></span>'+r.label+'<span class="muted" style="font-size:11.5px">'+
-        ({F:'score ≥ 70',U:'score 45–69',L:'score below 45'})[k]+'</span><b>'+c+' <span class="muted" style="font-weight:600">('+(st.n?Math.round(c/st.n*100):0)+'%)</span></b></div>';};
+        ({F:'likely to be found',U:'may be hard to find',L:'likely to be lost'})[k]+'</span><b>'+c+' <span class="muted" style="font-weight:600">('+(st.n?Math.round(c/st.n*100):0)+'%)</span></b></div>';};
     const worst=[...st.act].sort((a,b)=>a.score-b.score).slice(0,5);
     const bandLabel={good:'Good',fair:'Fair',poor:'Poor'}[fBand(st.avgF)];
     P.innerHTML=
@@ -719,7 +740,7 @@
     const st=stats();
     P.innerHTML=(scanState==='done'?
       '<div class="card done-card"><span class="big">✅</span><div><h3>Scan complete</h3><p>'+plural(st.n,'files')+' in '+plural(st.folders,'folders')+' · average findability <b style="color:'+fColor(st.avgF)+'">'+Math.round(st.avgF)+'</b> · '+
-      (st.risk.U+st.risk.L)+' at-risk files · '+st.actionable+' recommended actions</p></div></div>':'')+
+      (st.risk.U+st.risk.L)+' at-risk files · '+recCounts(st).changes+' recommended actions · '+plural(excludedFor(S.roots).length,'items')+' excluded</p></div></div>':'')+
       '<div class="scan-grid"><div class="card"><div class="card-h">📁 Folders to scan<span class="aside">'+plural(pendingRoots.length,'folders')+' selected</span></div>'+
         (pendingRoots.length?pendingRoots.map(r=>{const fs=rootFiles(r); return '<div class="folder-row"><div class="ic">📂</div><div class="path">'+esc(ROOT+'\\'+r)+'</div><div class="sz">'+plural(fs.length,'files')+' · '+fmtMB(fs.reduce((a,f)=>a+f.mb,0))+'</div><button class="x" onclick="removeRoot(\''+r+'\')" aria-label="Remove '+r+'" title="Remove">✕</button></div>';}).join('')
           :'<div class="empty" style="border-top:1px solid var(--line)">No folders selected. Add at least one folder to scan.</div>')+
@@ -730,7 +751,14 @@
         '<li>Files with hidden or system attributes</li><li>Folders without read permission are skipped and logged</li></ul>'+
         '<div class="card-h" style="padding-top:2px">🔍 Indicators detected</div><ul class="rules">'+
         '<li>Duplicate files — identical SHA-256 content hash</li><li>Unused files — not used for ≥ '+UNUSED_MONTHS+' months</li>'+
-        '<li>Folder depth — nested beyond '+DEPTH_MAX+' levels</li><li>Naming issues — generic names, no distinguishing terms, name collisions</li></ul></div></div>';
+        '<li>Folder depth — nested beyond '+DEPTH_MAX+' levels</li><li>Naming issues — generic names, no distinguishing terms, name collisions</li></ul>'+
+        excludedLog()+'</div></div>';
+  }
+  function excludedLog(){
+    const ex=excludedFor(S.roots);
+    return '<div class="card-h" style="padding-top:2px">🚫 Excluded in last scan<span class="aside">'+plural(ex.length,'items')+' · not scored</span></div>'+
+      (ex.length?'<div class="ex-log">'+ex.map(e=>'<div class="ex-row"><span class="mono" title="'+esc(ROOT+'\\'+e.path)+'">'+esc(e.path)+'</span><span class="muted">'+e.reason+'</span></div>').join('')+'</div>'
+        :'<div class="empty" style="padding:10px">Nothing was excluded.</div>');
   }
   function removeRoot(r){ pendingRoots=pendingRoots.filter(x=>x!==r); scanState='idle'; renderScan(); }
   function openPicker(){
@@ -748,14 +776,14 @@
     scanState='running'; renderScan();
     const target={id:'s'+Date.now(),date:new Date(),roots:[...pendingRoots]};
     const files=FS.filter(f=>target.roots.includes(rootOf(f))&&(f.status==='active'||f.status==='kept'));
-    const dirs=new Set(files.map(f=>f.dir)).size;
+    const dirs=new Set(files.map(f=>f.dir)).size, nEx=excludedFor(target.roots).length;
     let pct=0, tick=0;
     scanTimer=setInterval(()=>{
       tick++; pct=Math.min(100,pct+Math.max(2,Math.round((100-pct)*0.09)));
       if($('scan-pct')){
         $('scan-pct').textContent=pct+'%'; $('scan-arc').setAttribute('stroke-dashoffset',(333*(1-pct/100)).toFixed(1));
         $('sc-files').textContent=Math.round(files.length*pct/100); $('sc-dirs').textContent=Math.round(dirs*pct/100);
-        $('sc-ex').textContent=Math.round(3*pct/100); $('sc-time').textContent='00:'+String(Math.floor(tick*0.18)).padStart(2,'0');
+        $('sc-ex').textContent=Math.round(nEx*pct/100); $('sc-time').textContent='00:'+String(Math.floor(tick*0.18)).padStart(2,'0');
         const f=files[Math.min(files.length-1,Math.floor(files.length*pct/100))]; if(f) $('sc-cur').textContent='Reading metadata → '+fullPath(f);
         const now=Math.min(STEPS.length-1,Math.floor(pct/100*STEPS.length));
         document.querySelectorAll('#scan-steps li').forEach((li,i)=>{ li.className=pct>=100||i<now?'done':i===now?'now':''; });
@@ -790,7 +818,7 @@
             '<td>'+scorePill(f.score)+'</td><td style="white-space:nowrap">'+riskPill(f)+'</td><td>'+indChips(f)+'</td><td>'+(f.dismissed?'<span class="muted" style="font-size:11.5px">Cancelled</span>':actTag(f.rec.a))+'</td></tr>'+
             (o?'<tr class="expl"><td colspan="6">'+explainFile(f)+'</td></tr>':'');}).join('')
           :'<tr><td colspan="6" class="empty">No files match these filters.</td></tr>')+'</tbody></table></div>'+
-        '<div class="formula">Findability = '+FW.d+'·D + '+FW.t+'·T + '+FW.c+'·C + '+FW.p+'·P   (D descriptiveness · T distinguishing terms · C name collisions · P path context, each 0–1)<br>Findable ≥ 70 · Uncertain 45–69 · Likely Lost &lt; 45 · placeholder weights, subject to adviser review</div>';
+        '<div class="formula">Findability = '+FW.d+'·D + '+FW.t+'·T + '+FW.c+'·C + '+FW.p+'·P   (D descriptiveness · T distinguishing terms · C name collisions · P path context, each 0–1)<br>Retrieval risk is predicted by the machine-learning classifier (simulated in this mockup). Rule-based baseline it is compared against: Findable ≥ 70 · Uncertain 45–69 · Likely Lost &lt; 45 · placeholder weights, subject to adviser review</div>';
     } else {
       html+='</div><div class="card tbl-wrap"><table class="tbl"><thead><tr><th></th><th>Folder</th><th class="num">Files</th><th class="num">Depth</th><th class="num">Duplicates</th><th class="num">Unused</th><th>Avg findability</th><th>Clutter score</th></tr></thead><tbody>'+
         FOLDERS.map(fo=>{const o=ui.open.has('d'+fo.dir);
@@ -812,7 +840,7 @@
       comp('Distinguishing terms (T)',FW.t*c.t,FW.t,(c.hasDate?'Has a date or version':'No date or version')+' · '+(c.uniq.length?'unique in folder: '+c.uniq.slice(0,3).join(', '):'no term unique in its folder'))+
       comp('Name collisions (C)',FW.c*c.c,FW.c,c.col.length?'Similar to: '+c.col.slice(0,3).map(o=>esc(o.name)).join(', '):'No similar filenames')+
       comp('Path context (P)',FW.p*c.p,FW.p,c.dep+' level'+(c.dep>1?'s':'')+' deep'+(c.dep>DEPTH_MAX?' (beyond '+DEPTH_MAX+')':'')+(c.gdir?' · generic folder name in path':''))+
-      '<div class="expl-foot"><span>Findability <b style="color:'+fColor(f.score)+'">'+f.score+'</b></span><span>Retrieval risk '+riskPill(f)+'</span>'+
+      '<div class="expl-foot"><span>Findability <b style="color:'+fColor(f.score)+'">'+f.score+'</b></span><span>Predicted retrieval risk '+riskPill(f)+'</span>'+
       '<span>'+fmtMB(f.mb)+' · last used '+lastUsed(f)+'</span><span>'+actTag(f.rec.a)+' <span class="muted">'+f.rec.rule+': '+esc(f.rec.why)+'</span></span></div></div>';
   }
   function explainFolder(fo){ const s=fo.sev;
@@ -836,7 +864,7 @@
   }
   function renderRecs(){ settings.recMode==='manual'?renderRecsManual():renderRecsAuto(); }
 
-  /* ---------- one-click apply (default) ---------- */
+  /* ---------- review & apply (default): every action listed per file, ticked by default, applied in one confirmed step ---------- */
   const PLAN_ORDER=['delete','archive','rename','keep'];
   const PLAN_INFO={
     delete:{title:'Delete duplicate copies',desc:'Keep the original of each duplicate set; copies go to the Recycle Bin'},
@@ -845,18 +873,23 @@
     keep:{title:'Keep low-confidence files',desc:'Prediction confidence below '+CONF_MIN*100+'% — no change, marked as reviewed'}
   };
   function ARCHIVE_DIR_NAME(){ return 'ClutterScope Archive'; }
+  // safety rating shown for every action type
+  const SAFETY={delete:'Reversible · Recycle Bin',archive:'Reversible · moved to archive',rename:'Reversible · filename only',keep:'Safe · no change'};
+  const safetyPill=a=>'<span class="pill safe" title="Safety rating">🛡 '+SAFETY[a]+'</span>';
   // Plan every recommended action. Applying one action can reveal another (a renamed file becomes
   // findable, so an unused one is then archived), so plan in rounds on a simulated rescore until nothing new appears.
+  // With `inc` (the user's selection) unticked groups and files are left out and edited names are used.
+  const opKey=(a,f)=>a+':'+f.id;
   function planAll(inc){
     const ops=[], saved=[], assigned={};
     for(let round=0; round<4; round++){
       const st=stats(), r=[];
       PLAN_ORDER.forEach(a=>{
         if(inc&&inc[a]===false) return;
-        st.recs.filter(f=>f.rec.a===a&&(a!=='keep'||f.rec.rule==='R2')).forEach(f=>{
-          const op={a,f,round};
+        st.recs.filter(f=>f.rec.a===a&&(a!=='keep'||f.rec.rule==='R2')&&!(inc&&ui.skip.has(opKey(a,f)))).forEach(f=>{
+          const op={a,f,round,rule:f.rec.rule,why:f.rec.why};   // reason captured now: later rounds rescore the file
           if(a==='rename'){   // unique name per folder across the whole batch
-            let n=suggestionFor(f); const b=baseName(n), e=n.slice(b.length);
+            let n=(inc&&ui.names[f.id])||suggestionFor(f); const b=baseName(n), e=n.slice(b.length);
             for(let i=2; assigned[f.dir+'\\'+n.toLowerCase()]; i++) n=b+'_'+i+e;
             assigned[f.dir+'\\'+n.toLowerCase()]=1; op.name=n;
           }
@@ -881,11 +914,13 @@
     return {avgF:after.avgF,risk:after.risk.U+after.risk.L,clutter:after.clutter,dupMB:after.dupMB,n:after.n};
   }
   function planDetail(op){
-    const f=op.f;
-    if(op.a==='rename') return '<span>'+esc(f.name)+'</span><span class="arrow">→</span><b class="mono" style="font-size:12px">'+esc(op.name)+'</b>';
-    if(op.a==='delete') return '<span>'+esc(f.name)+'</span><span class="muted"> · copy of '+esc(f.dupOf.name)+' in '+esc(shortDir(f.dupOf.dir))+'</span>';
-    if(op.a==='archive') return '<span>'+esc(f.name)+'</span><span class="muted"> · unused '+f.u+' months · '+esc(shortDir(f.dir))+(op.round?' · after rename':'')+'</span>';
-    return '<span>'+esc(f.name)+'</span><span class="muted"> · confidence '+Math.round(f.conf*100)+'%</span>';
+    const f=op.f, why='<small class="why">'+op.rule+': '+esc(op.why)+(op.round?' (after rename)':'')+'</small>';
+    if(op.a==='rename') return '<span>'+esc(f.name)+'</span><span class="arrow">→</span>'+
+      (op.round?'<b class="mono" style="font-size:12px">'+esc(op.name)+'</b>':
+        '<input class="input mono name-edit" data-name="'+f.id+'" value="'+esc(ui.names[f.id]||op.name)+'" aria-label="New name for '+esc(f.name)+'" spellcheck="false">')+why;
+    if(op.a==='delete') return '<span>'+esc(f.name)+'</span><span class="muted"> · '+esc(shortDir(f.dir))+'</span>'+why;
+    if(op.a==='archive') return '<span>'+esc(f.name)+'</span><span class="muted"> · '+esc(shortDir(f.dir))+'</span>'+why;
+    return '<span>'+esc(f.name)+'</span><span class="muted"> · '+esc(shortDir(f.dir))+'</span>'+why;
   }
   function renderRecsAuto(){
     const P=$('recs'), all=planAll(), st=stats();
@@ -901,42 +936,55 @@
     const now={avgF:st.avgF,risk:st.risk.U+st.risk.L,clutter:st.clutter,dupMB:st.dupMB};
     const after=project(ops);
     const tile=(label,a,b,fmt,better)=>'<div class="tile"><span>'+label+'</span><b>'+fmt(a)+' <span class="muted" style="font-weight:600">→</span> <span style="color:'+((better?b>a:b<a)?'var(--good-ink)':'var(--ink)')+'">'+fmt(b)+'</span></b></div>';
-    P.innerHTML='<p class="lead">ClutterScope prepared these actions from your latest scan. Review the summary, then apply them all at once — you confirm before anything changes, and the whole batch can be undone.</p>'+
+    P.innerHTML='<p class="lead">ClutterScope prepared these actions from your latest scan. Every file is listed with its reason — untick any you want to leave out or edit a suggested name, then apply the selected actions in one confirmed step. The whole batch can be undone.</p>'+
       '<div class="card" style="padding:18px 20px">'+
-        '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px"><div><div style="font-size:15px;font-weight:700">'+plural(ops.length,'recommended actions')+' ready</div>'+
+        '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px"><div><div style="font-size:15px;font-weight:700">'+ops.length+' of '+plural(all.length,'recommended actions')+' selected</div>'+
         '<div class="muted" style="font-size:12px;margin-top:2px">'+plural(changes,'file changes')+' · deletions go to the Recycle Bin · nothing is permanently erased</div></div><span class="spacer"></span>'+
-        '<button class="btn primary" id="apply-all" '+(ops.length?'':'disabled')+' onclick="confirmApplyAll()">✨ Apply all recommendations ('+ops.length+')</button></div>'+
+        '<button class="btn primary" id="apply-all" '+(ops.length?'':'disabled')+' onclick="confirmApplyAll()">✨ Apply selected ('+ops.length+')</button></div>'+
         '<div class="tiles" style="margin-bottom:6px">'+
           tile('Avg findability',Math.round(now.avgF),Math.round(after.avgF),v=>v,true)+
           tile('At-risk files',now.risk,after.risk,v=>v,false)+
           tile('Overall clutter',Math.round(now.clutter),Math.round(after.clutter),v=>v,false)+
           tile('Duplicate space',now.dupMB,after.dupMB,v=>v?fmtMB(v):'0 MB',false)+
         '</div><div class="muted" style="font-size:11px">Estimated after applying the selected actions</div></div>'+
-      '<div class="section-h">📋 What will be applied<span class="aside">Untick a group to leave it out</span></div><div class="card">'+
+      '<div class="section-h">📋 Review each action<span class="aside">Untick a file or a whole group to leave it out</span></div><div class="card">'+
       PLAN_ORDER.map(a=>{ const list=all.filter(op=>op.a===a); if(!list.length) return '';
-        const on=ui.inc[a]!==false, mb=list.reduce((s,op)=>s+op.f.mb,0);
+        const on=ui.inc[a]!==false, mb=list.reduce((s,op)=>s+op.f.mb,0), picked=list.filter(op=>!ui.skip.has(opKey(a,op.f))).length;
         return '<div class="plan-grp'+(on?'':' off')+'"><label class="plan-h"><input type="checkbox" data-inc="'+a+'" '+(on?'checked':'')+' aria-label="Include '+PLAN_INFO[a].title+'">'+actTag(a)+
-          '<div class="gi"><div>'+PLAN_INFO[a].title+' <span class="muted" style="font-weight:600">· '+plural(list.length,'files')+'</span></div><small>'+PLAN_INFO[a].desc+'</small></div>'+
+          '<div class="gi"><div>'+PLAN_INFO[a].title+' <span class="muted" style="font-weight:600">· '+(picked<list.length?picked+' of ':'')+plural(list.length,'files')+'</span> '+safetyPill(a)+'</div><small>'+PLAN_INFO[a].desc+'</small></div>'+
           (a==='delete'||a==='archive'?'<b style="white-space:nowrap">'+fmtMB(mb)+'</b>':'')+'</label>'+
-          '<details class="plan-list"><summary>Show '+plural(list.length,'files')+'</summary><ul>'+list.map(op=>'<li>'+planDetail(op)+'</li>').join('')+'</ul></details></div>';
+          '<details class="plan-list"'+(on?' open':'')+'><summary>'+plural(list.length,'files')+'</summary><ul>'+list.map(op=>{ const k=opKey(a,op.f), off=ui.skip.has(k);
+            return '<li'+(off?' class="skip"':'')+'><input type="checkbox" data-op="'+k+'" '+(off?'':'checked')+(on?'':' disabled')+' aria-label="Include '+esc(op.f.name)+'"><div class="pd">'+planDetail(op)+'</div></li>'; }).join('')+'</ul></details></div>';
       }).join('')+'</div>'+
-      '<p class="muted" style="font-size:12px;margin:14px 4px 0">Prefer to review and edit each file yourself? Turn on <b>Manual review</b> in Settings.</p>';
+      '<p class="muted" style="font-size:12px;margin:14px 4px 0">Prefer to go through files one at a time? Turn on <b>Manual review</b> in Settings.</p>';
   }
-  $('recs').addEventListener('change',e=>{ const a=e.target.dataset.inc; if(!a) return; ui.inc[a]=e.target.checked; renderRecs(); });
+  $('recs').addEventListener('change',e=>{
+    const t=e.target, d=t.dataset;
+    if(d.inc){ ui.inc[d.inc]=t.checked; renderRecs(); updateBadges(); }
+    else if(d.op){ t.checked?ui.skip.delete(d.op):ui.skip.add(d.op); renderRecs(); updateBadges(); }
+    else if(d.name){   // edited rename suggestion: keep the extension, refuse a clash with another file in that folder
+      const f=FS[d.name]; let n=t.value.trim();
+      if(!n){ delete ui.names[f.id]; renderRecs(); return; }
+      const ext=f.name.slice(baseName(f.name).length); if(ext&&!n.toLowerCase().endsWith(ext.toLowerCase())) n+=ext;
+      const clash=FS.some(o=>o!==f&&o.dir===f.dir&&(o.status==='active'||o.status==='kept')&&o.name.toLowerCase()===n.toLowerCase());
+      if(clash){ t.classList.add('err'); toast('“'+n+'” already exists in that folder — choose a different name'); return; }
+      ui.names[f.id]=n; renderRecs();
+    }
+  });
   function confirmApplyAll(){
     const ops=planAll(ui.inc); if(!ops.length) return;
     const st=stats(), after=project(ops), cnt=a=>ops.filter(op=>op.a===a).length;
-    openDialog({icon:'✨',title:'Apply '+plural(ops.length,'recommended actions')+'?',sub:'Check the summary below. Nothing changes until you confirm.',
+    openDialog({icon:'✨',title:'Apply '+plural(ops.length,'selected actions')+'?',sub:'Check the summary below. Nothing changes until you confirm.',
       body:'<div class="summary">'+PLAN_ORDER.filter(a=>cnt(a)).map(a=>{ const mb=ops.filter(op=>op.a===a).reduce((s,op)=>s+op.f.mb,0);
-          return '<div class="li"><span>'+ACT[a].icon+' '+PLAN_INFO[a].title+' — '+plural(cnt(a),'files')+'</span><span>'+(a==='delete'?fmtMB(mb)+' to Recycle Bin':a==='archive'?fmtMB(mb)+' to archive':a==='rename'?'names only':'no change')+'</span></div>'; }).join('')+
+          return '<div class="li"><span>'+ACT[a].icon+' '+PLAN_INFO[a].title+' — '+plural(cnt(a),'files')+'</span><span>'+(a==='delete'||a==='archive'?fmtMB(mb)+' · ':'')+SAFETY[a]+'</span></div>'; }).join('')+
         '<div class="li" style="font-weight:700"><span>Avg findability '+Math.round(st.avgF)+' → '+Math.round(after.avgF)+' · at-risk files '+(st.risk.U+st.risk.L)+' → '+after.risk+'</span><span></span></div></div>'+
-        '<label class="ack"><input type="checkbox" id="ack"> I reviewed this summary and want to apply these '+plural(ops.length,'actions')+'.</label>',
+        '<label class="ack"><input type="checkbox" id="ack"> I reviewed the selected actions and want to apply these '+plural(ops.length,'actions')+'.</label>',
       reassure:'♻ <span>Deletions go to the <b>Windows Recycle Bin</b>, archived files move to <b>'+ROOT+'\\'+ARCHIVE_DIR_NAME()+'</b>, and renames change filenames only. You can undo the whole batch right away (Undo or Ctrl+Z) or any single action later in Action History.</span>',
       ok:'Apply '+plural(ops.length,'actions'),onOk:()=>{
         if(!$('ack').checked){ showErr('Tick the box to confirm you reviewed the summary.'); return false; }
         const fresh=planAll(ui.inc);
         const batch=applyOps(fresh,'Applied '+plural(fresh.length,'recommended actions'));
-        ui.lastAuto={batch,n:fresh.length,time:new Date()};
+        ui.lastAuto={batch,n:fresh.length,time:new Date()}; ui.skip.clear(); ui.names={};
       }});
     $('dlg-ok').disabled=true;
     $('ack').onchange=e=>{ $('dlg-ok').disabled=!e.target.checked; $('dlg-err').hidden=true; };
@@ -951,7 +999,7 @@
     ui.recSel=new Set([...ui.recSel].filter(id=>ren.some(f=>f.id===id)));
     P.innerHTML=
       '<p class="lead"><b>Manual review is on.</b> Each recommendation is derived from the file’s predicted retrieval risk and detected indicators. Review the suggested filename, edit it if needed, then confirm — a confirmation dialog always appears before any change.</p>'+
-      '<div class="section-h">🏷️ Rename suggestions <span class="muted" style="text-transform:none;letter-spacing:0">('+ren.length+')</span><span class="aside">'+
+      '<div class="section-h">🏷️ Rename suggestions <span class="muted" style="text-transform:none;letter-spacing:0">('+ren.length+')</span><span style="text-transform:none;letter-spacing:0">'+safetyPill('rename')+'</span><span class="aside">'+
         (ren.length?'<button class="btn primary xs" '+(ui.recSel.size?'':'disabled')+' onclick="requestRename([...ui.recSel].map(i=>FS[i]))">Confirm selected ('+ui.recSel.size+')</button>':'')+'</span></div>'+
       '<div class="card">'+(ren.length?ren.map(f=>
         '<div class="rec"><input type="checkbox" data-rsel="'+f.id+'" '+(ui.recSel.has(f.id)?'checked':'')+' aria-label="Select '+esc(f.name)+'">'+
@@ -981,7 +1029,7 @@
     const st=stats();
     const groups=st.act.filter(f=>f.copies&&f.copies.length);
     ui.sel=new Set([...ui.sel].filter(id=>st.act.some(f=>f.id===id&&(ui.cmTab==='dups'?f.dupCopy:f.unused))));
-    let html='<div class="section-h">🧹 Duplicates and unused files <span class="muted" style="text-transform:none;letter-spacing:0">('+(st.dupCopies.length+st.unused.length)+')</span><span class="aside">Select files, then archive or delete</span></div>'+
+    let html='<div class="section-h">🧹 Duplicates and unused files <span class="muted" style="text-transform:none;letter-spacing:0">('+(st.dupCopies.length+st.unused.length)+')</span><span style="text-transform:none;letter-spacing:0">'+safetyPill('delete')+safetyPill('archive')+'</span><span class="aside">Select files, then archive or delete</span></div>'+
       '<div class="tools"><div class="seg" role="group"><button aria-pressed="'+(ui.cmTab==='dups')+'" onclick="ui.cmTab=\'dups\';ui.sel.clear();renderRecs()">🗂️ Duplicate files<span class="n">'+st.dupCopies.length+'</span></button>'+
       '<button aria-pressed="'+(ui.cmTab==='unused')+'" onclick="ui.cmTab=\'unused\';ui.sel.clear();renderRecs()">🕓 Unused files<span class="n">'+st.unused.length+'</span></button></div><span class="spacer"></span>'+
       '<span class="muted" style="font-size:12px">'+(ui.cmTab==='dups'?fmtMB(st.dupMB)+' recoverable from '+plural(groups.length,'duplicate groups'):'Not opened or modified for '+UNUSED_MONTHS+'+ months · '+fmtMB(st.unused.reduce((a,f)=>a+f.mb,0)))+'</span></div>';
@@ -1123,7 +1171,16 @@
         note:'Classes: Findable, Uncertain, Likely Lost. Below '+CONF_MIN*100+'% confidence the recommended action defaults to Keep.'};
     }
     if(k==='clutter'){
-      return {tiles:[['Overall clutter',Math.round(st.clutter)+' · '+cBand(st.clutter).label],['Folders',st.folders],['Duplicate copies',st.dupCopies.length+' · '+fmtMB(st.dupMB)],['Unused files',st.unused.length],['Folders deeper than '+DEPTH_MAX,st.deep]],
+      // duplicate groups: files with identical SHA-256 content, original first (TC-SAF-03)
+      const groups=st.act.filter(f=>f.copies&&f.copies.length);
+      const dupHtml='<h3 class="doc-sub">Duplicate groups <span class="muted" style="font-weight:600">· '+plural(groups.length,'groups')+' · '+plural(st.dupCopies.length,'copies')+'</span></h3>'+
+        '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>SHA-256</th><th>File</th><th>Folder</th><th class="num">Size</th><th>Role</th></tr></thead><tbody>'+
+        (groups.length?groups.map(o=>[o,...o.copies].map((f,i)=>'<tr'+(i===0?' class="grp-first"':'')+'><td class="mono" style="font-size:11px;white-space:nowrap">'+(i===0?fakeHash(o.h):'')+'</td>'+
+          '<td><div class="fname">'+esc(f.name)+'</div></td><td><span class="fpath">'+esc(shortDir(f.dir))+'</span></td><td class="num">'+fmtMB(f.mb)+'</td>'+
+          '<td>'+(i===0?'<span class="pill good">Original · keep</span>':'<span class="tag delete">Copy</span>')+'</td></tr>').join('')).join('')
+          :'<tr><td colspan="5" class="empty">No duplicate files.</td></tr>')+'</tbody></table></div>';
+      const dupCsv=[[],['Duplicate groups'],['SHA-256','File','Folder','Size (MB)','Role']].concat(groups.flatMap(o=>[o,...o.copies].map((f,i)=>[fakeHash(o.h),f.name,ROOT+'\\'+f.dir,f.mb,i===0?'Original':'Copy'])));
+      return {extra:dupHtml,extraCsv:dupCsv,tiles:[['Overall clutter',Math.round(st.clutter)+' · '+cBand(st.clutter).label],['Folders',st.folders],['Duplicate copies',st.dupCopies.length+' · '+fmtMB(st.dupMB)],['Unused files',st.unused.length],['Folders deeper than '+DEPTH_MAX,st.deep]],
         head:['Folder','Files','Depth','Duplicates','Unused','Avg findability','Clutter score'],
         rows:FOLDERS.map(fo=>['<span class="fpath" style="color:var(--ink-2);font-size:11.5px;max-width:340px;display:block" title="'+esc(ROOT+'\\'+fo.dir)+'">'+esc(ROOT+'\\'+fo.dir)+'</span>',fo.n,fo.dep,fo.dup,fo.un,scorePill(Math.round(fo.avgF)),clutterPill(fo.clutter)]),
         csv:[['Folder','Files','Depth','Duplicates','Unused','Avg findability','Clutter score','Level']].concat(FOLDERS.map(fo=>[ROOT+'\\'+fo.dir,fo.n,fo.dep,fo.dup,fo.un,Math.round(fo.avgF),fo.clutter,cBand(fo.clutter).label])),
@@ -1150,6 +1207,7 @@
         '</tbody></table></div>'+
         (d.limit&&d.rows.length>d.limit?'<div class="rpt-more">'+(ui.rptAll?'Showing all '+d.rows.length+' files':'Showing the '+d.limit+' lowest-scoring of '+d.rows.length+' files · the full list is included in the CSV export')+
           ' <button class="link rpt-more-btn" onclick="ui.rptAll=!ui.rptAll;renderReports()">'+(ui.rptAll?'Show fewer':'Show all '+d.rows.length)+'</button></div>':'')+
+        (d.extra||'')+
         '<div class="doc-foot"><span>'+d.note+'</span><span>All processing local · metadata only</span></div></div>';
   }
   function downloadCSV(rows,name){
@@ -1157,7 +1215,7 @@
     const url=URL.createObjectURL(new Blob(['\ufeff'+rows.map(r=>r.map(cell).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}));
     const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
-  function exportCSV(){ downloadCSV(reportData(ui.rpt).csv,'ClutterScope_'+REPORTS[ui.rpt].replace(/[^A-Za-z]+/g,'_')+'_'+S.date.toISOString().slice(0,10)+'.csv'); toast(REPORTS[ui.rpt]+' downloaded as CSV'); }
+  function exportCSV(){ const d=reportData(ui.rpt); downloadCSV(d.csv.concat(d.extraCsv||[]),'ClutterScope_'+REPORTS[ui.rpt].replace(/[^A-Za-z]+/g,'_')+'_'+S.date.toISOString().slice(0,10)+'.csv'); toast(REPORTS[ui.rpt]+' downloaded as CSV'); }
   let printTheme=null;
   function exportPDF(){ toast('Choose “Save as PDF” in the print dialog'); setTimeout(()=>window.print(),150); }
   window.addEventListener('beforeprint',()=>{ printTheme=document.documentElement.dataset.theme; document.documentElement.dataset.theme='light'; });
@@ -1169,8 +1227,8 @@
       '<div class="section-h">Appearance</div><div class="card"><div class="set-row"><div class="si">🎨</div><div><h4>Theme</h4><p>Light, dark, or follow Windows</p></div><span class="spacer"></span>'+
         '<div class="seg" role="group" aria-label="Theme">'+['light','dark','system'].map(t=>'<button aria-pressed="'+(settings.theme===t)+'" onclick="setTheme(\''+t+'\')">'+t[0].toUpperCase()+t.slice(1)+'</button>').join('')+'</div></div></div>'+
       '<div class="section-h">Recommendations</div><div class="card"><div class="set-row"><div class="si">💡</div><div style="flex:1;min-width:220px"><h4>How recommendations are applied</h4>'+
-        '<p>'+(settings.recMode==='manual'?'<b>Manual review</b> — review, edit and confirm each recommendation one by one (for advanced users).':'<b>One-click apply</b> — review a summary and apply all recommended actions at once with a single confirmation.')+'</p></div>'+
-        '<div class="seg" role="group" aria-label="Recommendation mode">'+[['auto','One-click apply'],['manual','Manual review']].map(m=>
+        '<p>'+(settings.recMode==='manual'?'<b>Manual review</b> — go through each recommendation one at a time and confirm or cancel it.':'<b>Review &amp; apply</b> — every recommended action is listed with its reason; untick any you don’t want or edit a suggested name, then apply the selected actions in one confirmed step.')+'</p></div>'+
+        '<div class="seg" role="group" aria-label="Recommendation mode">'+[['auto','Review &amp; apply'],['manual','Manual review']].map(m=>
           '<button aria-pressed="'+(settings.recMode===m[0])+'" onclick="setRecMode(\''+m[0]+'\')">'+m[1]+'</button>').join('')+'</div></div></div>'+
       '<div class="section-h">Safety <span class="aside">Required by design — cannot be turned off</span></div><div class="card">'+
         [['✅','Confirm before every action','A confirmation dialog appears before any rename, archive, delete or keep'],['♻','Deletions go to the Windows Recycle Bin','Files are never permanently erased'],
@@ -1181,70 +1239,21 @@
         [['Unused file threshold','≥ '+UNUSED_MONTHS+' months since last access or modification'],['Folder depth threshold','Nested beyond '+DEPTH_MAX+' levels'],['Duplicate detection','Identical SHA-256 content hash'],
          ['Findability weights','Descriptiveness '+FW.d+' · Distinguishing terms '+FW.t+' · Name collisions '+FW.c+' · Path context '+FW.p],
          ['Clutter weights','Duplicates '+CW.dup+' · Depth '+CW.depth+' · Unused '+CW.unused+' · Low findability '+CW.find],
-         ['Retrieval risk classes','Findable · Uncertain · Likely Lost (Random Forest classifier)'],['Low-confidence rule','Confidence below '+CONF_MIN*100+'% → Keep (no action)'],
+         ['Retrieval risk','Findable · Uncertain · Likely Lost, predicted by a machine-learning classifier trained on retrieval-trial data (model chosen by comparing logistic regression, decision tree and random forest)'],['Low-confidence rule','Confidence below '+CONF_MIN*100+'% → Keep (no action)'],
          ['Action rules','R1 duplicate copy → Delete · R2 low confidence → Keep · R3 at risk + naming issue → Rename · R4 unused → Archive · R5 otherwise → Keep']].map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+
       '</tbody></table></div>'+
-      '<div class="section-h">Research</div><div class="card"><div class="set-row"><div class="si">🧪</div><div><h4>Researcher mode</h4><p>Shows the Retrieval Testing module used to collect ground-truth data for the classifier</p></div><span class="spacer"></span>'+
-        '<button class="sw2" role="switch" aria-checked="'+settings.researcher+'" aria-label="Researcher mode" onclick="toggleResearcher()"></button></div>'+
-        '<div class="set-row"><div class="si">↺</div><div><h4>Reset sample data</h4><p>Restore the demo file set and clear the action log</p></div><span class="spacer"></span><button class="btn ghost sm" onclick="resetDemo()">Reset</button></div></div>'+
-      '<div class="section-h">About</div><div class="card"><div class="set-row"><div class="si">ℹ️</div><div><h4>ClutterScope v1.0 — UI mockup</h4><p>Windows 10 / 11 · Python, PySide6, scikit-learn, SQLite · 100% local · Data Privacy Act (RA 10173). Files, scores and predictions shown are simulated.</p></div></div></div>';
+      '<div class="section-h">Sample data</div><div class="card"><div class="set-row"><div class="si">↺</div><div><h4>Reset sample data</h4><p>Restore the demo file set and clear the action log</p></div><span class="spacer"></span><button class="btn ghost sm" onclick="resetDemo()">Reset</button></div></div>'+
+      '<div class="section-h">About</div><div class="card"><div class="set-row"><div class="si">ℹ️</div><div><h4>ClutterScope v1.0 — UI mockup</h4><p>Windows 10 / 11 · Python, PySide6, scikit-learn, SQLite · 100% local processing — no file content or user data leaves this computer. Files, scores and predictions shown are simulated.</p></div></div></div>';
   }
-  function setRecMode(m){ settings.recMode=m; saveSettings(); updateBadges(); renderSettings(); toast(m==='manual'?'Manual review on — recommendations are reviewed one by one':'One-click apply on — recommendations are applied together'); }
-  function toggleResearcher(){ settings.researcher=!settings.researcher; saveSettings(); $('nav-testing').hidden=!settings.researcher; renderSettings(); toast('Researcher mode '+(settings.researcher?'on — Retrieval Testing added to the menu':'off')); }
+  function setRecMode(m){ settings.recMode=m; saveSettings(); updateBadges(); renderSettings(); toast(m==='manual'?'Manual review on — recommendations are reviewed one by one':'Review & apply on — review the listed actions, then apply the selected ones together'); }
   function resetDemo(){
     openDialog({icon:'↺',title:'Reset sample data?',sub:'Restores all demo files to their original state and clears the action log.',ok:'Reset',okClass:'danger-solid',
-      onOk:()=>{ resetFS(); T.results={}; computeAll(); closeDialog(); render(); toast('Sample data reset'); }});
+      onOk:()=>{ resetFS(); computeAll(); closeDialog(); render(); toast('Sample data reset'); }});
   }
   const darkMQ=matchMedia('(prefers-color-scheme: dark)');
   function applyTheme(){ const t=settings.theme==='system'?(darkMQ.matches?'dark':'light'):settings.theme; document.documentElement.dataset.theme=t; }
   darkMQ.addEventListener('change',()=>{ if(settings.theme==='system') applyTheme(); });
   function setTheme(t){ settings.theme=t; saveSettings(); applyTheme(); if(page==='settings') renderSettings(); }
-
-  /* ================= RETRIEVAL TESTING (researcher only) ================= */
-  const T={participant:1,task:0,attempts:1,start:null,timer:null,results:{},limit:120};
-  const testSet=()=>FS.filter(f=>f.status!=='deleted');
-  function taskPrompt(f){ const n=SUGGEST[f.origName]||f.origName; return tokens(n).filter(t=>!/^\d+$/.test(t)||t.length===4).join(' ').replace(/\b\w/g,c=>c.toUpperCase())+' ('+extOf(f.name).toUpperCase()+')'; }
-  const labelFor=r=>!r||r.n<10?null:r.s>=8?'F':r.s>=4?'U':'L';
-  function renderTesting(){
-    const P=$('testing'), set=testSet(), f=set[T.task%set.length];
-    if(!T.start) T.start=Date.now();
-    clearInterval(T.timer); T.timer=setInterval(()=>{ const el=$('tt'); if(!el||page!=='testing'){ clearInterval(T.timer); return; } const s=Math.floor((Date.now()-T.start)/1000);
-      el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); el.style.color=s>=T.limit?'var(--bad)':''; },500);
-    const done=Object.values(T.results).reduce((a,r)=>a+r.n,0);
-    P.innerHTML='<div class="note" style="margin-bottom:14px">🧪 <span><b>Researcher only.</b> Participants search the prepared sample folder set (not their own files). After 10 participants, each file is labeled by how many found it: 8–10 → Findable, 4–7 → Uncertain, 0–3 → Likely Lost. These labels train the classifier.</span></div>'+
-      '<div class="grid2" style="margin-top:0"><div class="card task-card"><div class="muted" style="font-size:12px;font-weight:700">PARTICIPANT <select class="select" id="tp" style="margin:0 6px">'+
-        Array.from({length:10},(_,i)=>'<option value="'+(i+1)+'"'+(T.participant===i+1?' selected':'')+'>P'+String(i+1).padStart(2,'0')+'</option>').join('')+'</select> · TASK '+(T.task%set.length+1)+' OF '+set.length+'</div>'+
-        '<div class="tq">Find: “'+esc(taskPrompt(f))+'”</div><div class="muted" style="font-size:11.5px">Target (hidden from participant): <span class="mono">'+esc(fullPath(f))+'</span></div>'+
-        '<div style="display:flex;align-items:center;gap:22px;margin:16px 0;flex-wrap:wrap"><div><div class="muted" style="font-size:11px;font-weight:700">ELAPSED · LIMIT '+T.limit+' s</div><div class="timer" id="tt">00:00</div></div>'+
-        '<div><div class="muted" style="font-size:11px;font-weight:700">NAVIGATION / SEARCH ATTEMPTS</div><div style="display:flex;align-items:center;gap:8px;margin-top:4px"><button class="btn ghost xs" onclick="T.attempts=Math.max(1,T.attempts-1);renderTesting()" aria-label="Fewer attempts">−</button><b style="font-size:20px">'+T.attempts+'</b><button class="btn ghost xs" onclick="T.attempts++;renderTesting()" aria-label="More attempts">＋</button></div></div></div>'+
-        '<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" onclick="recordTrial(true)">✓ Found</button><button class="btn danger" onclick="recordTrial(false)">✕ Not found / timed out</button><button class="btn ghost" onclick="T.task++;T.start=Date.now();T.attempts=1;renderTesting()">Skip</button></div></div>'+
-      '<div class="card"><div class="card-h">Classifier training<span class="aside">'+plural(done,'outcomes')+' recorded</span></div><table class="tbl kv-tbl"><tbody>'+
-        '<tr><td>Model</td><td>Random Forest (scikit-learn)</td></tr><tr><td>Validation</td><td>80/20 stratified split + 5-fold cross-validation</td></tr>'+
-        '<tr><td>Baseline</td><td>Rule-based classifier using clutter indicators only</td></tr><tr><td>Metrics</td><td>Accuracy, precision, recall, F1-score — computed after training</td></tr>'+
-        '<tr><td>Labeled files</td><td>'+Object.values(T.results).filter(r=>labelFor(r)).length+' of '+set.length+'</td></tr></tbody></table>'+
-        '<div class="card-foot"><span class="spacer"></span><button class="btn ghost sm" onclick="exportTrials()">⬇ Export labeled dataset (CSV)</button></div></div></div>'+
-      '<div class="section-h">Outcomes per file</div><div class="card tbl-wrap"><table class="tbl"><thead><tr><th>File</th><th class="num">Attempts</th><th class="num">Found</th><th class="num">Success rate</th><th class="num">Avg time</th><th>Label</th></tr></thead><tbody>'+
-        set.map(x=>{ const r=T.results[x.id], l=labelFor(r);
-          return '<tr><td><div class="fname">'+esc(x.name)+'</div><div class="fpath">'+esc(shortDir(x.dir))+'</div></td><td class="num">'+(r?r.n:0)+' / 10</td><td class="num">'+(r?r.s:0)+'</td><td class="num">'+(r&&r.n?Math.round(r.s/r.n*100)+'%':'—')+'</td>'+
-            '<td class="num">'+(r&&r.n?Math.round(r.t/r.n)+' s':'—')+'</td><td>'+(l?'<span class="pill '+RISK[l].cls+'">'+RISK[l].label+'</span>':'<span class="muted" style="font-size:11.5px">Needs '+(10-(r?r.n:0))+' more</span>')+'</td></tr>';}).join('')+
-      '</tbody></table></div>';
-    $('tp').onchange=e=>{ T.participant=+e.target.value; renderTesting(); };
-  }
-  function recordTrial(found){
-    const set=testSet(), f=set[T.task%set.length], secs=Math.min(T.limit,Math.round((Date.now()-T.start)/1000));
-    const r=T.results[f.id]=T.results[f.id]||{n:0,s:0,t:0,att:0};
-    if(r.n>=10) toast('This file already has 10 outcomes');
-    else { r.n++; if(found) r.s++; r.t+=secs; r.att+=T.attempts; toast('Recorded: P'+String(T.participant).padStart(2,'0')+' '+(found?'found':'did not find')+' '+f.name+' ('+secs+' s)'); }
-    T.task++; T.attempts=1; T.start=Date.now();
-    if(T.task%set.length===0&&T.participant<10){ T.participant++; toast('All tasks done — next participant P'+String(T.participant).padStart(2,'0')); }
-    renderTesting();
-  }
-  function exportTrials(){
-    const rows=[['File','Folder','Attempts','Found','Success rate','Avg time (s)','Avg navigation attempts','Label','Findability','D','T','C','P','Depth','Unused months']];
-    testSet().forEach(f=>{ const r=T.results[f.id]||{n:0,s:0,t:0,att:0}, l=labelFor(r), c=f.comp||{};
-      rows.push([f.name,ROOT+'\\'+f.dir,r.n,r.s,r.n?(r.s/r.n).toFixed(2):'',r.n?(r.t/r.n).toFixed(1):'',r.n?(r.att/r.n).toFixed(1):'',l?RISK[l].label:'',f.score??'',c.d??'',c.t??'',c.c??'',c.p??'',depthOf(f.dir),f.u]); });
-    downloadCSV(rows,'ClutterScope_Retrieval_Trials.csv'); toast('Labeled dataset exported');
-  }
 
   /* ================= DIALOG / HELP / TOAST ================= */
   let dlgOpts={}, lastFocus=null;
@@ -1269,7 +1278,7 @@
       '<b>1. Scan</b> — pick folders; ClutterScope reads file metadata (never contents) and skips system folders.<br>'+
       '<b>2. Scores</b> — each file gets a <b>findability score</b> (0–100, higher is easier to find) and each folder a <b>clutter score</b> (0–100, higher is more cluttered).<br>'+
       '<b>3. Retrieval risk</b> — a machine-learning classifier predicts <i>Findable</i>, <i>Uncertain</i> or <i>Likely Lost</i>, with a confidence value.<br>'+
-      '<b>4. Recommendations</b> — fixed rules turn risk and indicators into <b>rename, archive, delete or keep</b>. Apply them all in one step, or switch to <i>Manual review</i> in Settings to handle each file yourself.<br>'+
+      '<b>4. Recommendations</b> — fixed rules turn risk and indicators into <b>rename, archive, delete or keep</b>. Review the list — untick any file or edit a suggested name — then apply the selected actions in one step, or switch to <i>Manual review</i> in Settings to go through files one at a time.<br>'+
       '<b>5. Act safely</b> — you confirm every action, deletions go to the Recycle Bin, and Action History lets you undo. Scores update automatically.'+
       '<ul><li>Everything stays on this PC.</li><li>Press <b>Ctrl+Z</b> to undo the most recent action.</li></ul>'});
   }
@@ -1288,7 +1297,6 @@
   resetFS();
   S={id:'s0',date:new Date(),roots:['Documents','Downloads','Desktop']};
   computeAll();
-  $('nav-testing').hidden=!settings.researcher;
   applyTheme();
   go('dashboard');
 </script>

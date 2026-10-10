@@ -9,3 +9,9 @@ figures/
 Thumbs.db
 desktop.ini
 .vscode/
+paper-tools/
+PAPER_CHANGELOG.md
+
+# local research data - never publish
+responses for the first forms/
+*.csv
